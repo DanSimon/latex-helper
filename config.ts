@@ -21,17 +21,17 @@ const DEFAULT_CONFIG: MathConfig = {
     renderMath: false,
     patterns : [
         // Logical operators
-        { pattern: 'or', replacements: ['\\lor'] },
-        { pattern: 'and', replacements: ['\\land'] },
-        { pattern: 'not', replacements: ['\\lnot'] },
-        { pattern: '=>', replacements: ['\\implies'] },
-        { pattern: '<=>', replacements: ['\\iff'] },
+        { pattern: 'or', replacements: ['\\lor'], fastReplace: true },
+        { pattern: 'and', replacements: ['\\land'], fastReplace: true },
+        { pattern: 'not', replacements: ['\\lnot'], fastReplace: true },
+        { pattern: '=>', replacements: ['\\implies'], fastReplace: true },
+        { pattern: '<=>', replacements: ['\\iff'], fastReplace: true },
 
         // Greek letters
         { pattern: 'a', replacements: ['\\alpha', '\\aleph'] },
-        { pattern: 'b', replacements: ['\\beta'] },
-        { pattern: 'g', replacements: ['\\gamma'] },
-        { pattern: 'd', replacements: ['\\delta'] },
+        { pattern: 'b', replacements: ['\\beta', '\\beth'] },
+        { pattern: 'g', replacements: ['\\gamma', '\\gimel'] },
+        { pattern: 'd', replacements: ['\\delta', '\\daleth'] },
         { pattern: 'e', replacements: ['\\epsilon', '\\varepsilon'] },
         { pattern: 'z', replacements: ['\\zeta'] },
         { pattern: 'h', replacements: ['\\eta'] },
@@ -53,38 +53,25 @@ const DEFAULT_CONFIG: MathConfig = {
         { pattern: 'w', replacements: ['\\omega'] },
 
         // Uppercase Greek letters
-        { pattern: 'A', replacements: ['\\Alpha'] },
-        { pattern: 'B', replacements: ['\\Beta'] },
+        { pattern: 'E', replacements: ['\\exists'] },
         { pattern: 'G', replacements: ['\\Gamma'] },
         { pattern: 'D', replacements: ['\\Delta'] },
-        { pattern: 'E', replacements: ['\\Epsilon'] },
-        { pattern: 'Z', replacements: ['\\Zeta'] },
-        { pattern: 'H', replacements: ['\\Eta'] },
         { pattern: 'T', replacements: ['\\Theta'] },
         { pattern: 'I', replacements: ['\\Iota'] },
-        { pattern: 'K', replacements: ['\\Kappa'] },
         { pattern: 'L', replacements: ['\\Lambda'] },
-        { pattern: 'M', replacements: ['\\Mu'] },
-        { pattern: 'N', replacements: ['\\Nu'] },
         { pattern: 'X', replacements: ['\\Xi'] },
-        { pattern: 'O', replacements: ['\\Omicron'] },
         { pattern: 'P', replacements: ['\\Pi'] },
-        { pattern: 'R', replacements: ['\\Rho'] },
         { pattern: 'S', replacements: ['\\Sigma'] },
         { pattern: 'U', replacements: ['\\Upsilon'] },
-        { pattern: 'F', replacements: ['\\Phi'] },
-        { pattern: 'C', replacements: ['\\Chi'] },
+        { pattern: 'F', replacements: ['\\Phi', '\\forall'] },
         { pattern: 'Y', replacements: ['\\Psi'] },
         { pattern: 'W', replacements: ['\\Omega'] },
 
         // Parentheses and brackets
-        { pattern: '(', replacements: ['\\left(', '\\('] },
-        { pattern: ')', replacements: ['\\right)', '\\)'] },
-        { pattern: '[', replacements: ['\\left[', '\\lbrack'] },
-        { pattern: ']', replacements: ['\\right]', '\\rbrack'] },
-        { pattern: '{', replacements: ['\\left\\{', '\\lbrace'] },
-        { pattern: '}', replacements: ['\\right\\}', '\\rbrace'] },
-        { pattern: '|', replacements: ['\\left|', '\\right|'] },
+        { pattern: '(', replacements: ['\\big(', '\\Big(', '\\bigg(', '\\Bigg('] },
+        { pattern: ')', replacements: ['\\big)', '\\Big)', '\\bigg)', '\\Bigg)'] },
+        { pattern: '[', replacements: ['\\big[', '\\Big[', '\\bigg[', '\\Bigg[', '\\lceil', '\\lfloor', '\\ulcorner', '\\llcorner'] },
+        { pattern: ']', replacements: ['\\big]', '\\Big]', '\\bigg]', '\\Bigg]', '\\rceil', '\\rfloor', '\\urcorner', '\\lrcorner'] },
 
         // Arrows
         { pattern: '->', replacements: ['\\rightarrow', '\\to'] },
@@ -115,11 +102,11 @@ const DEFAULT_CONFIG: MathConfig = {
         { pattern: '>>', replacements: ['\\gg'] },
 
         // Set symbols
-        { pattern: 'in', replacements: ['\\in'] },
-        { pattern: 'ni', replacements: ['\\ni'] },
-        { pattern: 'subset', replacements: ['\\subset'] },
-        { pattern: 'supset', replacements: ['\\supset'] },
-        { pattern: 'empty', replacements: ['\\emptyset'] },
+        { pattern: 'in', replacements: ['\\in'], fastReplace: true },
+        { pattern: 'ni', replacements: ['\\ni'], fastReplace: true },
+        { pattern: 'subset', replacements: ['\\subset', '\\subseteq'] },
+        { pattern: 'supset', replacements: ['\\supset', '\\supseteq']},
+        { pattern: 'empty', replacements: ['\\emptyset'], fastReplace: true },
 
         // Miscellaneous symbols
         { pattern: '...', replacements: ['\\ldots'] },
@@ -136,12 +123,12 @@ const DEFAULT_CONFIG: MathConfig = {
         { pattern: 'vec', replacements: ['\\vec{}'] },
 
         // Common functions
-        { pattern: 'sin', replacements: ['\\sin'] },
-        { pattern: 'cos', replacements: ['\\cos'] },
-        { pattern: 'tan', replacements: ['\\tan'] },
-        { pattern: 'log', replacements: ['\\log'] },
-        { pattern: 'ln', replacements: ['\\ln'] },
-        { pattern: 'exp', replacements: ['\\exp'] },
+        { pattern: 'sin', replacements: ['\\sin'], fastReplace: true },
+        { pattern: 'cos', replacements: ['\\cos'], fastReplace: true },
+        { pattern: 'tan', replacements: ['\\tan'], fastReplace: true },
+        { pattern: 'log', replacements: ['\\log'], fastReplace: true },
+        { pattern: 'ln', replacements: ['\\ln'], fastReplace: true },
+        { pattern: 'exp', replacements: ['\\exp'], fastReplace: true },
 
         // Fractions and binomials
         { pattern: 'frac', replacements: ['T:\\frac{$1}{$2}'] },
@@ -154,9 +141,9 @@ const DEFAULT_CONFIG: MathConfig = {
         { pattern: 'underset', replacements: ['\\underset{}{}}'] },
 
         // Logical quantifiers
-        { pattern: 'forall', replacements: ['\\forall'] },
-        { pattern: 'exists', replacements: ['\\exists'] },
-        { pattern: 'nexists', replacements: ['\\nexists'] },
+        { pattern: 'forall', replacements: ['\\forall'], fastReplace: true },
+        { pattern: 'exists', replacements: ['\\exists'], fastReplace: true },
+        { pattern: 'nexists', replacements: ['\\nexists'], fastReplace: true },
 
         // Miscellaneous
         { pattern: 'aleph', replacements: ['\\aleph'] },

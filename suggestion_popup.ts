@@ -44,9 +44,8 @@ export class SuggestionPopup {
         const popup = document.createElement('div');
         popup.style.cssText = `
             position: absolute;
-            background: white;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            background: var(--background-primary);
+            border: 1px solid var(--background-modifier-border);
             padding: 2px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
             display: none;
@@ -114,19 +113,17 @@ export class SuggestionPopup {
                 cursor: pointer;
                 padding: 5px;
                 display: inline;
-                background: var(--background-primary);
-                border: var(--background-modifier-border);
             `;
 
             span.addEventListener('mouseover', () => {
                 if (index !== this.selectedIndex) {
-                    span.style.background = '#f0f0f0';
+                    span.style.background = 'var(--background-secondary)';
                 }
             });
 
             span.addEventListener('mouseout', () => {
                 if (index !== this.selectedIndex) {
-                    span.style.background = 'white';
+                    span.style.background = 'var(--background-primary)';
                 }
             });
 
@@ -173,13 +170,13 @@ export class SuggestionPopup {
     private updateSelectedSuggestion(): void {
         const suggestions = this.element.querySelectorAll<HTMLSpanElement>('span[id^="suggestion-"]');
         suggestions.forEach(span => {
-            span.style.background = 'white';
+            span.style.background = 'var(--background-primary)';
         });
 
         if (this.selectedIndex >= 0) {
             const selectedSpan = this.element.querySelector<HTMLSpanElement>(`#suggestion-${this.selectedIndex}`);
             if (selectedSpan) {
-                selectedSpan.style.background = '#e0e0ff';
+                selectedSpan.style.background = 'var(--background-secondary)';
             }
         }
     }
