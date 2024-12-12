@@ -6,13 +6,9 @@ export class MatchForm {
     private matchData: PatternConfig | null;
     private element: HTMLDivElement;
 
-    constructor(configManager: ConfigManager, matchData: Pattern | null = null) {
+    constructor(configManager: ConfigManager) {
         this.configManager = configManager;
-        this.config = configManager.config;
-        this.matchData = matchData;
         this.element = this.createElement();
-        this.attachEventListeners();
-        this.populateReplacements();
     }
 
     private createElement(): HTMLDivElement {
@@ -31,8 +27,15 @@ export class MatchForm {
             max-width: 80%;
             max-height: 80%;
             overflow-y: auto;
+            display: none;
         `;
-        
+
+        document.body.appendChild(form);
+
+        return form;
+    }
+
+    private updateContent() {
         // Create fast replace toggle section
         const fastReplaceHtml = `
             <div class="fast-replace-section" style="margin-top: 15px; margin-bottom: 15px;">
@@ -49,7 +52,7 @@ export class MatchForm {
             </div>
         `;
 
-        form.innerHTML = `
+        this.element.innerHTML = `
             <h2>${this.matchData ? 'Edit Pattern' : 'Create New Pattern'}</h2>
             <label for="pattern">Pattern (regex):</label>
             <input type="text" id="pattern" value="${this.matchData ? this.matchData.pattern : ''}"><br><br>
@@ -59,9 +62,18 @@ export class MatchForm {
             <button id="saveMatch">Save</button>
             <button id="cancelMatch">Cancel</button>
         `;
-        document.body.appendChild(form);
+        if (this.matchData) {
+            this.matchData.replacements.forEach(replacement => {
+                // Check if the replacement is a template
+                const isTemplate = replacement.startsWith('T:');
+                const actualReplacement = isTemplate ? replacement.slice(2) : replacement;
+                this.addReplacementField(actualReplacement, isTemplate);
+            });
+        } else {
+            this.addReplacementField();
+        }
+        this.attachEventListeners();
 
-        return form;
     }
 
     private attachEventListeners(): void {
@@ -96,19 +108,6 @@ export class MatchForm {
         }
     }
 
-    private populateReplacements(): void {
-        if (this.matchData) {
-            this.matchData.replacements.forEach(replacement => {
-                // Check if the replacement is a template
-                const isTemplate = replacement.startsWith('T:');
-                const actualReplacement = isTemplate ? replacement.slice(2) : replacement;
-                this.addReplacementField(actualReplacement, isTemplate);
-            });
-        } else {
-            this.addReplacementField();
-        }
-    }
-
     private addReplacementField(replacement: string = '', isTemplate: boolean = false): void {
         const replacementsDiv = this.element.querySelector('#replacements');
         if (!replacementsDiv) return;
@@ -120,7 +119,7 @@ export class MatchForm {
             border: 1px solid #ddd;
             border-radius: 4px;
         `;
-        
+
         fieldSet.innerHTML = `
             <div style="display: flex; align-items: center; gap: 10px;">
                 <div style="flex-grow: 1;">
@@ -187,12 +186,14 @@ export class MatchForm {
         this.hide();
     }
 
-    public show(): void {
+    public show(matchData: Pattern | null = null): void {
+        this.matchData = matchData;
+        this.updateContent();
         this.element.style.display = 'block';
     }
 
     public hide(): void {
         this.element.style.display = 'none';
-        this.element.remove(); // Remove the form from DOM when hiding
+        this.element.innerHTML = '';
     }
 }

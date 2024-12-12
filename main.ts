@@ -30,6 +30,7 @@ export default class WordPopupPlugin extends Plugin {
         this.selectionButton = new SelectionButton(this.configManager, this.configDialog);
 
         this.addChild(this.selectionButton);
+        this.addChild(this.configDialog);
 
 
         // Register editor change event

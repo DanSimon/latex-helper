@@ -1,19 +1,26 @@
-import {ConfigManager} from "./config"
+import {ConfigManager, Pattern} from "./config"
 import { MatchForm } from "./match_form"
+import { Component } from 'obsidian'
 
 
-export class ConfigDialog {
+export class ConfigDialog extends Component{
     private element: HTMLDivElement;
     private configManager: ConfigManager;
+    private matchForm: MatchForm;
     private config: any;
     private isVisible: boolean;
 
     constructor(configManager: ConfigManager) {
-        this.element = this.createElement();
+        super();
         this.configManager = configManager;
         this.config = configManager.config;
-        this.handleDocumentClick = this.handleDocumentClick.bind(this);
         this.isVisible = false;
+    }
+
+    onload() {
+        this.element = this.createElement();
+        this.handleDocumentClick = this.handleDocumentClick.bind(this);
+        this.matchForm = new MatchForm(this.configManager);
     }
 
     private createElement(): HTMLDivElement {
@@ -23,8 +30,8 @@ export class ConfigDialog {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: white;
-            border: 1px solid #ccc;
+            background: var(--background-secondary);
+            border: 1px solid var(--background-modifier-border-focus);
             border-radius: 4px;
             padding: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
@@ -39,7 +46,7 @@ export class ConfigDialog {
         return dialog;
     }
 
-    private createEditButton(conf: PatternConfig): HTMLButtonElement {
+    private createEditButton(conf: Pattern): HTMLButtonElement {
         const button = document.createElement('button');
         button.innerHTML = '✏️'; // Edit icon
         button.style.cssText = `
@@ -54,10 +61,9 @@ export class ConfigDialog {
         `;
         button.title = 'Edit pattern';
 
-        button.addEventListener('click', (e: MouseEvent) => {
+        this.registerDomEvent(button,'click', (e: MouseEvent) => {
             e.stopPropagation(); // Prevent dialog from closing
-            const matchForm = new MatchForm(this.configManager, conf);
-            matchForm.show();
+            this.matchForm.show(conf);
             this.hide();
         });
 
