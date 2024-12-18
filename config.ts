@@ -3,6 +3,7 @@ import {
 } from 'obsidian';
 
 import { SuggestionMatcher } from "./pattern_matcher"
+import { EventEmitter } from "./events"
 
 
 
@@ -156,8 +157,11 @@ const DEFAULT_CONFIG: MathConfig = {
 
 export class ConfigManager {
 
+    public onChange: EventEmitter;
+
     constructor(plugin: Plugin) {
         this.plugin = plugin;
+        this.onChange = new EventEmitter();
     }
 
     private async saveConfig(config: Config) {
@@ -172,6 +176,7 @@ export class ConfigManager {
     async updateConfig() {
         await this.saveConfig(this.config);
         this.matcher = new SuggestionMatcher(this.config.patterns);
+        this.onChange.emit();
     }
 
     async resetConfig() {

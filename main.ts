@@ -46,7 +46,7 @@ export default class WordPopupPlugin extends Plugin {
 
         this.registerView(
             CONFIG_VIEW_TYPE,
-            (leaf) => new ConfigView(leaf, this.configManager)
+            (leaf) => new ConfigView(leaf, this.configManager, this.matchForm)
         );
 
         // Add a ribbon icon to activate the view

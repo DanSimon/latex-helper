@@ -11,10 +11,15 @@ export const CONFIG_VIEW_TYPE = 'config-reference-view';
 
 export class ConfigView extends ItemView {
     private configManager: ConfigManager;
+    private refreshView: () => void;
 
-    constructor(leaf: WorkspaceLeaf, configManager: ConfigManager) {
+    constructor(leaf: WorkspaceLeaf, configManager: ConfigManager, matchForm: MatchForm) {
         super(leaf);
         this.configManager = configManager;
+        this.matchForm = matchForm;
+        this.refreshView = () => {
+            this.onOpen();
+        };
     }
 
     getViewType(): string {
@@ -23,6 +28,18 @@ export class ConfigView extends ItemView {
 
     getDisplayText(): string {
         return 'LaTeX Shortcuts Reference';
+    }
+
+    async onload() {
+        super.onload();
+        // Subscribe to config changes
+        this.configManager.onChange.subscribe(this.refreshView);
+    }
+
+    async onunload() {
+        // Clean up subscription
+        this.configManager.onChange.unsubscribe(this.refreshView);
+        super.onunload();
     }
 
     async onOpen() {
@@ -148,6 +165,33 @@ export class ConfigView extends ItemView {
 
                             }
                             patternCell.createEl('code', { text: pattern.pattern });
+                            const editButton = patternCell.createEl('button');
+                            editButton.style.cssText = `
+                                visibility: hidden;
+                                border: none;
+                                background: none;
+                                cursor: pointer;
+                                padding: 2px 6px;
+                                margin-left: 8px;
+                                color: var(--text-muted);
+                                transition: color 0.2s ease;
+                            `;
+                            editButton.innerHTML = '✏️';
+                            editButton.title = 'Edit pattern';
+                            row.addEventListener('mouseenter', () => {
+                                editButton.style.visibility = 'visible';
+                            });
+
+                            row.addEventListener('mouseleave', () => {
+                                editButton.style.visibility = 'hidden';
+                            });
+
+                            // Add click handler
+                            editButton.addEventListener('click', (e: MouseEvent) => {
+                                e.stopPropagation(); // Prevent event bubbling
+                                // Assuming matchForm is passed to ConfigView constructor
+                                this.matchForm.show(pattern);
+                            });
                         }
                         patternCell.style.borderBottom = idx === pattern.replacements.length - 1 ?
                             '2px solid var(--background-modifier-border-focus)' :
