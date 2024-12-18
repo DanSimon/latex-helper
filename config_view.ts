@@ -65,6 +65,19 @@ export class ConfigView extends ItemView {
 
         // Create patterns container
         const patternsContainer = container.createEl('div', { cls: 'patterns-container' });
+        const styleElement = container.createEl('style');
+
+        // Define the CSS rule
+        const cssRule = `
+          .rendered-math p {
+            display: inline;
+            margin: 0;
+            padding: 0;
+          }
+        `;
+
+        // Add the CSS rule to the style element
+        styleElement.textContent = cssRule;
 
         // Group patterns by category
         const categories = this.groupPatternsByCategory(this.configManager.config.patterns);
@@ -72,10 +85,10 @@ export class ConfigView extends ItemView {
         // Function to render patterns
         const renderPatterns = (searchTerm: string = '') => {
             patternsContainer.empty();
-            
+
             for (const [category, patterns] of Object.entries(categories)) {
                 // Filter patterns based on search term
-                const filteredPatterns = patterns.filter(pattern => 
+                const filteredPatterns = patterns.filter(pattern =>
                     pattern.pattern.toLowerCase().includes(searchTerm.toLowerCase()) ||
                     pattern.replacements.some(r => r.toLowerCase().includes(searchTerm.toLowerCase()))
                 );
@@ -86,7 +99,7 @@ export class ConfigView extends ItemView {
                 categoryEl.style.marginBottom = '20px';
 
                 categoryEl.createEl('h3', { text: category });
-                
+
                 const table = categoryEl.createEl('table');
                 table.style.width = '100%';
                 table.style.borderCollapse = 'collapse';
@@ -107,38 +120,49 @@ export class ConfigView extends ItemView {
                 filteredPatterns.forEach(pattern => {
                     pattern.replacements.forEach((replacement, idx) => {
                         const row = tbody.createEl('tr');
-                        
+
                         // Pattern cell (only for first replacement)
                         const patternCell = row.createEl('td');
-                        patternCell.style.padding = '8px';
+                        //patternCell.style.padding = '8px';
                         patternCell.style.verticalAlign = 'middle';
                         if (idx === 0) {
                             if (pattern.fastReplace) {
                                 const icon = patternCell.createEl('span');
                                 icon.style.cssText = `
                                     color: #22c55e;
-                                    margin-right: 4px;
+                                    margin-right: 2px;
                                     font-size: 0.8em;
                                 `;
                                 icon.setAttribute('title', 'Fast Replace Enabled');
                                 icon.setText('⚡');
                             }
+                            if (pattern.type && pattern.type == 'regex') {
+                                const icon = patternCell.createEl('span');
+                                icon.style.cssText = `
+                                    color: #22c55e;
+                                    margin-right: 2px;
+                                    font-size: 0.8em;
+                                `;
+                                icon.setAttribute('title', 'Regex Pattern');
+                                icon.setText('R');
+
+                            }
                             patternCell.createEl('code', { text: pattern.pattern });
                         }
-                        patternCell.style.borderBottom = idx === pattern.replacements.length - 1 ? 
-                            '2px solid var(--background-modifier-border-focus)' : 
+                        patternCell.style.borderBottom = idx === pattern.replacements.length - 1 ?
+                            '2px solid var(--background-modifier-border-focus)' :
                             '1px solid var(--background-modifier-border)';
 
                         // Preview cell
-                        const previewCell = row.createEl('td');
-                        previewCell.style.padding = '8px';
+                        const previewCell = row.createEl('td', {cls : 'rendered-math'});
+                        //previewCell.style.padding = '8px';
                         previewCell.style.verticalAlign = 'middle';
                         previewCell.style.borderBottom = patternCell.style.borderBottom;
-                        
+
                         // Remove template prefix if present
-                        const cleanReplacement = replacement.startsWith('T:') ? 
+                        const cleanReplacement = replacement.startsWith('T:') ?
                             replacement.slice(2) : replacement;
-                        
+
                         // Render the LaTeX
                         MarkdownRenderer.renderMarkdown(
                             `$${cleanReplacement}$`,
@@ -149,7 +173,7 @@ export class ConfigView extends ItemView {
 
                         // LaTeX code cell
                         const latexCell = row.createEl('td');
-                        latexCell.style.padding = '8px';
+                        //latexCell.style.padding = '8px';
                         latexCell.style.verticalAlign = 'middle';
                         latexCell.style.borderBottom = patternCell.style.borderBottom;
                         latexCell.createEl('code', { text: replacement });

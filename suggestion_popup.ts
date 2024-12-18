@@ -89,7 +89,7 @@ export class SuggestionPopup {
 
         // Define the CSS rule
         const cssRule = `
-          p {
+          .rendered-math p {
             display: inline;
             margin: 0;
             padding: 0;
@@ -151,6 +151,7 @@ export class SuggestionPopup {
 
             // Create math content span
             const mathSpan = document.createElement('span');
+            mathSpan.classList.add("rendered-math");
 
             span.appendChild(indicatorSpan);
             span.appendChild(mathSpan);

@@ -50,7 +50,7 @@ export default class WordPopupPlugin extends Plugin {
         );
 
         // Add a ribbon icon to activate the view
-        this.addRibbonIcon('book-open', 'Open LaTeX Reference', async () => {
+        this.addRibbonIcon('sigma', 'Open LaTeX Reference', async () => {
             const { workspace } = this.app;
 
             // If the view is already open, show it

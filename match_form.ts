@@ -42,6 +42,18 @@ export class MatchForm extends Component{
     }
 
     private updateContent() {
+
+        const regexHtml = `
+          <div class="regex-section" style="margin-top: 15px; margin-bottom: 15px;">
+              <label style="display: flex; align-items: center; gap: 8px;">
+                  <input type="checkbox" id="regexPattern" ${this.matchData?.type === 'regex' ? 'checked' : ''}>
+                  <span>Regex Pattern</span>
+              </label>
+              <div style="font-size: 0.8em; color: #666; margin-top: 4px;">
+                  Treat pattern as a regular expression
+              </div>
+          </div>
+        `;
         // Create fast replace toggle section
         const fastReplaceHtml = `
             <div class="fast-replace-section" style="margin-top: 15px; margin-bottom: 15px;">
@@ -62,6 +74,7 @@ export class MatchForm extends Component{
             <h2>${this.matchData ? 'Edit Pattern' : 'Create New Pattern'}</h2>
             <label for="pattern">Pattern (regex):</label>
             <input type="text" id="pattern" value="${this.matchData ? this.matchData.pattern : ''}"><br><br>
+            ${regexHtml}
             ${fastReplaceHtml}
             <div id="replacements"></div>
             <button id="addReplacement">Add Replacement</button><br><br>
@@ -155,6 +168,7 @@ export class MatchForm extends Component{
     private saveMatch(): void {
         const patternInput = this.element.querySelector('#pattern') as HTMLInputElement;
         const fastReplaceCheckbox = this.element.querySelector('#fastReplace') as HTMLInputElement;
+        const regexCheckbox = this.element.querySelector('#regexPattern') as HTMLInputElement;
         const replacementFieldsets = this.element.querySelectorAll('#replacements fieldset');
 
         if (!patternInput) return;
@@ -168,6 +182,7 @@ export class MatchForm extends Component{
             return isTemplate ? `T:${replacementValue}` : replacementValue;
         });
         const fastReplace = fastReplaceCheckbox?.checked || false;
+        const isRegex = regexCheckbox?.checked || false;
 
         if (this.matchData) {
             // Remove old pattern
@@ -183,11 +198,12 @@ export class MatchForm extends Component{
         this.configManager.config.patterns.push({
             pattern,
             replacements,
-            fastReplace
+            fastReplace,
+            ...(isRegex && { type: 'regex' })
         });
 
         // Save config
-        this.configManager.updateConfig();
+        this.configManager.updateConfig(this.config);
 
         this.hide();
     }
