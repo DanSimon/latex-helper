@@ -6,21 +6,20 @@ import { Component } from 'obsidian'
 export class ConfigDialog extends Component{
     private element: HTMLDivElement;
     private configManager: ConfigManager;
-    private matchForm: MatchForm;
     private config: any;
     private isVisible: boolean;
 
-    constructor(configManager: ConfigManager) {
+    constructor(configManager: ConfigManager, matchForm: MatchForm) {
         super();
         this.configManager = configManager;
         this.config = configManager.config;
         this.isVisible = false;
+        this.matchForm = matchForm;
     }
 
     onload() {
         this.element = this.createElement();
         this.handleDocumentClick = this.handleDocumentClick.bind(this);
-        this.matchForm = new MatchForm(this.configManager);
     }
 
     private createElement(): HTMLDivElement {

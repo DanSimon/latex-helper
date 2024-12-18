@@ -161,7 +161,7 @@ export class ConfigManager {
     }
 
     private async saveConfig(config: Config) {
-        await this.plugin.saveData(this.config);
+        await this.plugin.saveData(config);
     }
 
     async loadConfig() {
@@ -169,14 +169,14 @@ export class ConfigManager {
         this.matcher = new SuggestionMatcher(this.config.patterns);
     }
 
-    async updateConfig(newConfig) {
-        this.config = newConfig;
+    async updateConfig() {
         await this.saveConfig(this.config);
         this.matcher = new SuggestionMatcher(this.config.patterns);
     }
 
     async resetConfig() {
-        await this.updateConfig(DEFAULT_CONFIG);
+        this.config = DEFAULT_CONFIG;
+        await this.updateConfig();
     }
 
 

@@ -1,14 +1,20 @@
+import { Component } from 'obsidian'
 import { ConfigManager, MathConfig, Pattern } from "./config"
 
-export class MatchForm {
+export class MatchForm extends Component{
     private configManager: ConfigManager;
     private config: MathConfig;
     private matchData: PatternConfig | null;
     private element: HTMLDivElement;
 
     constructor(configManager: ConfigManager) {
+        super();
         this.configManager = configManager;
+    }
+
+    onload() {
         this.element = this.createElement();
+
     }
 
     private createElement(): HTMLDivElement {
@@ -165,23 +171,23 @@ export class MatchForm {
 
         if (this.matchData) {
             // Remove old pattern
-            const oldPatternIndex = this.config.patterns.findIndex(p =>
+            const oldPatternIndex = this.configManager.config.patterns.findIndex(p =>
                 p.pattern === this.matchData.pattern
             );
             if (oldPatternIndex !== -1) {
-                this.config.patterns.splice(oldPatternIndex, 1);
+                this.configManager.config.patterns.splice(oldPatternIndex, 1);
             }
         }
 
         // Add new pattern
-        this.config.patterns.push({
+        this.configManager.config.patterns.push({
             pattern,
             replacements,
             fastReplace
         });
 
         // Save config
-        this.configManager.updateConfig(this.config);
+        this.configManager.updateConfig();
 
         this.hide();
     }

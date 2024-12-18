@@ -1,4 +1,5 @@
 import { Component } from 'obsidian'
+import { MatchForm } from "./match_form"
 
 export class SelectionButton extends Component{
     private configManager: ConfigManager;
@@ -7,12 +8,13 @@ export class SelectionButton extends Component{
     private configDialog: ConfigDialog;
     private hasMatch: boolean;
 
-    constructor(configManager: ConfigManager, configDialog: ConfigDialog) {
+    constructor(configManager: ConfigManager, configDialog: ConfigDialog, matchForm: MatchForm) {
         super();
         this.configManager = configManager;
         this.selectionTimeout = null;
         this.configDialog = configDialog;
         this.hasMatch = false;
+        this.matchForm = matchForm;
     }
 
     onload() {
@@ -47,8 +49,7 @@ export class SelectionButton extends Component{
             if (this.hasMatch) {
                 this.configDialog.show(selectedText);
             } else {
-                const matchForm = new MatchForm(this.configManager, {pattern: selectedText, replacements: []});
-                matchForm.show();
+                this.matchForm.show({pattern: selectedText, replacements:[]});
             }
             window.getSelection()?.empty();
             this.hide();

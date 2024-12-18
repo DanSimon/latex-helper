@@ -1,3 +1,5 @@
 .claudesync
 dist
 node_modules
+.python-version
+data.json

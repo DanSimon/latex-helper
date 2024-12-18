@@ -12,13 +12,15 @@ import { ConfigManager } from "./config"
 import { SuggestionPopup } from "./suggestion_popup"
 import { ConfigDialog } from "./config_dialog"
 import { SelectionButton } from "./selection_button"
-
+import { MatchForm } from "./match_form"
+import { CONFIG_VIEW_TYPE, ConfigView } from './config_view';
 
 export default class WordPopupPlugin extends Plugin {
     configManager: ConfigManager;
     suggestionPopup: SuggestionPopup;
     selectionButton: SelectionButton;
     configDialog: ConfigDialog;
+    matchForm: MatchForm;
     popupEl: HTMLElement;
     contentEl: HTMLElement;
 
@@ -26,11 +28,13 @@ export default class WordPopupPlugin extends Plugin {
         this.configManager = new ConfigManager(this);
         await this.configManager.loadConfig();
         this.suggestionPopup = new SuggestionPopup();
-        this.configDialog = new ConfigDialog(this.configManager);
-        this.selectionButton = new SelectionButton(this.configManager, this.configDialog);
+        this.matchForm = new MatchForm(this.configManager);
+        this.configDialog = new ConfigDialog(this.configManager, this.matchForm);
+        this.selectionButton = new SelectionButton(this.configManager, this.configDialog, this.matchForm);
 
         this.addChild(this.selectionButton);
         this.addChild(this.configDialog);
+        this.addChild(this.matchForm);
 
 
         // Register editor change event
@@ -39,6 +43,30 @@ export default class WordPopupPlugin extends Plugin {
                 this.handleEditorChange(editor, view);
             })
         );
+
+        this.registerView(
+            CONFIG_VIEW_TYPE,
+            (leaf) => new ConfigView(leaf, this.configManager)
+        );
+
+        // Add a ribbon icon to activate the view
+        this.addRibbonIcon('book-open', 'Open LaTeX Reference', async () => {
+            const { workspace } = this.app;
+
+            // If the view is already open, show it
+            let leaf = workspace.getLeavesOfType(CONFIG_VIEW_TYPE)[0];
+
+            if (!leaf) {
+                // If it's not open, create a new leaf and show the view
+                leaf = workspace.getRightLeaf(false);
+                await leaf.setViewState({
+                    type: CONFIG_VIEW_TYPE,
+                    active: true,
+                });
+            }
+
+            workspace.revealLeaf(leaf);
+        });
 
         console.log("Plugin Loaded");
     }
