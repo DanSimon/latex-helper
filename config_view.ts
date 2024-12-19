@@ -55,6 +55,16 @@ export class ConfigView extends ItemView {
 
         headerContainer.createEl('h2', { text: 'LaTeX Shortcuts Reference' });
 
+
+        const newPatternButton = headerContainer.createEl('button');
+        newPatternButton.style.cssText = `
+            border: 1px solid var(--background-modifier-success);
+        `;
+        newPatternButton.setText('New Pattern');
+        newPatternButton.addEventListener('click', () => {
+            this.matchForm.show();
+        });
+
         const closeButton = headerContainer.createEl('button', { cls: 'config-view-close' });
         closeButton.style.cssText = `
             padding: 4px 8px;
@@ -65,9 +75,7 @@ export class ConfigView extends ItemView {
         `;
         closeButton.setText('✕');
         closeButton.addEventListener('click', () => {
-            closeButton.addEventListener('click', () => {
-                this.app.workspace.detachLeavesOfType(CONFIG_VIEW_TYPE);
-            });
+            this.app.workspace.detachLeavesOfType(CONFIG_VIEW_TYPE);
         });
 
         // Create search input

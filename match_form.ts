@@ -69,11 +69,20 @@ export class MatchForm extends Component{
                 </div>
             </div>
         `;
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete this Pattern';
+        deleteButton.id = 'deletePattern';
+        deleteButton.style.cssText = `
+            border: solid 1px var(--background-modifier-error);
+            color: var(--text-on-accent);
+        `;
+        
 
         this.element.innerHTML = `
             <h2>${this.matchData ? 'Edit Pattern' : 'Create New Pattern'}</h2>
             <label for="pattern">Pattern (regex):</label>
             <input type="text" id="pattern" value="${this.matchData ? this.matchData.pattern : ''}"><br><br>
+            ${this.matchData ? deleteButton.outerHTML : ''}
             ${regexHtml}
             ${fastReplaceHtml}
             <div id="replacements"></div>
@@ -99,6 +108,7 @@ export class MatchForm extends Component{
         const addReplacementButton = this.element.querySelector('#addReplacement');
         const saveMatchButton = this.element.querySelector('#saveMatch');
         const cancelMatchButton = this.element.querySelector('#cancelMatch');
+        const deleteButton = this.element.querySelector('#deletePattern');
 
         if (addReplacementButton && saveMatchButton && cancelMatchButton) {
             addReplacementButton.addEventListener('click', () => {
@@ -107,6 +117,14 @@ export class MatchForm extends Component{
             });
             saveMatchButton.addEventListener('click', () => this.saveMatch());
             cancelMatchButton.addEventListener('click', () => this.hide());
+        }
+        if (deleteButton) {
+            deleteButton.addEventListener('click', () => {
+                if (confirm('Are you sure you want to delete this pattern?')) {
+                    this.deleteCurrentPattern();
+                    this.hide();
+                }
+            });
         }
     }
 
@@ -163,6 +181,20 @@ export class MatchForm extends Component{
             });
         }
         replacementsDiv.appendChild(fieldSet);
+    }
+
+
+    private deleteCurrentPattern(): void {
+        if (!this.matchData) return;
+
+        const patternIndex = this.configManager.config.patterns.findIndex(p =>
+            p.pattern === this.matchData.pattern
+        );
+        
+        if (patternIndex !== -1) {
+            this.configManager.config.patterns.splice(patternIndex, 1);
+            this.configManager.updateConfig();
+        }
     }
 
     private saveMatch(): void {
