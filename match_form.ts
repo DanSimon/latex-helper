@@ -1,5 +1,8 @@
 import { Component } from 'obsidian'
 import { ConfigManager, MathConfig, Pattern } from "./config"
+import React from 'react';
+import ReactDOM from 'react-dom';
+import CategorySelector from './CategorySelector';
 
 export class MatchForm extends Component{
     private configManager: ConfigManager;
@@ -76,12 +79,24 @@ export class MatchForm extends Component{
             border: solid 1px var(--background-modifier-error);
             color: var(--text-on-accent);
         `;
-        
+        const allCategories = Array.from(new Set(
+            this.configManager.config.patterns
+            .map(p => p.category)
+            .filter(c => c) // Remove undefined/null
+        )).sort();
+
+        const categorySection = `
+            <div class="category-section" style="margin-top: 15px; margin-bottom: 15px;">
+                <label>Category:</label>
+                <div id="category-selector"></div>
+            </div>
+        `; 
 
         this.element.innerHTML = `
             <h2>${this.matchData ? 'Edit Pattern' : 'Create New Pattern'}</h2>
             <label for="pattern">Pattern (regex):</label>
             <input type="text" id="pattern" value="${this.matchData ? this.matchData.pattern : ''}"><br><br>
+            ${categorySection}
             ${this.matchData ? deleteButton.outerHTML : ''}
             ${regexHtml}
             ${fastReplaceHtml}
@@ -89,7 +104,23 @@ export class MatchForm extends Component{
             <button id="addReplacement">Add Replacement</button><br><br>
             <button id="saveMatch">Save</button>
             <button id="cancelMatch">Cancel</button>
-        `;
+            `;
+
+        const categorySelector = document.querySelector('#category-selector');
+        if (categorySelector) {
+            ReactDOM.render(
+                React.createElement(CategorySelector, {
+                    allCategories,
+                    selectedCategory: this.matchData?.category || '',
+                    onSelect: (category) => {
+                        console.log(`selecting ${category}`);
+                        this.selectedCategory = category;
+                    }
+                }),
+                categorySelector
+            );
+        }
+
         if (this.matchData) {
             this.matchData.replacements.forEach(replacement => {
                 // Check if the replacement is a template
@@ -231,7 +262,8 @@ export class MatchForm extends Component{
             pattern,
             replacements,
             fastReplace,
-            ...(isRegex && { type: 'regex' })
+            ...(isRegex && { type: 'regex' }),
+            ...(this.selectedCategory && { category: this.selectedCategory })
         });
 
         // Save config

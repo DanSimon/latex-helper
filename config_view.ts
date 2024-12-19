@@ -245,44 +245,29 @@ export class ConfigView extends ItemView {
     }
 
     private groupPatternsByCategory(patterns: Pattern[]): Record<string, Pattern[]> {
-        const categories: Record<string, Pattern[]> = {
-            'Logical Operators': [],
-            'Greek Letters': [],
-            'Mathematical Operators': [],
-            'Set Symbols': [],
-            'Arrows': [],
-            'Functions': [],
-            'Parentheses': [],
-            'Other': []
-        };
+        const categories: Record<string, Pattern[]> = {};
 
+        // First group all patterns by their categories
         patterns.forEach(pattern => {
-            if (pattern.replacements.some(r => r.includes('\\lor') || r.includes('\\land') || r.includes('\\lnot'))) {
-                categories['Logical Operators'].push(pattern);
-            } else if (pattern.replacements.some(r => r.includes('\\alpha') || r.includes('\\beta') || r.includes('\\gamma'))) {
-                categories['Greek Letters'].push(pattern);
-            } else if (pattern.replacements.some(r => r.includes('\\sum') || r.includes('\\prod') || r.includes('\\int'))) {
-                categories['Mathematical Operators'].push(pattern);
-            } else if (pattern.replacements.some(r => r.includes('\\in') || r.includes('\\subset'))) {
-                categories['Set Symbols'].push(pattern);
-            } else if (pattern.replacements.some(r => r.includes('\\rightarrow') || r.includes('\\leftarrow'))) {
-                categories['Arrows'].push(pattern);
-            } else if (pattern.replacements.some(r => r.includes('\\sin') || r.includes('\\cos') || r.includes('\\log'))) {
-                categories['Functions'].push(pattern);
-            } else if (pattern.replacements.some(r => r.includes('\\big') || r.includes('\\Big'))) {
-                categories['Parentheses'].push(pattern);
-            } else {
-                categories['Other'].push(pattern);
+            const category = pattern.category || 'Uncategorized';
+            if (!categories[category]) {
+                categories[category] = [];
             }
+            categories[category].push(pattern);
         });
 
-        // Remove empty categories
-        Object.keys(categories).forEach(key => {
-            if (categories[key].length === 0) {
-                delete categories[key];
-            }
+        // Sort categories alphabetically, but keep 'Uncategorized' at the end
+        const sortedCategories: Record<string, Pattern[]> = {};
+        Object.keys(categories)
+        .sort((a, b) => {
+            if (a === 'Uncategorized') return 1;
+            if (b === 'Uncategorized') return -1;
+            return a.localeCompare(b);
+        })
+        .forEach(category => {
+            sortedCategories[category] = categories[category];
         });
 
-        return categories;
+        return sortedCategories;
     }
 }

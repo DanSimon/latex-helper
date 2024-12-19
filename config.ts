@@ -11,6 +11,8 @@ export interface Pattern {
     type?: 'regex';
     pattern: string;
     replacements: string[];
+    fastReplace?: boolean;
+    category?: string;
 }
 
 interface MathConfig {

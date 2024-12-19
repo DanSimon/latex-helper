@@ -31,6 +31,8 @@ esbuild.build({
         '@lezer/highlight',
         '@lezer/lr',
         ...builtins],
+    jsxFactory: 'React.createElement',
+    jsxFragment: 'React.Fragment',
     format: 'cjs',
     watch: !prod,
     target: 'es2018',
