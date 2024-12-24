@@ -1,18 +1,16 @@
-import {ConfigManager, Pattern} from "./config"
-import { MatchForm } from "./match_form"
-import { Component } from 'obsidian'
+import { ConfigManager, Pattern } from "./config";
+import { MatchForm } from "./match_form";
+import { Component } from "obsidian";
 
-
-export class ConfigDialog extends Component{
+export class ConfigDialog extends Component {
     private element: HTMLDivElement;
     private configManager: ConfigManager;
-    private config: any;
     private isVisible: boolean;
+    private matchForm: MatchForm;
 
     constructor(configManager: ConfigManager, matchForm: MatchForm) {
         super();
         this.configManager = configManager;
-        this.config = configManager.config;
         this.isVisible = false;
         this.matchForm = matchForm;
     }
@@ -23,7 +21,7 @@ export class ConfigDialog extends Component{
     }
 
     private createElement(): HTMLDivElement {
-        const dialog = document.createElement('div');
+        const dialog = document.createElement("div");
         dialog.style.cssText = `
             position: fixed;
             top: 50%;
@@ -46,8 +44,8 @@ export class ConfigDialog extends Component{
     }
 
     private createEditButton(conf: Pattern): HTMLButtonElement {
-        const button = document.createElement('button');
-        button.innerHTML = '✏️'; // Edit icon
+        const button = document.createElement("button");
+        button.innerHTML = "✏️"; // Edit icon
         button.style.cssText = `
             margin-left: 8px;
             border: none;
@@ -58,9 +56,9 @@ export class ConfigDialog extends Component{
             border-radius: 4px;
             vertical-align: middle;
         `;
-        button.title = 'Edit pattern';
+        button.title = "Edit pattern";
 
-        this.registerDomEvent(button,'click', (e: MouseEvent) => {
+        this.registerDomEvent(button, "click", (e: MouseEvent) => {
             e.stopPropagation(); // Prevent dialog from closing
             this.matchForm.show(conf);
             this.hide();
@@ -70,34 +68,35 @@ export class ConfigDialog extends Component{
     }
 
     public show(selectedText: string): void {
-        this.element.innerHTML = '';
-        const title = document.createElement('h2');
+        this.element.innerHTML = "";
+        const title = document.createElement("h2");
         title.innerHTML = `Matching Patterns for <code>${selectedText}</code>`;
         this.element.appendChild(title);
 
-        const matches = this.configManager.matcher.getMatchingPatterns(selectedText);
-        for (const { value, wildcardMatches } of matches) {
+        const matches =
+            this.configManager.matcher.getMatchingPatterns(selectedText);
+        for (const { value } of matches) {
             const { pattern, replacements, fastReplace } = value;
-            const patternDiv = document.createElement('div');
+            const patternDiv = document.createElement("div");
 
             // Create pattern header with edit button
-            const patternHeader = document.createElement('h3');
-            patternHeader.style.display = 'flex';
-            patternHeader.style.alignItems = 'center';
-            
+            const patternHeader = document.createElement("h3");
+            patternHeader.style.display = "flex";
+            patternHeader.style.alignItems = "center";
+
             // Add fast replace indicator if enabled
             if (fastReplace && replacements.length === 1) {
-                const fastReplaceIcon = document.createElement('span');
+                const fastReplaceIcon = document.createElement("span");
                 fastReplaceIcon.style.cssText = `
                     color: #22c55e;
                     margin-right: 8px;
                 `;
-                fastReplaceIcon.title = 'Fast Replace Enabled';
-                fastReplaceIcon.textContent = '⚡';
+                fastReplaceIcon.title = "Fast Replace Enabled";
+                fastReplaceIcon.textContent = "⚡";
                 patternHeader.appendChild(fastReplaceIcon);
             }
 
-            const patternText = document.createElement('span');
+            const patternText = document.createElement("span");
             patternText.innerHTML = `Pattern: <code>${pattern}</code>`;
             patternHeader.appendChild(patternText);
             patternHeader.appendChild(this.createEditButton(value));
@@ -105,43 +104,45 @@ export class ConfigDialog extends Component{
             patternDiv.appendChild(patternHeader);
 
             // Add replacements list
-            const replacementsList = document.createElement('ul');
+            const replacementsList = document.createElement("ul");
             replacementsList.innerHTML = replacements
-                .map(r => {
+                .map((r) => {
                     const rendered = (() => {
                         if (r.startsWith("T:")) {
                             return r.slice(2);
                         } else {
-                            return this.configManager.matcher.replacePlaceholders(r, wildcardMatches);
+                            return r;
                         }
                     })();
                     return `<li>$${rendered}$ <code>[${r}]</code></li>`;
                 })
-                .join('');
+                .join("");
             patternDiv.appendChild(replacementsList);
             this.element.appendChild(patternDiv);
-            
+
             // Assuming MathJax is globally available
             (window as any).MathJax.typesetPromise([patternDiv]);
         }
 
         if (matches.length === 0) {
-            const noMatch = document.createElement('p');
-            noMatch.textContent = 'No matching patterns found.';
+            const noMatch = document.createElement("p");
+            noMatch.textContent = "No matching patterns found.";
             this.element.appendChild(noMatch);
         }
 
-        const closeButton = document.createElement('button');
-        closeButton.textContent = 'Close';
-        closeButton.onclick = () => { this.hide(); };
+        const closeButton = document.createElement("button");
+        closeButton.textContent = "Close";
+        closeButton.onclick = () => {
+            this.hide();
+        };
         this.element.appendChild(closeButton);
 
-        this.element.style.display = 'block';
+        this.element.style.display = "block";
         this.isVisible = true;
     }
 
     public hide(): void {
-        this.element.style.display = 'none';
+        this.element.style.display = "none";
         this.isVisible = false;
     }
 

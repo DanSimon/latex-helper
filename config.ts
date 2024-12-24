@@ -161,7 +161,7 @@ export class ConfigManager {
 
     public onChange: EventEmitter;
     private plugin: Plugin;
-    private matcher: SuggestionMatcher;
+    public matcher: SuggestionMatcher;
     public config: MathConfig;
 
     constructor(plugin: Plugin) {
