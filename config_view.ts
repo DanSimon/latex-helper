@@ -142,8 +142,10 @@ export class ConfigView extends ItemView {
                     th.setText(header);
                 });
 
+
                 // Create rows
                 const tbody = table.createEl('tbody');
+                filteredPatterns.sort((a,b) => a.pattern.localeCompare(b.pattern));
                 filteredPatterns.forEach(pattern => {
                     pattern.replacements.forEach((replacement, idx) => {
                         const row = tbody.createEl('tr');

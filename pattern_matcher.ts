@@ -1,18 +1,6 @@
 import { Pattern } from "./config"
 
-// Interface for trie term structure
-interface TrieTerm {
-    term: string;
-    value: Pattern;
-}
-
 // Interface for lookup results
-interface LookupResult {
-    value: Pattern;
-    match: string[];
-}
-
-// Interface for suggestion results
 interface SuggestionResult {
     suggestions: string[];
     fastReplace: boolean;
@@ -20,11 +8,11 @@ interface SuggestionResult {
 
 class TrieNode {
     children: { [key: string]: TrieNode };
-    value: Pattern | null;
+    patterns: Pattern[];
 
     constructor() {
         this.children = {};
-        this.value = null;
+        this.patterns = [];
     }
 }
 
@@ -33,181 +21,109 @@ class Trie {
 
     /**
      * Constructs an immutable Trie.
-     * @param terms - Array of terms with associated values.
+     * @param patterns - Array of pattern objects.
      */
-    constructor(terms: TrieTerm[]) {
+    constructor(patterns: Pattern[]) {
         this.root = new TrieNode();
-        for (const { term, value } of terms) {
-            this.insert(term, value);
+        for (const pattern of patterns) {
+            if (!pattern.type || pattern.type !== 'regex') {
+                this.insert(pattern);
+            }
         }
     }
 
     /**
-     * Inserts a term with its associated value into the trie.
-     * @param term - The term to insert (may contain wildcards '*').
-     * @param value - The value associated with the term.
+     * Inserts a pattern into the trie.
+     * @param pattern - The pattern object to insert.
      */
-    private insert(term: string, value: Pattern): void {
+    private insert(pattern: Pattern): void {
         let node = this.root;
-        for (const char of term) {
+        for (const char of pattern.pattern) {
             if (!node.children[char]) {
                 node.children[char] = new TrieNode();
             }
             node = node.children[char];
         }
-        node.value = value;
+        node.patterns.push(pattern);
     }
 
     /**
-     * Looks up a string in the trie, matching terms that may contain wildcards '*'.
-     * Collects all matching values and the characters matched by wildcards.
+     * Looks up a string in the trie, returning all matching patterns.
      * @param query - The string to look up.
-     * @returns An array of matching results.
+     * @returns An array of matching patterns.
      */
-    lookup(query: string): LookupResult[] {
-        const results: LookupResult[] = [];
-        const visited = new Set<TrieNode>();
-
-        this._lookupHelper(this.root, query, 0, results, [], visited);
-
-        return results;
-    }
-
-    private _lookupHelper(
-        node: TrieNode,
-        query: string,
-        index: number,
-        results: LookupResult[],
-        wildcardMatches: string[],
-        visited: Set<TrieNode>
-    ): void {
-        if (index === query.length) {
-            if (node.value !== null && !visited.has(node)) {
-                results.push({
-                    value: node.value,
-                    match: wildcardMatches.slice(),
-                });
-                visited.add(node);
+    lookup(query: string): Pattern[] {
+        let node = this.root;
+        for (const char of query) {
+            if (!node.children[char]) {
+                return [];
             }
-            return;
+            node = node.children[char];
         }
-
-        const char = query[index];
-
-        // First, try exact character match
-        if (node.children[char]) {
-            this._lookupHelper(
-                node.children[char],
-                query,
-                index + 1,
-                results,
-                wildcardMatches,
-                visited
-            );
-        }
-
-        // Then, try wildcard match
-        if (char.match(/^[0-9a-z]+$/) && node.children['*']) {
-            const newWildcardMatches = wildcardMatches.concat(char);
-            this._lookupHelper(
-                node.children['*'],
-                query,
-                index + 1,
-                results,
-                newWildcardMatches,
-                visited
-            );
-        }
+        return node.patterns;
     }
 
     /**
-     * Returns all values of terms that start with the given query string.
+     * Returns all patterns that start with the given query string.
      * @param query - The query string.
-     * @returns An array of values associated with matching terms.
+     * @returns An array of matching patterns.
      */
     typeAhead(query: string): Pattern[] {
-        let nodes = [{ node: this.root, index: 0 }];
-        const results: Pattern[] = [];
-        const collectedNodes = new Set<TrieNode>();
-
-        while (nodes.length > 0) {
-            let nextNodes = [];
-            for (const { node, index } of nodes) {
-                if (index === query.length) {
-                    this._collectValues(node, results, collectedNodes);
-                } else {
-                    const char = query[index];
-                    if (node.children[char]) {
-                        nextNodes.push({
-                            node: node.children[char],
-                            index: index + 1,
-                        });
-                    }
-                    if (char.match(/^[0-9a-z]+$/) && node.children['*']) {
-                        nextNodes.push({
-                            node: node.children['*'],
-                            index: index + 1,
-                        });
-                    }
-                }
+        let node = this.root;
+        // First, traverse to the node representing the query prefix
+        for (const char of query) {
+            if (!node.children[char]) {
+                return [];
             }
-            nodes = nextNodes;
+            node = node.children[char];
         }
 
-        return results;
+        // Then collect all patterns in this subtree
+        return this.collectPatternsInSubtree(node);
     }
 
-    private _collectValues(
-        startNode: TrieNode,
-        results: Pattern[],
-        collectedNodes: Set<TrieNode>
-    ): void {
-        let queue = [startNode];
-        const visitedNodes = new Set<TrieNode>();
+    private collectPatternsInSubtree(startNode: TrieNode): Pattern[] {
+        const patterns: Pattern[] = [];
+        const queue = [startNode];
+        const visited = new Set<TrieNode>();
 
         while (queue.length > 0) {
             const node = queue.shift()!;
-
-            if (visitedNodes.has(node)) {
+            
+            if (visited.has(node)) {
                 continue;
             }
-            visitedNodes.add(node);
+            visited.add(node);
 
-            if (node.value !== null && !collectedNodes.has(node)) {
-                results.push(node.value);
-                collectedNodes.add(node);
-            }
+            patterns.push(...node.patterns);
 
-            for (const childNode of Object.values(node.children)) {
-                queue.push(childNode);
+            for (const child of Object.values(node.children)) {
+                queue.push(child);
             }
         }
+
+        return patterns;
     }
 }
 
 class RegexMatcher {
-    private patterns: { regex: RegExp; replacements: string[] }[];
+    private patterns: { regex: RegExp; pattern: Pattern }[];
 
     constructor(patterns: Pattern[]) {
-        this.patterns = patterns.map((p) => ({
-            regex: new RegExp(p.pattern),
-            replacements: p.replacements,
-        }));
-    }
-
-    addPattern(pattern: Pattern): void {
-        this.patterns.push({
-            regex: new RegExp(pattern.pattern),
-            replacements: pattern.replacements,
-        });
+        this.patterns = patterns
+            .filter(p => p.type === 'regex')
+            .map(p => ({
+                regex: new RegExp(p.pattern),
+                pattern: p
+            }));
     }
 
     getSuggestions(input: string): SuggestionResult {
         const suggestions: string[] = [];
         let fastReplace = false;
 
-        for (const pattern of this.patterns) {
-            const matches = input.match(pattern.regex);
+        for (const { regex, pattern } of this.patterns) {
+            const matches = input.match(regex);
 
             if (matches) {
                 for (const replacement of pattern.replacements) {
@@ -217,6 +133,8 @@ class RegexMatcher {
                     }
                     suggestions.push(result);
                 }
+                // Update fastReplace if this pattern enables it
+                fastReplace = fastReplace || (!!pattern.fastReplace && pattern.replacements.length === 1);
             }
         }
 
@@ -233,63 +151,41 @@ export class SuggestionMatcher {
      * @param patterns - Array of pattern objects.
      */
     constructor(patterns: Pattern[]) {
-        const trieTerms = patterns.flatMap((conf) => {
-            if (!conf.type) {
-                return [{ term: conf.pattern, value: conf }];
-            }
-            return [];
-        });
-
-        this.trie = new Trie(trieTerms);
-
-        const regexTerms = patterns.flatMap((conf) => {
-            if (conf.type && conf.type === 'regex') {
-                return [conf];
-            }
-            return [];
-        });
-        this.regexes = new RegexMatcher(regexTerms);
+        this.trie = new Trie(patterns);
+        this.regexes = new RegexMatcher(patterns);
     }
 
-    private replacePlaceholders(value: string, matches: string[]): string {
-        return value.replace(/\$([1-9]\d*)/g, (match, indexStr) => {
-            const index = parseInt(indexStr, 10) - 1;
-            if (index < matches.length) {
-                return matches[index];
-            }
-            return match;
-        });
-    }
-
-    getMatchingPatterns(searchString: string): LookupResult[] {
+    /**
+     * Returns all matching patterns for a search string.
+     * @param searchString - The string to look up.
+     * @returns An array of matching patterns.
+     */
+    getMatchingPatterns(searchString: string): Pattern[] {
         return this.trie.lookup(searchString);
     }
 
     /**
      * Takes a search string as input and returns a combined array of all replacements
-     * for all matches, with the placeholders replaced.
+     * for all matches.
      * @param searchString - The search string.
      * @returns Object containing suggestions array and fastReplace flag.
      */
     getSuggestions(searchString: string): SuggestionResult {
-        const results = this.trie.lookup(searchString);
+        const exactMatches = this.trie.lookup(searchString);
         const suggestions: string[] = [];
         let fastReplace = false;
 
-        results.forEach(({ value: conf, match: wildcardMatches }) => {
-            conf.replacements.forEach((replacement) => {
-                const suggestion = this.replacePlaceholders(
-                    replacement,
-                    wildcardMatches
-                );
-                suggestions.push(suggestion);
-            });
-            fastReplace = fastReplace || !!conf.fastReplace;
-        });
+        // Handle exact matches
+        for (const pattern of exactMatches) {
+            suggestions.push(...pattern.replacements);
+            // Enable fastReplace if any matching pattern enables it and has exactly one replacement
+            fastReplace = fastReplace || (!!pattern.fastReplace && pattern.replacements.length === 1);
+        }
 
-        const rs = this.regexes.getSuggestions(searchString);
-        suggestions.push(...rs.suggestions);
-        fastReplace = (fastReplace || rs.fastReplace) && suggestions.length === 1;
+        // Handle regex matches
+        const regexResults = this.regexes.getSuggestions(searchString);
+        suggestions.push(...regexResults.suggestions);
+        fastReplace = (fastReplace || regexResults.fastReplace) && suggestions.length === 1;
 
         return { suggestions, fastReplace };
     }
