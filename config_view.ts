@@ -143,6 +143,7 @@ export class ConfigView extends ItemView {
                 });
 
 
+
                 // Create rows
                 const tbody = table.createEl('tbody');
                 filteredPatterns.sort((a,b) => a.pattern.localeCompare(b.pattern));
