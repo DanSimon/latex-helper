@@ -5,13 +5,15 @@ import {
     MarkdownRenderer
 } from 'obsidian';
 
-import { Pattern } from './config';
+import { ConfigManager, Pattern } from './config';
+import { MatchForm } from "./match_form";
 
 export const CONFIG_VIEW_TYPE = 'config-reference-view';
 
 export class ConfigView extends ItemView {
     private configManager: ConfigManager;
     private refreshView: () => void;
+    private matchForm: MatchForm;
 
     constructor(leaf: WorkspaceLeaf, configManager: ConfigManager, matchForm: MatchForm) {
         super(leaf);

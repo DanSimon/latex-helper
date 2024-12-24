@@ -15,7 +15,7 @@ export interface Pattern {
     category?: string;
 }
 
-interface MathConfig {
+export interface MathConfig {
     renderMath: boolean;
     patterns: Pattern[];
 }
@@ -160,13 +160,16 @@ const DEFAULT_CONFIG: MathConfig = {
 export class ConfigManager {
 
     public onChange: EventEmitter;
+    private plugin: Plugin;
+    private matcher: SuggestionMatcher;
+    public config: MathConfig;
 
     constructor(plugin: Plugin) {
         this.plugin = plugin;
         this.onChange = new EventEmitter();
     }
 
-    private async saveConfig(config: Config) {
+    private async saveConfig(config: MathConfig) {
         await this.plugin.saveData(config);
     }
 
