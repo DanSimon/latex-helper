@@ -20,6 +20,7 @@ export class SuggestionPopup {
     private fastReplace: boolean;
     private selectedIndex: number;
     private inputHandler: InputHandler | null;
+    private view: MarkdownView | null;
 
     constructor() {
         this.element = this.createElement();

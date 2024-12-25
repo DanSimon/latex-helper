@@ -32,7 +32,7 @@ export default class WordPopupPlugin extends Plugin {
         this.configDialog = new ConfigDialog(this.configManager, this.matchForm);
         this.selectionButton = new SelectionButton(this.configManager, this.configDialog, this.matchForm);
 
-        this.addChild(this.selectionButton);
+        //this.addChild(this.selectionButton);
         this.addChild(this.configDialog);
         this.addChild(this.matchForm);
 
@@ -99,7 +99,7 @@ export default class WordPopupPlugin extends Plugin {
         }
     }
 
-    hasUnclosedMathSection(str): boolean {
+    hasUnclosedMathSection(str: string): boolean {
         let inMathMode = false;
         let isDoubleDollar = false;
 
