@@ -75,7 +75,7 @@ export class ConfigDialog extends Component {
 
         const matches =
             this.configManager.matcher.getMatchingPatterns(selectedText);
-        for (const { value } of matches) {
+        for (const value of matches) {
             const { pattern, replacements, fastReplace } = value;
             const patternDiv = document.createElement("div");
 

@@ -1,12 +1,11 @@
 import { Component } from "obsidian";
-import { ConfigManager, MathConfig, Pattern } from "./config";
-import React from "react";
-import ReactDOM from "react-dom";
+import { ConfigManager, Pattern } from "./config";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
 import CategorySelector from "./CategorySelector";
 
 export class MatchForm extends Component {
     private configManager: ConfigManager;
-    private config: MathConfig;
     private matchData: Pattern | null;
     private element: HTMLDivElement;
     private selectedCategory: string;
@@ -272,11 +271,12 @@ export class MatchForm extends Component {
         const fastReplace = fastReplaceCheckbox?.checked || false;
         const isRegex = regexCheckbox?.checked || false;
 
-        if (this.matchData) {
+        if (this.matchData !== null) {
+            const pattern = this.matchData.pattern;
             // Remove old pattern
             const oldPatternIndex =
                 this.configManager.config.patterns.findIndex(
-                    (p) => p.pattern === this.matchData.pattern,
+                    (p) => p.pattern === pattern,
                 );
             if (oldPatternIndex !== -1) {
                 this.configManager.config.patterns.splice(oldPatternIndex, 1);

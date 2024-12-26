@@ -1,9 +1,6 @@
 //import { TemplateForm } from "./template_form";
 
-import {
-    MarkdownRenderer,
-    MarkdownView,
-} from 'obsidian';
+import { MarkdownRenderer, MarkdownView } from "obsidian";
 
 const TEMPLATE_PREFIX = "T:";
 
@@ -19,7 +16,6 @@ export class SuggestionPopup {
     private currentReplacements: string[] | null;
     private fastReplace: boolean;
     private selectedIndex: number;
-    private inputHandler: InputHandler | null;
     private view: MarkdownView | null;
 
     constructor() {
@@ -29,7 +25,6 @@ export class SuggestionPopup {
         this.currentReplacements = null;
         this.fastReplace = false;
         this.selectedIndex = -1;
-        this.inputHandler = null;
         this.view = null;
 
         // Bind methods that are used as event handlers
@@ -37,12 +32,12 @@ export class SuggestionPopup {
         this.handleKeyDown = this.handleKeyDown.bind(this);
 
         // Add global event listeners
-        document.addEventListener('click', this.handleDocumentClick);
-        document.addEventListener('keydown', this.handleKeyDown);
+        document.addEventListener("click", this.handleDocumentClick);
+        document.addEventListener("keydown", this.handleKeyDown);
     }
 
     private createElement(): HTMLDivElement {
-        const popup = document.createElement('div');
+        const popup = document.createElement("div");
         popup.style.cssText = `
             position: absolute;
             background: var(--background-primary);
@@ -57,25 +52,31 @@ export class SuggestionPopup {
         return popup;
     }
 
-    show(x: number, y: number, match: string, replacements: string[], inputHandler: InputHandler, fastReplace = false, view: MarkdownView): void {
+    show(
+        x: number,
+        y: number,
+        match: string,
+        replacements: string[],
+        fastReplace = false,
+        view: MarkdownView,
+    ): void {
         this.currentMatch = match;
         this.currentReplacements = replacements;
         this.selectedIndex = -1;
-        this.inputHandler = inputHandler;
         this.fastReplace = fastReplace && replacements.length === 1;
         this.element.style.left = `${x + 5}px`;
         this.element.style.bottom = `${window.innerHeight - y}px`;
-        this.element.style.top = 'auto';
-        this.element.style.display = 'block';
+        this.element.style.top = "auto";
+        this.element.style.display = "block";
         this.isVisible = true;
         this.view = view;
 
-        this.updateContent(view);
+        this.updateContent();
     }
 
     hide(): void {
-        this.element.style.display = 'none';
-        this.element.innerHTML = '';
+        this.element.style.display = "none";
+        this.element.innerHTML = "";
         this.isVisible = false;
         this.selectedIndex = -1;
         this.currentMatch = null;
@@ -83,10 +84,11 @@ export class SuggestionPopup {
         this.view = null;
     }
 
-    private updateContent(view: MarkdownView): void {
-        if (!this.currentMatch || !this.currentReplacements) return;
-        this.element.innerHTML = '';
-        const styleElement = document.createElement('style');
+    private updateContent(): void {
+        if (!this.currentMatch || !this.currentReplacements || !this.view)
+            return;
+        this.element.innerHTML = "";
+        const styleElement = document.createElement("style");
 
         // Define the CSS rule
         const cssRule = `
@@ -108,7 +110,7 @@ export class SuggestionPopup {
                 ? option.slice(TEMPLATE_PREFIX.length)
                 : option;
 
-            const span = document.createElement('span');
+            const span = document.createElement("span");
             span.id = `suggestion-${index}`;
             span.style.cssText = `
                 cursor: pointer;
@@ -116,31 +118,31 @@ export class SuggestionPopup {
                 display: inline;
             `;
 
-            span.addEventListener('mouseover', () => {
+            span.addEventListener("mouseover", () => {
                 if (index !== this.selectedIndex) {
-                    span.style.background = 'var(--background-secondary)';
+                    span.style.background = "var(--background-secondary)";
                 }
             });
 
-            span.addEventListener('mouseout', () => {
+            span.addEventListener("mouseout", () => {
                 if (index !== this.selectedIndex) {
-                    span.style.background = 'var(--background-primary)';
+                    span.style.background = "var(--background-primary)";
                 }
             });
 
-            span.addEventListener('click', () => {
+            span.addEventListener("click", () => {
                 this.selectSuggestion(index);
             });
 
             // Create indicator span
-            const indicatorSpan = document.createElement('span');
-            if (this.fastReplace && this.currentReplacements.length === 1) {
+            const indicatorSpan = document.createElement("span");
+            if (this.fastReplace && this.currentReplacements?.length === 1) {
                 indicatorSpan.style.cssText = `
                     color: #22c55e;
                     margin-right: 2px;
                     font-size: 0.6em;
                 `;
-                indicatorSpan.textContent = '⚡';
+                indicatorSpan.textContent = "⚡";
             } else {
                 indicatorSpan.style.cssText = `
                     font-size: 0.7em;
@@ -151,18 +153,21 @@ export class SuggestionPopup {
             }
 
             // Create math content span
-            const mathSpan = document.createElement('span');
+            const mathSpan = document.createElement("span");
             mathSpan.classList.add("rendered-math");
 
             span.appendChild(indicatorSpan);
             span.appendChild(mathSpan);
             this.element.appendChild(span);
-            MarkdownRenderer.renderMarkdown(
-                `$${appliedReplacement}$`,
-                mathSpan,
-                view.file.path,
-                view
-            );
+            if (this.view) {
+                MarkdownRenderer.render(
+                    this.view.app,
+                    `$${appliedReplacement}$`,
+                    mathSpan,
+                    this.view.file?.path || "",
+                    this.view,
+                );
+            }
         });
 
         // TypeScript doesn't know about MathJax by default, so we need to declare it
@@ -170,34 +175,52 @@ export class SuggestionPopup {
     }
 
     private updateSelectedSuggestion(): void {
-        const suggestions = this.element.querySelectorAll<HTMLSpanElement>('span[id^="suggestion-"]');
-        suggestions.forEach(span => {
-            span.style.background = 'var(--background-primary)';
+        const suggestions = this.element.querySelectorAll<HTMLSpanElement>(
+            'span[id^="suggestion-"]',
+        );
+        suggestions.forEach((span) => {
+            span.style.background = "var(--background-primary)";
         });
 
         if (this.selectedIndex >= 0) {
-            const selectedSpan = this.element.querySelector<HTMLSpanElement>(`#suggestion-${this.selectedIndex}`);
+            const selectedSpan = this.element.querySelector<HTMLSpanElement>(
+                `#suggestion-${this.selectedIndex}`,
+            );
             if (selectedSpan) {
-                selectedSpan.style.background = 'var(--background-secondary)';
+                selectedSpan.style.background = "var(--background-secondary)";
             }
         }
     }
 
     private selectSuggestion(index: number): void {
-        if (!this.currentReplacements || !this.view) return;
+        if (
+            !this.currentReplacements ||
+            !this.view ||
+            this.currentMatch === null
+        )
+            return;
 
         if (index >= 0 && index < this.currentReplacements.length) {
             const replacement = this.currentReplacements[index];
+            /*
             if (replacement.startsWith(TEMPLATE_PREFIX)) {
-                const form = new TemplateForm(replacement.slice(TEMPLATE_PREFIX.length), this.inputHandler);
+                const form = new TemplateForm(
+                    replacement.slice(TEMPLATE_PREFIX.length),
+                    this.inputHandler,
+                );
                 form.show();
             } else {
-                const start = this.view.editor.offsetToPos(
-                    this.view.editor.posToOffset(this.view.editor.getCursor()) - this.currentMatch.length
-                );
-                this.view.editor.replaceRange(replacement, start, this.view.editor.getCursor());
-                //this.inputHandler.replaceCursorText(replacement);
-            }
+              */
+            const start = this.view.editor.offsetToPos(
+                this.view.editor.posToOffset(this.view.editor.getCursor()) -
+                    this.currentMatch.length,
+            );
+            this.view.editor.replaceRange(
+                replacement,
+                start,
+                this.view.editor.getCursor(),
+            );
+            //}
             this.hide();
         }
     }
@@ -206,20 +229,22 @@ export class SuggestionPopup {
         if (!this.isVisible || !this.currentReplacements) return;
 
         // Handle fast replace for non-alphanumeric keys
-        if (this.fastReplace &&
+        if (
+            this.fastReplace &&
             !/^[a-zA-Z0-9]$/.test(e.key) &&
-            !['Escape', 'Tab', 'Backspace'].includes(e.key)) {
+            !["Escape", "Tab", "Backspace"].includes(e.key)
+        ) {
             this.selectSuggestion(0);
             return;
         }
 
         switch (e.key) {
-            case 'Escape':
+            case "Escape":
                 this.hide();
                 e.preventDefault();
                 break;
 
-            case 'Tab':
+            case "Tab":
                 e.preventDefault();
                 if (this.selectedIndex < this.currentReplacements.length - 1) {
                     this.selectedIndex++;
@@ -229,7 +254,7 @@ export class SuggestionPopup {
                 this.updateSelectedSuggestion();
                 break;
 
-            case 'Enter':
+            case "Enter":
                 if (this.selectedIndex >= 0) {
                     e.preventDefault();
                     this.selectSuggestion(this.selectedIndex);
@@ -237,7 +262,7 @@ export class SuggestionPopup {
                 break;
 
             default:
-                if (e.key >= '1' && e.key <= '9') {
+                if (e.key >= "1" && e.key <= "9") {
                     const index = parseInt(e.key) - 1;
                     if (index < this.currentReplacements.length) {
                         this.selectSuggestion(index);
@@ -254,8 +279,8 @@ export class SuggestionPopup {
     }
 
     destroy(): void {
-        document.removeEventListener('click', this.handleDocumentClick);
-        document.removeEventListener('keydown', this.handleKeyDown);
+        document.removeEventListener("click", this.handleDocumentClick);
+        document.removeEventListener("keydown", this.handleKeyDown);
         if (this.element && this.element.parentNode) {
             this.element.parentNode.removeChild(this.element);
         }
