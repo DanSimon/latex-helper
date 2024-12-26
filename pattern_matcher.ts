@@ -1,4 +1,4 @@
-import { Pattern } from "./config"
+import { Pattern } from "./config";
 
 // Interface for lookup results
 interface SuggestionResult {
@@ -26,7 +26,7 @@ class Trie {
     constructor(patterns: Pattern[]) {
         this.root = new TrieNode();
         for (const pattern of patterns) {
-            if (!pattern.type || pattern.type !== 'regex') {
+            if (!pattern.type || pattern.type !== "regex") {
                 this.insert(pattern);
             }
         }
@@ -89,7 +89,7 @@ class Trie {
 
         while (queue.length > 0) {
             const node = queue.shift()!;
-            
+
             if (visited.has(node)) {
                 continue;
             }
@@ -111,10 +111,10 @@ class RegexMatcher {
 
     constructor(patterns: Pattern[]) {
         this.patterns = patterns
-            .filter(p => p.type === 'regex')
-            .map(p => ({
+            .filter((p) => p.type === "regex")
+            .map((p) => ({
                 regex: new RegExp(p.pattern),
-                pattern: p
+                pattern: p,
             }));
     }
 
@@ -129,12 +129,15 @@ class RegexMatcher {
                 for (const replacement of pattern.replacements) {
                     let result = replacement;
                     for (let i = 1; i < matches.length; i++) {
-                        result = result.replace(`$${i}`, matches[i] || '');
+                        result = result.replace(`$${i}`, matches[i] || "");
                     }
                     suggestions.push(result);
                 }
                 // Update fastReplace if this pattern enables it
-                fastReplace = fastReplace || (!!pattern.fastReplace && pattern.replacements.length === 1);
+                fastReplace =
+                    fastReplace ||
+                    (!!pattern.fastReplace &&
+                        pattern.replacements.length === 1);
             }
         }
 
@@ -179,13 +182,17 @@ export class SuggestionMatcher {
         for (const pattern of exactMatches) {
             suggestions.push(...pattern.replacements);
             // Enable fastReplace if any matching pattern enables it and has exactly one replacement
-            fastReplace = fastReplace || (!!pattern.fastReplace && pattern.replacements.length === 1);
+            fastReplace =
+                fastReplace ||
+                (!!pattern.fastReplace && pattern.replacements.length === 1);
         }
 
         // Handle regex matches
         const regexResults = this.regexes.getSuggestions(searchString);
         suggestions.push(...regexResults.suggestions);
-        fastReplace = (fastReplace || regexResults.fastReplace) && suggestions.length === 1;
+        fastReplace =
+            (fastReplace || regexResults.fastReplace) &&
+            suggestions.length === 1;
 
         return { suggestions, fastReplace };
     }

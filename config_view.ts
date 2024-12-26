@@ -1,4 +1,4 @@
-import { ItemView, WorkspaceLeaf, Plugin, MarkdownRenderer } from "obsidian";
+import { ItemView, WorkspaceLeaf, MarkdownRenderer } from "obsidian";
 
 import { ConfigManager, Pattern } from "./config";
 import { MatchForm } from "./match_form";

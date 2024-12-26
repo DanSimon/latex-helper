@@ -4,11 +4,6 @@ import { MarkdownRenderer, MarkdownView } from "obsidian";
 
 const TEMPLATE_PREFIX = "T:";
 
-// Interface for the input handler
-interface InputHandler {
-    replaceCursorText: (text: string) => void;
-}
-
 export class SuggestionPopup {
     private element: HTMLDivElement;
     private isVisible: boolean;

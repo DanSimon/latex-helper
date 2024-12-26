@@ -1,14 +1,21 @@
-import { Component } from 'obsidian'
-import { MatchForm } from "./match_form"
+import { Component } from "obsidian";
+import { MatchForm } from "./match_form";
+import { ConfigManager } from "./config";
+import { ConfigDialog } from "./config_dialog";
 
-export class SelectionButton extends Component{
+export class SelectionButton extends Component {
     private configManager: ConfigManager;
     private element: HTMLButtonElement;
     private selectionTimeout: number | null;
     private configDialog: ConfigDialog;
     private hasMatch: boolean;
+    private matchForm: MatchForm;
 
-    constructor(configManager: ConfigManager, configDialog: ConfigDialog, matchForm: MatchForm) {
+    constructor(
+        configManager: ConfigManager,
+        configDialog: ConfigDialog,
+        matchForm: MatchForm,
+    ) {
         super();
         this.configManager = configManager;
         this.selectionTimeout = null;
@@ -20,11 +27,10 @@ export class SelectionButton extends Component{
     onload() {
         this.element = this.createElement();
         this.attachEventListeners();
-
     }
 
     private createElement(): HTMLButtonElement {
-        const button = document.createElement('button');
+        const button = document.createElement("button");
         button.style.cssText = `
             position: absolute;
             display: none;
@@ -44,22 +50,25 @@ export class SelectionButton extends Component{
     }
 
     private attachEventListeners(): void {
-        this.registerDomEvent(this.element, 'click', () => {
-            const selectedText = window.getSelection()?.toString().trim() ?? '';
+        this.registerDomEvent(this.element, "click", () => {
+            const selectedText = window.getSelection()?.toString().trim() ?? "";
             if (this.hasMatch) {
                 this.configDialog.show(selectedText);
             } else {
-                this.matchForm.show({pattern: selectedText, replacements:[]});
+                this.matchForm.show({
+                    pattern: selectedText,
+                    replacements: [],
+                });
             }
             window.getSelection()?.empty();
             this.hide();
         });
 
-        this.registerDomEvent(document, 'keyup', () => {
+        this.registerDomEvent(document, "keyup", () => {
             this.hide();
         });
 
-        this.registerDomEvent(document, 'mouseup', () => {
+        this.registerDomEvent(document, "mouseup", () => {
             this.handleSelection();
         });
     }
@@ -67,11 +76,11 @@ export class SelectionButton extends Component{
     public show(x: number, y: number): void {
         this.element.style.left = `${x}px`;
         this.element.style.top = `${y}px`;
-        this.element.style.display = 'block';
+        this.element.style.display = "block";
     }
 
     public hide(): void {
-        this.element.style.display = 'none';
+        this.element.style.display = "none";
     }
 
     public handleSelection(): void {
@@ -81,15 +90,20 @@ export class SelectionButton extends Component{
 
         this.selectionTimeout = window.setTimeout(() => {
             const selection = window.getSelection();
-            const selectedText = selection?.toString().trim() ?? '';
+            const selectedText = selection?.toString().trim() ?? "";
 
             if (selectedText.length > 0) {
-                this.hasMatch = this.configManager.matcher.getMatchingPatterns(selectedText).length > 0;
+                this.hasMatch =
+                    this.configManager.matcher.getMatchingPatterns(selectedText)
+                        .length > 0;
                 this.updateButtonAppearance();
                 const range = selection?.getRangeAt(0);
                 const rect = range?.getBoundingClientRect();
                 if (rect) {
-                    this.show(rect.right + window.pageXOffset, rect.top + window.pageYOffset);
+                    this.show(
+                        rect.right + window.pageXOffset,
+                        rect.top + window.pageYOffset,
+                    );
                 }
             } else {
                 this.hide();
@@ -99,11 +113,11 @@ export class SelectionButton extends Component{
 
     private updateButtonAppearance(): void {
         if (this.hasMatch) {
-            this.element.textContent = '⚙️';
-            this.element.title = 'View matching patterns';
+            this.element.textContent = "⚙️";
+            this.element.title = "View matching patterns";
         } else {
-            this.element.textContent = '+';
-            this.element.title = 'Add new pattern';
+            this.element.textContent = "+";
+            this.element.title = "Add new pattern";
         }
     }
 }
