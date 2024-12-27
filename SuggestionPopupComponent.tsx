@@ -30,7 +30,6 @@ const SuggestionPopupComponent = ({
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const popupRef = useRef<HTMLDivElement>(null);
   const isFastReplace = fastReplace && replacements.length === 1;
-  console.log("RENDER");
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -91,16 +90,18 @@ const SuggestionPopupComponent = ({
   }, [visible, replacements.length, selectedIndex, isFastReplace, onSelect, onHide]);
 
   if (!visible || !match || replacements.length === 0) {
-      console.log("BOO");
     return <div style={{ display: 'none' }} />; // Return empty div instead of null
   }
 
   return (
     <div
       ref={popupRef}
-      className="absolute bg-background-primary border border-background-modifier shadow-lg z-50"
       style={{
         position: 'absolute',
+        background: 'var(--background-primary)',
+        border: '1px solid var(--background-modifier-border)',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+        zIndex: 50,
         left: `${x + 5}px`,
         bottom: `${window.innerHeight - y}px`,
         display: 'block',
@@ -126,8 +127,10 @@ const SuggestionPopupComponent = ({
           <span
             key={index}
             id={`suggestion-${index}`}
-            className="cursor-pointer p-1 inline-block"
             style={{
+              cursor: 'pointer',
+              padding: '4px',
+              display: 'inline-block',
               background: selectedIndex === index ? 'var(--background-secondary)' : 'var(--background-primary)'
             }}
             onMouseOver={() => selectedIndex !== index && setSelectedIndex(index)}
@@ -135,12 +138,12 @@ const SuggestionPopupComponent = ({
             onClick={() => onSelect(index)}
           >
             {isFastReplace ? (
-              <span className="text-green-500 mr-1 text-xs">⚡</span>
+              <span style={{ color: '#22c55e', marginRight: '4px', fontSize: '0.75rem' }}>⚡</span>
             ) : (
-              <span className="text-gray-500 mr-1 text-xs">{index + 1}.</span>
+              <span style={{ color: '#666', marginRight: '4px', fontSize: '0.75rem' }}>{index + 1}.</span>
             )}
             <span
-              className="rendered-math"
+              className="rendered-math" style={{ display: 'inline-block' }}
               ref={el => {
                 if (el) {
                   MarkdownRenderer.render(
