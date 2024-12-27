@@ -6,7 +6,6 @@ const TEMPLATE_PREFIX = "T:";
 
 export class SuggestionPopup {
     private element: HTMLDivElement;
-    private isVisible: boolean;
     private currentMatch: string | null;
     private currentReplacements: string[] | null;
     private fastReplace: boolean;
@@ -15,7 +14,6 @@ export class SuggestionPopup {
 
     constructor() {
         this.element = this.createElement();
-        this.isVisible = false;
         this.currentMatch = null;
         this.currentReplacements = null;
         this.fastReplace = false;
@@ -63,7 +61,6 @@ export class SuggestionPopup {
         this.element.style.bottom = `${window.innerHeight - y}px`;
         this.element.style.top = "auto";
         this.element.style.display = "block";
-        this.isVisible = true;
         this.view = view;
 
         this.updateContent();
@@ -72,11 +69,14 @@ export class SuggestionPopup {
     hide(): void {
         this.element.style.display = "none";
         this.element.innerHTML = "";
-        this.isVisible = false;
         this.selectedIndex = -1;
         this.currentMatch = null;
         this.currentReplacements = null;
         this.view = null;
+    }
+
+    isVisible(): boolean {
+        return this.element.style.display == "block";
     }
 
     private updateContent(): void {
@@ -281,7 +281,7 @@ export class SuggestionPopup {
     }
 
     private handleDocumentClick(e: MouseEvent): void {
-        if (this.isVisible && !this.element.contains(e.target as Node)) {
+        if (this.isVisible() && !this.element.contains(e.target as Node)) {
             this.hide();
         }
     }

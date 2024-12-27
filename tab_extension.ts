@@ -1,5 +1,6 @@
 import { EditorView, KeyBinding, keymap } from "@codemirror/view";
 import { Extension } from "@codemirror/state";
+import { SuggestionPopup } from "./suggestion_popup";
 
 function getLatexCommandAtCursor(
     view: EditorView,
@@ -76,32 +77,40 @@ function findNextBracePosition(
     return null;
 }
 
-const latexNavigationKeymap: KeyBinding[] = [
-    {
-        key: "Tab",
-        run: (view: EditorView): boolean => {
-            const command = getLatexCommandAtCursor(view);
-            if (command) {
-                const pos = view.state.selection.main.head;
-                const relativeOffset = pos - command.from;
-                const nextPosition = findNextBracePosition(
-                    command.text,
-                    relativeOffset,
-                );
-
-                if (nextPosition !== null) {
-                    const newPos = command.from + nextPosition;
-                    view.dispatch({
-                        selection: { anchor: newPos, head: newPos },
-                    });
-                    return true; // Prevent other handlers
+export function latexNavigation(popup: SuggestionPopup): Extension {
+    const latexNavigationKeymap: KeyBinding[] = [
+        {
+            key: "Tab",
+            run: (view: EditorView): boolean => {
+                if (popup.isVisible()) {
+                    return true;
                 }
-            }
-            return false; // Let other handlers process the tab
-        },
-    },
-];
+                const command = getLatexCommandAtCursor(view);
+                if (command) {
+                    const pos = view.state.selection.main.head;
+                    const relativeOffset = pos - command.from;
+                    const nextPosition = findNextBracePosition(
+                        command.text,
+                        relativeOffset,
+                    );
 
-export function latexNavigation(): Extension {
+                    if (nextPosition !== null) {
+                        const newPos = command.from + nextPosition;
+                        view.dispatch({
+                            selection: { anchor: newPos, head: newPos },
+                        });
+                        return true; // Prevent other handlers
+                    }
+                }
+                return false; // Let other handlers process the tab
+            },
+        },
+        {
+            key: "Enter",
+            run: (_view: EditorView): boolean => {
+                return popup.isVisible();
+            },
+        },
+    ];
     return keymap.of(latexNavigationKeymap);
 }

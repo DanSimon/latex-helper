@@ -47,7 +47,9 @@ export default class WordPopupPlugin extends Plugin {
             ),
         );
 
-        this.registerEditorExtension(Prec.highest(latexNavigation()));
+        this.registerEditorExtension(
+            Prec.highest(latexNavigation(this.suggestionPopup)),
+        );
 
         this.registerView(
             CONFIG_VIEW_TYPE,
