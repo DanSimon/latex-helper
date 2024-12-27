@@ -3,10 +3,15 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import SuggestionPopupComponent from "./SuggestionPopupComponent";
 
+export interface Suggestion {
+    replacement: string;
+    displayReplacement?: string;
+}
+
 export class SuggestionPopup {
     private container: HTMLDivElement;
     private currentMatch: string | null = null;
-    private currentReplacements: string[] | null = null;
+    private currentReplacements: Suggestion[] | null = null;
     private view: MarkdownView | null = null;
     private visible: boolean = false;
 
@@ -19,7 +24,7 @@ export class SuggestionPopup {
         x: number,
         y: number,
         match: string,
-        replacements: string[],
+        replacements: Suggestion[],
         fastReplace = false,
         view: MarkdownView,
     ): void {
@@ -56,7 +61,7 @@ export class SuggestionPopup {
         if (!this.currentReplacements || !this.view || !this.currentMatch)
             return;
 
-        const replacement = this.currentReplacements[index];
+        const replacement = this.currentReplacements[index].replacement;
         const start = this.view.editor.offsetToPos(
             this.view.editor.posToOffset(this.view.editor.getCursor()) -
                 this.currentMatch.length,

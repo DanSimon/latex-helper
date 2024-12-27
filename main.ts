@@ -1,7 +1,7 @@
 import { Editor, MarkdownView, Plugin } from "obsidian";
 
 import { ConfigManager } from "./config";
-import { SuggestionPopup } from "./suggestion_popup";
+import { Suggestion, SuggestionPopup } from "./suggestion_popup";
 import { ConfigDialog } from "./config_dialog";
 import { SelectionButton } from "./selection_button";
 import { MatchForm } from "./match_form";
@@ -15,8 +15,6 @@ export default class WordPopupPlugin extends Plugin {
     selectionButton: SelectionButton;
     configDialog: ConfigDialog;
     matchForm: MatchForm;
-    popupEl: HTMLElement;
-    contentEl: HTMLElement;
 
     async onload() {
         this.configManager = new ConfigManager(this);
@@ -82,6 +80,18 @@ export default class WordPopupPlugin extends Plugin {
         this.suggestionPopup.destroy();
     }
 
+    private fillLatexBraces(input: string, color: string = "blue"): string {
+        let letterCode = "a".charCodeAt(0);
+
+        // Find all empty brace pairs
+        const emptyBraceRegex = /\{(\s*)\}/g;
+
+        return input.replace(emptyBraceRegex, () => {
+            const letter = String.fromCharCode(letterCode++);
+            return `{\\color{${color}}{${letter}}}`;
+        });
+    }
+
     async handleEditorChange(editor: Editor, view: MarkdownView) {
         const cursor = editor.getCursor();
         const line = editor.getLine(cursor.line);
@@ -89,6 +99,19 @@ export default class WordPopupPlugin extends Plugin {
 
         const suggestions =
             this.configManager.matcher.getSuggestions(wordUnderCursor);
+
+        const fillerColor = getComputedStyle(view.containerEl)
+            .getPropertyValue("--text-accent")
+            .trim();
+
+        console.log(fillerColor);
+
+        const suggestionObjs = suggestions.suggestions.map((value: string) => {
+            return {
+                replacement: value,
+                displayReplacement: this.fillLatexBraces(value, fillerColor),
+            };
+        });
 
         if (suggestions.suggestions.length > 0) {
             // https://forum.obsidian.md/t/is-there-a-way-to-get-the-pixel-position-from-the-cursor-position-in-the-editor/69506
@@ -99,7 +122,7 @@ export default class WordPopupPlugin extends Plugin {
                 coords.right,
                 coords.top,
                 wordUnderCursor,
-                suggestions.suggestions,
+                suggestionObjs,
                 suggestions.fastReplace,
                 view,
             );

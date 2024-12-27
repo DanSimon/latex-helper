@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { MarkdownRenderer, MarkdownView } from 'obsidian';
+import { Suggestion } from "./suggestion_popup"
 
 const TEMPLATE_PREFIX = 'T:';
 
@@ -8,7 +9,7 @@ interface SuggestionPopupProps {
   x: number;
   y: number;
   match: string;
-  replacements: string[];
+  replacements: Suggestion[];
   fastReplace?: boolean;
   view: MarkdownView;
   onSelect: (index: number) => void;
@@ -47,9 +48,13 @@ const SuggestionPopupComponent = ({
   onHide,
   visible
 }: SuggestionPopupProps) => {
-  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const popupRef = useRef<HTMLDivElement>(null);
   const isFastReplace = fastReplace && replacements.length === 1;
+
+  useEffect(() => {
+    setSelectedIndex(0);
+  }, [match, replacements]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -139,9 +144,6 @@ const SuggestionPopupComponent = ({
         `}
       </style>
       {replacements.map((option, index) => {
-        const appliedReplacement = option.startsWith(TEMPLATE_PREFIX)
-          ? option.slice(TEMPLATE_PREFIX.length)
-          : option;
 
         return (
           <p
@@ -155,7 +157,6 @@ const SuggestionPopupComponent = ({
               background: selectedIndex === index ? 'var(--background-secondary)' : 'var(--background-primary)'
             }}
             onMouseOver={() => selectedIndex !== index && setSelectedIndex(index)}
-            onMouseOut={() => selectedIndex === index && setSelectedIndex(-1)}
             onClick={() => onSelect(index)}
           >
             {isFastReplace ? (
@@ -163,7 +164,7 @@ const SuggestionPopupComponent = ({
             ) : (
               <span style={{ color: '#666', marginRight: '4px', fontSize: '0.75rem' }}>{index + 1}.</span>
             )}
-            <RenderMath tex={appliedReplacement} view={view} /> <span style={{ color: 'var(--text-faint)'}}><code>{appliedReplacement}</code></span>
+            <RenderMath tex={option.displayReplacement} view={view} /> <span style={{ color: 'var(--text-faint)'}}><code>{option.replacement}</code></span>
           </p>
         );
       })}
