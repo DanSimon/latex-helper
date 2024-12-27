@@ -96,7 +96,7 @@ export default class WordPopupPlugin extends Plugin {
             const coords = editor.coordsAtPos(cursor);
             if (!coords) return;
             this.suggestionPopup.show(
-                coords.left,
+                coords.right,
                 coords.top,
                 wordUnderCursor,
                 suggestions.suggestions,

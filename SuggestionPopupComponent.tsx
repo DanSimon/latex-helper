@@ -119,7 +119,7 @@ const SuggestionPopupComponent = ({
       style={{
         position: 'absolute',
         left: `${x + 5}px`,
-        bottom: `${window.innerHeight - y}px`,
+        top: `${y}px`,
         background: 'var(--background-primary)',
         border: '1px solid var(--background-modifier-border)',
         boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
@@ -144,13 +144,14 @@ const SuggestionPopupComponent = ({
           : option;
 
         return (
-          <span
+          <p
             key={`${option}-${index}`}
             id={`suggestion-${index}`}
             style={{
               cursor: 'pointer',
               padding: '4px',
-              display: 'inline-block',
+              margin: '0px',
+              display: 'block',
               background: selectedIndex === index ? 'var(--background-secondary)' : 'var(--background-primary)'
             }}
             onMouseOver={() => selectedIndex !== index && setSelectedIndex(index)}
@@ -162,8 +163,8 @@ const SuggestionPopupComponent = ({
             ) : (
               <span style={{ color: '#666', marginRight: '4px', fontSize: '0.75rem' }}>{index + 1}.</span>
             )}
-            <RenderMath tex={appliedReplacement} view={view} />
-          </span>
+            <RenderMath tex={appliedReplacement} view={view} /> <span style={{ color: 'var(--text-faint)'}}><code>{appliedReplacement}</code></span>
+          </p>
         );
       })}
     </div>
