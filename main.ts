@@ -6,6 +6,8 @@ import { ConfigDialog } from "./config_dialog";
 import { SelectionButton } from "./selection_button";
 import { MatchForm } from "./match_form";
 import { CONFIG_VIEW_TYPE, ConfigView } from "./config_view";
+import { Prec } from "@codemirror/state";
+import { latexNavigation } from "./tab_extension";
 
 export default class WordPopupPlugin extends Plugin {
     configManager: ConfigManager;
@@ -44,6 +46,8 @@ export default class WordPopupPlugin extends Plugin {
                 },
             ),
         );
+
+        this.registerEditorExtension(Prec.highest(latexNavigation()));
 
         this.registerView(
             CONFIG_VIEW_TYPE,

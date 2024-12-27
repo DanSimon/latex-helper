@@ -187,6 +187,17 @@ export class SuggestionPopup {
         }
     }
 
+    private findFirstBracePair(text: string): number | null {
+        const matches = text.match(/\\[a-zA-Z]+(\{\})+/);
+        if (!matches) return null;
+
+        const command = matches[0];
+        const bracketIndex = command.indexOf("{}");
+        if (bracketIndex === -1) return null;
+
+        return bracketIndex + matches.index! + 1;
+    }
+
     private selectSuggestion(index: number): void {
         if (
             !this.currentReplacements ||
@@ -197,25 +208,27 @@ export class SuggestionPopup {
 
         if (index >= 0 && index < this.currentReplacements.length) {
             const replacement = this.currentReplacements[index];
-            /*
-            if (replacement.startsWith(TEMPLATE_PREFIX)) {
-                const form = new TemplateForm(
-                    replacement.slice(TEMPLATE_PREFIX.length),
-                    this.inputHandler,
-                );
-                form.show();
-            } else {
-              */
+
             const start = this.view.editor.offsetToPos(
                 this.view.editor.posToOffset(this.view.editor.getCursor()) -
                     this.currentMatch.length,
             );
-            this.view.editor.replaceRange(
-                replacement,
-                start,
-                this.view.editor.getCursor(),
-            );
-            //}
+            const end = this.view.editor.getCursor();
+
+            //calling replaceRange triggers hiding the popup which sets the
+            //fields to null
+            const view = this.view;
+            this.view.editor.replaceRange(replacement, start, end);
+
+            // Find cursor position if there are braces
+            const cursorOffset = this.findFirstBracePair(replacement);
+            if (cursorOffset !== null) {
+                const newCursorPos = view.editor.offsetToPos(
+                    view.editor.posToOffset(start) + cursorOffset,
+                );
+                view.editor.setCursor(newCursorPos);
+            }
+
             this.hide();
         }
     }
