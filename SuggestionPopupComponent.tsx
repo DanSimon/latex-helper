@@ -16,6 +16,26 @@ interface SuggestionPopupProps {
   visible: boolean;
 }
 
+const RenderMath = React.memo(({ tex, view }: { tex: string, view: MarkdownView }) => {
+  const spanRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const span = spanRef.current;
+    if (span) {
+      MarkdownRenderer.render(
+        view.app,
+        `$${tex}$`,
+        span,
+        view.file?.path || '',
+        view
+      );
+    }
+
+  });
+
+  return <span ref={spanRef} className="rendered-math" style={{ display: 'inline-block' }} />;
+});
+
 const SuggestionPopupComponent = ({
   x,
   y,
@@ -90,7 +110,7 @@ const SuggestionPopupComponent = ({
   }, [visible, replacements.length, selectedIndex, isFastReplace, onSelect, onHide]);
 
   if (!visible || !match || replacements.length === 0) {
-    return <div style={{ display: 'none' }} />; // Return empty div instead of null
+    return <div style={{ display: 'none' }} />;
   }
 
   return (
@@ -98,12 +118,12 @@ const SuggestionPopupComponent = ({
       ref={popupRef}
       style={{
         position: 'absolute',
+        left: `${x + 5}px`,
+        bottom: `${window.innerHeight - y}px`,
         background: 'var(--background-primary)',
         border: '1px solid var(--background-modifier-border)',
         boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
         zIndex: 50,
-        left: `${x + 5}px`,
-        bottom: `${window.innerHeight - y}px`,
         display: 'block',
         whiteSpace: 'nowrap',
         padding: '2px'
@@ -125,7 +145,7 @@ const SuggestionPopupComponent = ({
 
         return (
           <span
-            key={index}
+            key={`${option}-${index}`}
             id={`suggestion-${index}`}
             style={{
               cursor: 'pointer',
@@ -142,20 +162,7 @@ const SuggestionPopupComponent = ({
             ) : (
               <span style={{ color: '#666', marginRight: '4px', fontSize: '0.75rem' }}>{index + 1}.</span>
             )}
-            <span
-              className="rendered-math" style={{ display: 'inline-block' }}
-              ref={el => {
-                if (el) {
-                  MarkdownRenderer.render(
-                    view.app,
-                    `$${appliedReplacement}$`,
-                    el,
-                    view.file?.path || '',
-                    view
-                  );
-                }
-              }}
-            />
+            <RenderMath tex={appliedReplacement} view={view} />
           </span>
         );
       })}
