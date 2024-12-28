@@ -9,4 +9,4 @@ export type MathJaxSymbol = {
     snippet: string;
 };
 
-export const LATEX_SYMBOLS = symbols_json;
+export const LATEX_SYMBOLS = symbols_json.symbols as MathJaxSymbol[];

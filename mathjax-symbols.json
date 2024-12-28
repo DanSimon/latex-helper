@@ -1,3 +1,4 @@
+{"symbols":
 [
     {
         "name": "\\!",
@@ -5359,3 +5360,4 @@
         "snippet": "\\begin{vmatrix}\n\t@1@\n\\end{vmatrix}"
     }
 ]
+    }
