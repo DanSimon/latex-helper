@@ -1,4 +1,6 @@
 import { Pattern } from "./config";
+import FuzzySearch from "fz-search";
+import { LATEX_SYMBOLS, MathJaxSymbol } from "./mathjax_symbols";
 
 // Interface for lookup results
 interface SuggestionResult {
@@ -145,9 +147,28 @@ class RegexMatcher {
     }
 }
 
+class FuzzyMatcher {
+    private search: FuzzySearch = new FuzzySearch({
+        source: LATEX_SYMBOLS,
+        keys: ["name"],
+    });
+
+    getSuggestions(input: string): SuggestionResult {
+        return {
+            suggestions: this.search
+                .search(input)
+                .map((symbol: MathJaxSymbol) => {
+                    return symbol.name;
+                }),
+            fastReplace: false,
+        };
+    }
+}
+
 export class SuggestionMatcher {
     private trie: Trie;
     private regexes: RegexMatcher;
+    private fuzzy: FuzzyMatcher = new FuzzyMatcher();
 
     /**
      * Constructs a SuggestionMatcher.
@@ -190,6 +211,10 @@ export class SuggestionMatcher {
         // Handle regex matches
         const regexResults = this.regexes.getSuggestions(searchString);
         suggestions.push(...regexResults.suggestions);
+
+        const fuzzyResults = this.fuzzy.getSuggestions(searchString);
+        suggestions.push(...fuzzyResults.suggestions);
+
         fastReplace =
             (fastReplace || regexResults.fastReplace) &&
             suggestions.length === 1;

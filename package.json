@@ -25,7 +25,10 @@
         "tslib": "2.3.1",
         "typescript": "4.4.4"
     },
-    "prettier" : {
-      "tabWidth": 4
+    "prettier": {
+        "tabWidth": 4
+    },
+    "dependencies": {
+        "fz-search": "^1.0.0"
     }
 }

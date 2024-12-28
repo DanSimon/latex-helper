@@ -5,7 +5,7 @@ import SuggestionPopupComponent from "./SuggestionPopupComponent";
 
 export interface Suggestion {
     replacement: string;
-    displayReplacement?: string;
+    displayReplacement: string;
 }
 
 export class SuggestionPopup {

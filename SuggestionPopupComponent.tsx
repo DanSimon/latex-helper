@@ -3,8 +3,6 @@ import { useState, useEffect, useRef } from 'react';
 import { MarkdownRenderer, MarkdownView } from 'obsidian';
 import { Suggestion } from "./suggestion_popup"
 
-const TEMPLATE_PREFIX = 'T:';
-
 interface SuggestionPopupProps {
   x: number;
   y: number;
@@ -23,6 +21,7 @@ const RenderMath = React.memo(({ tex, view }: { tex: string, view: MarkdownView 
   useEffect(() => {
     const span = spanRef.current;
     if (span) {
+        span.empty();
       MarkdownRenderer.render(
         view.app,
         `$${tex}$`,
@@ -81,10 +80,15 @@ const SuggestionPopupComponent = ({
           break;
 
         case 'Tab':
+
           e.preventDefault();
-          setSelectedIndex(prev =>
-            prev < replacements.length - 1 ? prev + 1 : 0
-          );
+          setSelectedIndex(prev => {
+              if (e.shiftKey) {
+                  return prev > 0 ? prev - 1 : replacements.length - 1;
+              } else {
+                return prev < replacements.length - 1 ? prev + 1 : 0
+              }
+          });
           break;
 
         case 'Enter':

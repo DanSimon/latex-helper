@@ -1,7 +1,7 @@
 import { Editor, MarkdownView, Plugin } from "obsidian";
 
 import { ConfigManager } from "./config";
-import { Suggestion, SuggestionPopup } from "./suggestion_popup";
+import { SuggestionPopup } from "./suggestion_popup";
 import { ConfigDialog } from "./config_dialog";
 import { SelectionButton } from "./selection_button";
 import { MatchForm } from "./match_form";
