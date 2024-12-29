@@ -1,10 +1,11 @@
 import { Pattern } from "./config";
 import FuzzySearch from "fz-search";
 import { LATEX_SYMBOLS, MathJaxSymbol } from "./mathjax_symbols";
+import { Suggestion } from "./suggestion_popup";
 
 // Interface for lookup results
 interface SuggestionResult {
-    suggestions: string[];
+    suggestions: Suggestion[];
     fastReplace: boolean;
 }
 
@@ -121,7 +122,7 @@ class RegexMatcher {
     }
 
     getSuggestions(input: string): SuggestionResult {
-        const suggestions: string[] = [];
+        const suggestions: Suggestion[] = [];
         let fastReplace = false;
 
         for (const { regex, pattern } of this.patterns) {
@@ -133,7 +134,10 @@ class RegexMatcher {
                     for (let i = 1; i < matches.length; i++) {
                         result = result.replace(`$${i}`, matches[i] || "");
                     }
-                    suggestions.push(result);
+                    suggestions.push({
+                        replacement: result,
+                        displayReplacement: result,
+                    });
                 }
                 // Update fastReplace if this pattern enables it
                 fastReplace =
@@ -146,20 +150,38 @@ class RegexMatcher {
         return { suggestions, fastReplace };
     }
 }
+function fillLatexBraces(input: string, color: string = "blue"): string {
+    let letterCode = "a".charCodeAt(0);
+
+    // Find all empty brace pairs
+    const emptyBraceRegex = /\{(\s*)\}/g;
+
+    return input.replace(emptyBraceRegex, () => {
+        const letter = String.fromCharCode(letterCode++);
+        return `{\\color{${color}}{${letter}}}`;
+    });
+}
 
 class FuzzyMatcher {
-    private search: FuzzySearch = new FuzzySearch({
+    private search: FuzzySearch = new FuzzySearch<MathJaxSymbol>({
         source: LATEX_SYMBOLS,
-        keys: ["name"],
+        keys: ["searchName"],
     });
 
-    getSuggestions(input: string): SuggestionResult {
+    constructor() {}
+
+    getSuggestions(input: string, fillerColor: string): SuggestionResult {
         return {
-            suggestions: this.search
-                .search(input)
-                .map((symbol: MathJaxSymbol) => {
-                    return symbol.name;
-                }),
+            suggestions: this.search.search(input).map((r: MathJaxSymbol) => {
+                return {
+                    replacement: r.name,
+                    displayReplacement:
+                        r.suggestion_display !== undefined &&
+                        r.suggestion_display !== null
+                            ? r.suggestion_display
+                            : fillLatexBraces(r.name, fillerColor),
+                };
+            }),
             fastReplace: false,
         };
     }
@@ -194,30 +216,73 @@ export class SuggestionMatcher {
      * @param searchString - The search string.
      * @returns Object containing suggestions array and fastReplace flag.
      */
-    getSuggestions(searchString: string): SuggestionResult {
+    getSuggestions(
+        searchString: string,
+        fillerColor: string,
+        maxResults: number,
+    ): SuggestionResult {
         const exactMatches = this.trie.lookup(searchString);
-        const suggestions: string[] = [];
+        const suggestions: Suggestion[] = [];
         let fastReplace = false;
 
         // Handle exact matches
         for (const pattern of exactMatches) {
-            suggestions.push(...pattern.replacements);
+            suggestions.push(
+                ...pattern.replacements
+                    .slice(0, maxResults)
+                    .map((r: string) => {
+                        return {
+                            replacement: r,
+                            displayReplacement: fillLatexBraces(r, fillerColor),
+                        };
+                    }),
+            );
             // Enable fastReplace if any matching pattern enables it and has exactly one replacement
             fastReplace =
                 fastReplace ||
                 (!!pattern.fastReplace && pattern.replacements.length === 1);
         }
+        if (suggestions.length < maxResults) {
+            // Handle regex matches
+            const regexResults = this.regexes.getSuggestions(searchString);
+            while (
+                suggestions.length < maxResults &&
+                regexResults.suggestions.length > 0
+            ) {
+                const nxt = regexResults.suggestions.shift()!;
+                if (
+                    !suggestions.find(
+                        (elem: Suggestion) =>
+                            elem.replacement == nxt.replacement,
+                    )
+                ) {
+                    suggestions.push(nxt);
+                }
+            }
+            fastReplace = fastReplace || regexResults.fastReplace;
+        }
+        if (suggestions.length < maxResults) {
+            const fuzzyResults = this.fuzzy.getSuggestions(
+                searchString,
+                fillerColor,
+            );
+            while (
+                suggestions.length < maxResults &&
+                fuzzyResults.suggestions.length > 0
+            ) {
+                const nxt = fuzzyResults.suggestions.shift()!;
+                if (
+                    !suggestions.find(
+                        (elem: Suggestion) =>
+                            elem.replacement == nxt.replacement,
+                    )
+                ) {
+                    suggestions.push(nxt);
+                }
+            }
+        }
 
-        // Handle regex matches
-        const regexResults = this.regexes.getSuggestions(searchString);
-        suggestions.push(...regexResults.suggestions);
-
-        const fuzzyResults = this.fuzzy.getSuggestions(searchString);
-        suggestions.push(...fuzzyResults.suggestions);
-
-        fastReplace =
-            (fastReplace || regexResults.fastReplace) &&
-            suggestions.length === 1;
+        fastReplace = fastReplace && suggestions.length === 1;
 
         return { suggestions, fastReplace };
     }

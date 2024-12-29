@@ -80,38 +80,20 @@ export default class WordPopupPlugin extends Plugin {
         this.suggestionPopup.destroy();
     }
 
-    private fillLatexBraces(input: string, color: string = "blue"): string {
-        let letterCode = "a".charCodeAt(0);
-
-        // Find all empty brace pairs
-        const emptyBraceRegex = /\{(\s*)\}/g;
-
-        return input.replace(emptyBraceRegex, () => {
-            const letter = String.fromCharCode(letterCode++);
-            return `{\\color{${color}}{${letter}}}`;
-        });
-    }
-
     async handleEditorChange(editor: Editor, view: MarkdownView) {
         const cursor = editor.getCursor();
         const line = editor.getLine(cursor.line);
         const wordUnderCursor = this.getWordUnderCursor(line, cursor.ch);
 
-        const suggestions =
-            this.configManager.matcher.getSuggestions(wordUnderCursor);
-
         const fillerColor = getComputedStyle(view.containerEl)
             .getPropertyValue("--text-accent")
             .trim();
 
-        console.log(fillerColor);
-
-        const suggestionObjs = suggestions.suggestions.map((value: string) => {
-            return {
-                replacement: value,
-                displayReplacement: this.fillLatexBraces(value, fillerColor),
-            };
-        });
+        const suggestions = this.configManager.matcher.getSuggestions(
+            wordUnderCursor,
+            fillerColor,
+            9,
+        );
 
         if (suggestions.suggestions.length > 0) {
             // https://forum.obsidian.md/t/is-there-a-way-to-get-the-pixel-position-from-the-cursor-position-in-the-editor/69506
@@ -122,7 +104,7 @@ export default class WordPopupPlugin extends Plugin {
                 coords.right,
                 coords.top,
                 wordUnderCursor,
-                suggestionObjs,
+                suggestions.suggestions,
                 suggestions.fastReplace,
                 view,
             );
@@ -174,9 +156,19 @@ export default class WordPopupPlugin extends Plugin {
         if (!this.hasUnclosedMathSection(lineStr.slice(0, cursorPos))) {
             return "";
         }
-        let i = lineStr.length - 1;
+        let i = cursorPos - 1;
+        const delims = ["$", " "];
+        const boundaries = ["{", "(", "[", "}", ")", "]"];
+        //normally we'd want to stop at an boundaries, but if the cursor is right after one, we want to include it
+        //e.g.  (x| should only contain x, but \big(| should be \big(
+        if (boundaries.contains(lineStr[i])) {
+            i -= 1;
+        }
         while (i >= 0) {
-            if (lineStr[i] == "$" || lineStr[i] == " ") {
+            if (
+                delims.contains(lineStr[i]) ||
+                boundaries.contains(lineStr[i])
+            ) {
                 i += 1;
                 break;
             } else {
@@ -186,6 +178,7 @@ export default class WordPopupPlugin extends Plugin {
         if (i <= 0) {
             return lineStr;
         }
-        return lineStr.substr(i);
+        const res = lineStr.substr(i, cursorPos - i);
+        return res;
     }
 }

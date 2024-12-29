@@ -974,7 +974,7 @@
             "snippet": ""
         },
         {
-            "name": "\\cfrac{}",
+            "name": "\\cfrac{}{}",
             "description": "use for continued fractions\n\\cfrac #1 #2",
             "examples": [
                 "\\frac{2}{1+\\frac{2}{1+\\frac{2}{1}}}",
@@ -1321,6 +1321,7 @@
         },
         {
             "name": "\\DeclareMathOperator",
+            "suggestion_display":"",
             "description": "Multi-letter operator names (like $\\,\\log\\,$,\n$\\,\\sin\\,$, and $\\,\\lim\\,$) are traditionally typeset in a roman font.\n\\DeclareMathOperator  allows you to define your own\noperator names;\nthey are subsequently typeset using the proper font and spacing;\nyou can control the way that limits appear (see",
             "examples": [
                 "myOp(x)",
@@ -1338,6 +1339,7 @@
         },
         {
             "name": "\\def",
+            "suggestion_display":"",
             "description": "for defining your own commands (control sequences, macros, definitions);\nmust appear (within math delimiters) before it is used;\nalternatively, you can\ndefine macros using the MathJax configuration\noptions in the  <head>\n\\def\\myCommandName{ <replacement text> }",
             "examples": "",
             "see_also": [
@@ -1374,7 +1376,7 @@
             "snippet": ""
         },
         {
-            "name": "\\dfrac{}",
+            "name": "\\dfrac{}{}",
             "description": "fractions;\ndisplay version (in both inline and display modes)\n\\dfrac #1 #2",
             "examples": [
                 "\\dfrac a b",
@@ -1726,7 +1728,7 @@
             "snippet": ""
         },
         {
-            "name": "\\frac{}",
+            "name": "\\frac{}{}",
             "description": "fractions;\ndisplays differently in inline and display modes\n\\frac #1 #2",
             "examples": [
                 "\\frac a b",
@@ -1819,7 +1821,8 @@
             "snippet": ""
         },
         {
-            "name": "\\genfrac{}",
+            "name": "\\genfrac{}{}{}{}{}{}",
+            "suggestion_display": "\\genfrac(]{0pt}{2}{a+b}{c+d}",
             "description": "the most general command for defining fractions with optional delimiters,\nline thickness, and specified style\n\\genfrac #1 #2 #3 #4 #5 #6\nwhere\n\n#1 is the left delimiter (empty, for no left delimiter)\n#2 is the right delimiter (empty, for no right delimiter)\n#3 is the fraction bar thickness (set to 0pt to make it disappear)\n\n#4 is either 0, 1, 2, or 3, where:\n\n0 denotes \\displaystyle\n1 denotes \\textstyle\n2 denotes \\scriptstyle\n3 denotes \\scriptscriptstyle\n\n#5 is the numerator\n#6 is the denominator",
             "examples": [
                 "\\genfrac(]{0pt}{2}{a+b}{c+d}"
@@ -2463,6 +2466,7 @@
         },
         {
             "name": "\\leftroot",
+            "suggestion_display": "",
             "description": "used to fine-tune the placement of the index inside\n  \\sqrt   or   \\root   (see examples)\n\n\\sqrt[... \\leftroot #1 ...]{...}\n\\root ... \\leftroot #1 ... \\of {...}\n\nwhere the argument is a small integer\na positive integer moves the index to the left;\na negative integer moves the index to the right",
             "examples": [
                 "\\sqrt[3]{x}",
@@ -3761,7 +3765,7 @@
             "snippet": ""
         },
         {
-            "name": "\\operatorname",
+            "name": "\\operatorname{}",
             "description": "This is similar to  \\DeclareMathOperator,\nbut rather than defining a\nmacro, it produces an instance of an operator like  \\lim .\n\nFor example,\n\\operatorname{myOp}\n\nis equivalent to the use of  \\myOp , after having defined\n\n\\DeclareMathOperator{\\myOp}{myOp}\n\nIf displaystyle limits are desired in both inline and display modes,\nthen use  operatorname*   instead of  operatorname\n\nclass OP",
             "examples": [
                 "\\operatorname{myFct}(x)",
@@ -4123,6 +4127,7 @@
         },
         {
             "name": "\\raise",
+            "suggestion_display" : "",
             "description": "\\raise <dimen> #1\nraises the argument by the amount specified in <dimen>;\nin actual $\\rm\\TeX$, the argument to  \\raise  (and  \\lower ) must be an\n \\hbox ,\nbut in MathJax it can be any expression (using an \\hbox is allowed, but not required)",
             "examples": [
                 "h\\raise 2pt {ighe} r"
@@ -4189,6 +4194,7 @@
         },
         {
             "name": "\\renewcommand",
+            "suggestion_display" : "",
             "description": "equivalent to \\newcommand;\nfor clarity of code, you may choose to use   \\renewcommand  \nwhen re-defining a macro;\nthis is different from actual $\\,\\rm\\TeX\\,$,\nwhere  \\renewcommand  only allows redefining of an existing command",
             "examples": "",
             "see_also": [
@@ -4200,6 +4206,7 @@
         },
         {
             "name": "\\require",
+            "suggestion_display" : "",
             "description": "This is a MathJax-specific macro that can be used to load MathJax $\\rm\\TeX$ extensions (like the AMSmath extension)\nfrom within math mode, rather than having to include it in the configuration.\nFor example,\n\n$\\require{AMSsymbols}$\n\nwould cause MathJax to load the\n extensions/TeX/AMSsymbols.js  file at that point.\n\nSince many people use MathJax in blogs and wikis that may not have all the extensions loaded,\nthis makes it possible to load a lesser-used extension on a particular page,\nwithout having to include it in every page.",
             "examples": "",
             "see_also": [],
@@ -4254,6 +4261,7 @@
         },
         {
             "name": "\\right",
+            "suggestion_display" : "",
             "description": "used for stretchy delimiters;\nsee the Variable-Sized Delimiters Table for details\n\nCan be followed by\n\ndelimiter:\nsample code:\nyields:\n\n(   )\n\\left( \\frac12 \\right)\n$\\left( \\frac12 \\right)$\n\n\\updownarrow\\Updownarrow\n\\left\\updownarrow \\phantom{\\frac12} \\right\\Updownarrow\n$\\left\\updownarrow \\phantom{\\frac12} \\right\\Updownarrow$",
             "examples": [
                 "(   )",
@@ -5119,7 +5127,7 @@
             "snippet": ""
         },
         {
-            "name": "\\tfrac{}",
+            "name": "\\tfrac{}{}",
             "description": "textstyle fraction\n\\tfrac #1 #2",
             "examples": [
                 "\\tfrac ab \\frac ab",

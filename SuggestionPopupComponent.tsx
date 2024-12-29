@@ -43,6 +43,18 @@ const RenderMath = React.memo(
     },
 );
 
+function fillLatexBraces(input: string, color: string = "blue"): string {
+    let letterCode = "a".charCodeAt(0);
+
+    // Find all empty brace pairs
+    const emptyBraceRegex = /\{(\s*)\}/g;
+
+    return input.replace(emptyBraceRegex, () => {
+        const letter = String.fromCharCode(letterCode++);
+        return `{<span style="color:${color}">${letter}</span>}`;
+    });
+}
+
 const SuggestionPopupComponent = ({
     x,
     y,
@@ -200,6 +212,9 @@ const SuggestionPopupComponent = ({
                                 ⚡
                             </span>
                         ) : (
+                            ""
+                        )}
+                        {!fastReplace && index < 9 ? (
                             <span
                                 style={{
                                     color: "#666",
@@ -209,13 +224,24 @@ const SuggestionPopupComponent = ({
                             >
                                 {index + 1}.
                             </span>
+                        ) : (
+                            ""
                         )}
-                        <RenderMath
-                            tex={option.displayReplacement}
-                            view={view}
-                        />{" "}
+                        {option.displayReplacement && (
+                            <RenderMath
+                                tex={option.displayReplacement}
+                                view={view}
+                            />
+                        )}{" "}
                         <span style={{ color: "var(--text-faint)" }}>
-                            <code>{option.replacement}</code>
+                            <code
+                                dangerouslySetInnerHTML={{
+                                    __html: fillLatexBraces(
+                                        option.replacement,
+                                        "var(--text-accent)",
+                                    ),
+                                }}
+                            />
                         </span>
                     </p>
                 );
