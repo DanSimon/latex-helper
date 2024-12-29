@@ -24,7 +24,7 @@ export class SymbolReference extends ItemView {
 
         ReactDOM.render(
             React.createElement(SymbolReferenceView, {
-                view: this.leaf.view,
+                view: this,
             }),
             container,
         );

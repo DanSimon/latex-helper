@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { ItemView, MarkdownRenderer } from "obsidian";
 import FuzzySearch from "fz-search";
 import { LATEX_SYMBOLS, MathJaxSymbol } from "./mathjax_symbols";
@@ -24,56 +24,125 @@ const SymbolSection: React.FC<{
     letter: string;
     symbols: MathJaxSymbol[];
     view: ItemView;
-}> = React.memo(({ letter, symbols, view }) => {
+}> = React.memo(
+    ({ letter, symbols, view }) => {
+        console.log(`render section ${letter}`);
+        return (
+            <div id={`section-${letter}`} style={{ marginBottom: "2rem" }}>
+                <h2
+                    style={{
+                        fontSize: "1.5rem",
+                        fontWeight: "bold",
+                        marginBottom: "1rem",
+                    }}
+                >
+                    {letter.toUpperCase()}
+                </h2>
+                <div
+                    style={{
+                        display: "grid",
+                        gridTemplateColumns:
+                            "repeat(auto-fill, minmax(300px, 1fr))",
+                        gap: "1rem",
+                    }}
+                >
+                    {symbols.map((symbol) => (
+                        <SymbolCard
+                            key={symbol.name}
+                            symbol={symbol}
+                            view={view}
+                        />
+                    ))}
+                </div>
+            </div>
+        );
+    },
+    (prevProps, nextProps) => {
+        // Custom comparison for memo
+        console.log(`'${prevProps.letter}' '${nextProps.letter}'`);
+        return prevProps.letter == nextProps.letter;
+    },
+);
+
+const SymbolCard: React.FC<{
+    symbol: MathJaxSymbol;
+    view: ItemView;
+}> = React.memo(({ symbol, view }) => {
     return (
-        <div id={`section-${letter}`} style={{ marginBottom: "2rem" }}>
-            <h2
+        <div
+            key={symbol.name}
+            style={{
+                padding: "1rem",
+                border: "1px solid var(--background-modifier-border)",
+                borderRadius: "4px",
+            }}
+        >
+            <div style={{ marginBottom: "0.5rem" }}>
+                <code
+                    style={{
+                        marginLeft: "0.5rem",
+                        fontSize: "1.175rem",
+                        color: "var(--text-muted)",
+                    }}
+                >
+                    {symbol.name}
+                </code>
+                <span
+                    style={{
+                        fontSize: "1.1rem",
+                    }}
+                    className="rendered-math"
+                    ref={(el) => {
+                        if (el) {
+                            el.empty();
+                            MarkdownRenderer.render(
+                                view.app,
+                                `$${symbol.name}$`,
+                                el,
+                                "",
+                                view,
+                            );
+                        }
+                    }}
+                />
+            </div>
+            <p
                 style={{
-                    fontSize: "1.5rem",
-                    fontWeight: "bold",
-                    marginBottom: "1rem",
+                    fontSize: "0.875rem",
+                    color: "var(--text-normal)",
                 }}
             >
-                {letter.toUpperCase()}
-            </h2>
-            <div
-                style={{
-                    display: "grid",
-                    gridTemplateColumns:
-                        "repeat(auto-fill, minmax(300px, 1fr))",
-                    gap: "1rem",
-                }}
-            >
-                {symbols.map((symbol) => (
-                    <div
-                        key={symbol.name}
-                        style={{
-                            padding: "1rem",
-                            border: "1px solid var(--background-modifier-border)",
-                            borderRadius: "4px",
-                        }}
-                    >
-                        <div style={{ marginBottom: "0.5rem" }}>
-                            <code
+                {symbol.description}
+            </p>
+            {symbol.examples.length > 0 && (
+                <div>
+                    <h3>Examples</h3>
+                    {symbol.examples.map((example) => (
+                        <div
+                            style={{
+                                marginLeft: "1.0rem",
+                                borderLeft:
+                                    "solid 1px var(--background-modifier-border)",
+                            }}
+                            key={example}
+                        >
+                            <pre
                                 style={{
-                                    marginLeft: "0.5rem",
-                                    fontSize: "1.175rem",
-                                    color: "var(--text-muted)",
+                                    marginTop: "1.0rem",
+                                    marginBottom: "0.3rem",
                                 }}
                             >
-                                {symbol.name}
-                            </code>
+                                {example}
+                            </pre>
                             <span
-                                style={{
-                                    fontSize: "1.1rem",
-                                }}
+                                style={{ marginLeft: "0.5rem" }}
                                 className="rendered-math"
                                 ref={(el) => {
                                     if (el) {
                                         el.empty();
                                         MarkdownRenderer.render(
                                             view.app,
-                                            `$${symbol.name}$`,
+                                            `$${example}$`,
                                             el,
                                             "",
                                             view,
@@ -82,45 +151,9 @@ const SymbolSection: React.FC<{
                                 }}
                             />
                         </div>
-                        <p
-                            style={{
-                                fontSize: "0.875rem",
-                                color: "var(--text-normal)",
-                            }}
-                        >
-                            {symbol.description}
-                        </p>
-                        {symbol.examples && (
-                            <div>
-                                <h3>Example</h3>
-                                {symbol.examples.map((example) => (
-                                    <div
-                                        key={example}
-                                        style={{ marginTop: "0.5rem" }}
-                                    >
-                                        <pre>{example}</pre>
-                                        <span
-                                            className="rendered-math"
-                                            ref={(el) => {
-                                                if (el) {
-                                                    el.empty();
-                                                    MarkdownRenderer.render(
-                                                        view.app,
-                                                        `$${example}$`,
-                                                        el,
-                                                        "",
-                                                        view,
-                                                    );
-                                                }
-                                            }}
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 });
@@ -223,9 +256,6 @@ const SymbolReferenceView: React.FC<{ view: ItemView }> = ({ view }) => {
     const [allSymbols, _] = useState<{ [key: string]: MathJaxSymbol[] }>(
         groupSymbols(LATEX_SYMBOLS),
     );
-    const [groupedSymbols, setGroupedSymbols] = useState<{
-        [key: string]: MathJaxSymbol[];
-    }>(allSymbols);
     const fuzzySearch = useRef(
         new FuzzySearch({
             source: LATEX_SYMBOLS,
@@ -233,18 +263,16 @@ const SymbolReferenceView: React.FC<{ view: ItemView }> = ({ view }) => {
             sort: true,
         }),
     );
+    const [searchResults, setSearchResults] = useState<MathJaxSymbol[]>([]);
 
     useEffect(() => {
         if (searchTerm) {
-            setGroupedSymbols({
-                "Search Results": fuzzySearch.current.search(searchTerm),
-            });
+            setSearchResults(fuzzySearch.current.search(searchTerm));
         } else {
-            setGroupedSymbols(allSymbols);
+            setSearchResults([]);
         }
     }, [searchTerm]);
-
-    const sections = Object.keys(groupedSymbols).sort();
+    const sections = Object.keys(allSymbols).sort();
 
     return (
         <div
@@ -254,6 +282,15 @@ const SymbolReferenceView: React.FC<{ view: ItemView }> = ({ view }) => {
                 height: "100%",
             }}
         >
+            <style>
+                {`
+          .rendered-math p {
+            display: inline;
+            margin: 0;
+            padding: 0;
+          }
+        `}
+            </style>
             <Header searchTerm={searchTerm} onSearchChange={setSearchTerm} />
             <div
                 style={{
@@ -262,7 +299,11 @@ const SymbolReferenceView: React.FC<{ view: ItemView }> = ({ view }) => {
                     height: 0, // Required for proper flexbox scroll
                 }}
             >
-                {searchTerm == "" && <TableOfContents sections={sections} />}
+                {searchTerm == "" && (
+                    <TableOfContents
+                        sections={Object.keys(allSymbols).sort()}
+                    />
+                )}
                 <div
                     style={{
                         flexGrow: 1,
@@ -271,12 +312,31 @@ const SymbolReferenceView: React.FC<{ view: ItemView }> = ({ view }) => {
                         height: "100%",
                     }}
                 >
-                    <div style={{ marginTop: "0.5rem" }}>
+                    <div
+                        style={{
+                            marginTop: "0.5rem",
+                            display: searchTerm != "" ? "block" : "none",
+                        }}
+                    >
+                        <SymbolSection
+                            key="search-results"
+                            letter={searchTerm}
+                            symbols={searchResults}
+                            view={view}
+                        />
+                    </div>
+
+                    <div
+                        style={{
+                            marginTop: "0.5rem",
+                            display: searchTerm == "" ? "block" : "none",
+                        }}
+                    >
                         {sections.map((section) => (
                             <SymbolSection
                                 key={section}
                                 letter={section}
-                                symbols={groupedSymbols[section]}
+                                symbols={allSymbols[section]}
                                 view={view}
                             />
                         ))}

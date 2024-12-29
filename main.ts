@@ -182,7 +182,7 @@ export default class WordPopupPlugin extends Plugin {
             return "";
         }
         let i = cursorPos - 1;
-        const delims = ["$", " "];
+        const delims = ["$", " ", "^", "_"];
         const boundaries = ["{", "(", "[", "}", ")", "]"];
         //normally we'd want to stop at an boundaries, but if the cursor is right after one, we want to include it
         //e.g.  (x| should only contain x, but \big(| should be \big(

@@ -25,10 +25,10 @@
             "name": "\\ ",
             "description": "control space;\n$\\rm\\TeX$ often ignores spaces, or collapses multiple spaces to a single space.\nA control space is used to force $\\rm\\TeX$ to typeset a space.\n\nclass ORD",
             "examples": [
-                "\\rm This is a sentence.",
-                "\\rm This\\ is\\ a\\ sentence.",
+                "\\text{This is a sentence.}",
                 "\\rm This~is~a~sentence.",
-                "\\text{This is a sentence.}"
+                "\\rm This is a sentence.",
+                "\\rm This\\ is\\ a\\ sentence."
             ],
             "see_also": [
                 "\\text"
@@ -39,11 +39,11 @@
             "name": "~",
             "description": "In $\\rm\\TeX$ this is a non-breaking space—i.e.,\na blank space where $\\rm\\TeX$ is not allowed to break between lines.\nMathJax (unlike $\\rm\\TeX$) doesn't do any automatic breaking of lines,\nso MathJax will not break at any space.\nThe tilde is useful to force a space where MathJax would otherwise collapse or ignore spaces,\nas illustrated in the",
             "examples": [
+                "a b      c d",
                 "\\rm Dr. Carol J.V. Fisher",
                 "\\rm Dr.~Carol~J.V.~Fisher",
-                "\\text{Dr. Carol J.V. Fisher}",
-                "a b      c d",
-                "a~b~~~~~~c~d"
+                "a~b~~~~~~c~d",
+                "\\text{Dr. Carol J.V. Fisher}"
             ],
             "see_also": [],
             "snippet": ""
@@ -82,8 +82,8 @@
             "name": "\\_",
             "description": "literal underscore;\nneeded since underscores are used for subscripts\n\n&#x005F;   class ORD",
             "examples": [
-                "a_2",
-                "a\\_2"
+                "a\\_2",
+                "a_2"
             ],
             "see_also": [],
             "snippet": ""
@@ -92,9 +92,9 @@
             "name": "\\{  \\}",
             "description": "literal braces;\nneeded since braces are used for grouping in math mode;\nnon-stretchy when used alone; stretchy when used with   \\left   or   \\right\n\n\\{ is class OPEN\n\\} is class CLOSE",
             "examples": [
-                "{1,2,3}",
                 "\\{1,2,3\\}",
-                "\\left\\{\\frac ab,c\\right\\}"
+                "\\left\\{\\frac ab,c\\right\\}",
+                "{1,2,3}"
             ],
             "see_also": [
                 "\\brace",
@@ -107,11 +107,11 @@
             "name": "|",
             "description": "pipe character; vertical bar; absolute value;\nnon-stretchy when used alone; stretchy when used with   \\left   or   \\right\n\nclass ORD",
             "examples": [
-                "|x|",
-                "|\\frac ab|",
-                "\\left|\\frac ab\\right|",
                 "\\{x | x\\in\\Bbb Z\\}",
-                "\\{x\\,|\\,x\\in\\Bbb Z\\}"
+                "\\left|\\frac ab\\right|",
+                "|\\frac ab|",
+                "\\{x\\,|\\,x\\in\\Bbb Z\\}",
+                "|x|"
             ],
             "see_also": [
                 "\\lvert",
@@ -124,9 +124,9 @@
             "name": "\\|",
             "description": "double pipe character; double vertical bar; norm;\nnon-stretchy when used alone; stretchy when used with   \\left   or   \\right\n\n&#x2225;   class ORD",
             "examples": [
+                "\\left\\|\\frac ab\\right\\|",
                 "\\|x\\|",
-                "\\|\\frac ab\\|",
-                "\\left\\|\\frac ab\\right\\|"
+                "\\|\\frac ab\\|"
             ],
             "see_also": [
                 "\\lVert",
@@ -174,11 +174,11 @@
             "name": "-",
             "description": "minus symbol;\ne.g., used for subtraction\n\nclass BIN",
             "examples": [
-                "a-b",
-                "-b",
                 "\\text{\"first\": } -a\\star b",
-                "\\text{\"first\": } {-}a\\star b",
-                "-a"
+                "-b",
+                "a-b",
+                "-a",
+                "\\text{\"first\": } {-}a\\star b"
             ],
             "see_also": [],
             "snippet": ""
@@ -187,8 +187,8 @@
             "name": "[ ]",
             "description": "(square) brackets;\nnon-stretchy when used alone; stretchy when used with   \\left   or   \\right\n\n[ is class OPEN;\n] is class CLOSE",
             "examples": [
-                "[\\frac ab,c]",
-                "\\left[\\frac ab,c\\right]"
+                "\\left[\\frac ab,c\\right]",
+                "[\\frac ab,c]"
             ],
             "see_also": [
                 "\\brack",
@@ -222,8 +222,8 @@
             "name": "\\above",
             "description": "general command for making fractions;\ngives control over thickness of horizontal fraction bar\n{ <subformula1> \\above <dimen> <subformula2> }\nCreates a \"fraction\":\nnumerator:   subformula1\ndenominator:   subformula2\nfraction bar has thickness:   dimen\n\nThere are separate local groups for  subformula1  and  subformula2 ;\nif these local groups are not explicit, then unexpected results may occur, as illustrated in the\nchoose discussion.",
             "examples": [
-                "a+1 \\above 1pt b",
                 "a \\above 1pt b+2",
+                "a+1 \\above 1pt b",
                 "{a+1 \\above 1.5pt b+2}+c"
             ],
             "see_also": [
@@ -243,9 +243,9 @@
             "name": "\\abovewithdelims",
             "description": "general command for making fractions;\ngives control over thickness of horizontal fraction bar;\nspecifies left and right enclosing\ndelimiters\n\n{ <subformula1> \\abovewithdelims <delim1> <delim2> <dimen> <subformula2> }\n\nCreates a \"fraction\":\nnumerator:   subformula1\ndenominator:   subformula2\nfraction bar has thickness:   dimen\ndelim1   is put before the fraction\ndelim2   is put after the fraction\nFor an empty delimiter, use ‘.’ in place of the delimiter.\n\nThere are separate local groups for  subformula1  and  subformula2 ;\nif these local groups are not explicit, then unexpected results may occur, as illustrated in the\nchoose discussion.",
             "examples": [
-                "a+1 \\abovewithdelims [ ] 1pt b",
                 "{a \\abovewithdelims . | 1.5pt b+2}_{a=3}",
-                "{a+1 \\abovewithdelims \\{ \\} 1pt b+2}+c"
+                "{a+1 \\abovewithdelims \\{ \\} 1pt b+2}+c",
+                "a+1 \\abovewithdelims [ ] 1pt b"
             ],
             "see_also": [
                 "\\above",
@@ -264,9 +264,9 @@
             "name": "\\acute{}",
             "description": "&#x02CA;\nacute accent\n\\acute #1\nUsually, #1 is a single letter;  otherwise, accent is centered over argument.",
             "examples": [
+                "\\acute eu",
                 "\\acute e",
                 "\\acute E",
-                "\\acute eu",
                 "\\acute{eu}"
             ],
             "see_also": [],
@@ -404,9 +404,9 @@
             "name": "\\atop",
             "description": "general command for making a fraction-like structure, but without the horizontal fraction bar\n{ <subformula1> \\atop <subformula2> }\nCreates a fraction-like \"structure\":\n‘numerator’   subformula1\n’denominator’   subformula2\n\nThere are separate local groups for  subformula1  and  subformula2 ;\nif these local groups are not explicit, then unexpected results may occur, as illustrated in the\nchoose discussion.",
             "examples": [
-                "a \\atop b",
                 "a+1 \\atop b+2",
-                "{a+1 \\atop b+2}+c"
+                "{a+1 \\atop b+2}+c",
+                "a \\atop b"
             ],
             "see_also": [
                 "\\above",
@@ -425,8 +425,8 @@
             "name": "\\atopwithdelims",
             "description": "general command for making a fraction-like structure, but without the horizontal fraction bar;\nspecifies left and right enclosing delimiters\n\n{ <subformula1> \\atopwithdelims <delim1> <delim2> <subformula2> }\n\nCreates a fraction-like \"structure\":\n‘numerator’   subformula1\n‘denominator’   subformula2\ndelim1   is put before the structure\ndelim2   is put after the structure\nFor an empty delimiter, use ‘.’ in place of the delimiter.\n\nThere are separate local groups for  subformula1  and  subformula2 ;\nif these local groups are not explicit, then unexpected results may occur, as illustrated in the\nchoose discussion.",
             "examples": [
-                "a \\atopwithdelims [ ] b",
                 "a+1 \\atopwithdelims . | b+2",
+                "a \\atopwithdelims [ ] b",
                 "{a+1 \\atopwithdelims \\{ \\} b+2}+c"
             ],
             "see_also": [
@@ -486,10 +486,10 @@
             "name": "\\bar{}",
             "description": "bar accent (non-stretchy)\n\n&#x02C9;\n\n\\bar #1\nUsually, #1 is a single letter;  otherwise, bar is centered over argument.",
             "examples": [
-                "\\bar x",
-                "\\bar X",
                 "\\bar xy",
-                "\\bar{xy}"
+                "\\bar X",
+                "\\bar{xy}",
+                "\\bar x"
             ],
             "see_also": [],
             "snippet": ""
@@ -505,10 +505,10 @@
             "name": "\\Bbb{}",
             "description": "blackboard-bold for uppercase letters and lowercase ‘k’;\nif lowercase blackboard-bold letters are not available, then they are typeset in a roman font\n\nclass ORD\n\n\\Bbb #1\nWhether lower-case letters are displayed in blackboard-bold, or not, depends on the fonts being used.\nThe MathJax web-based fonts don't have lowercase blackboard-bold, but the STIX fonts do;\nso users with the STIX fonts installed will be able to display lowercase blackboard-bold letters.",
             "examples": [
+                "\\Bbb{ABCDEFGHIJKLMNOPQRSTUVWXYZ}",
                 "\\Bbb R",
-                "\\Bbb ZR",
                 "\\Bbb{AaBbKk}Cc",
-                "\\Bbb{ABCDEFGHIJKLMNOPQRSTUVWXYZ}"
+                "\\Bbb ZR"
             ],
             "see_also": [
                 "\\mathbb"
@@ -561,10 +561,10 @@
             "name": "\\bf",
             "description": "turns on boldface;  affects uppercase and lowercase letters, and digits\n\nclass ORD\n\n{\\bf ... }",
             "examples": [
-                "\\bf AaBb\\alpha\\beta123",
+                "\\bf{AB}CD",
                 "{\\bf A B} A B",
-                "\\bf AB \\rm CD",
-                "\\bf{AB}CD"
+                "\\bf AaBb\\alpha\\beta123",
+                "\\bf AB \\rm CD"
             ],
             "see_also": [
                 "\\mathbf",
@@ -668,7 +668,6 @@
             "description": "notation commonly used for binomial coefficients\n\\binom #1 #2",
             "examples": [
                 "\\binom n k",
-                "\\binom n k",
                 "\\binom{n-1}k-1",
                 "\\binom{n-1}{k-1}"
             ],
@@ -720,10 +719,10 @@
             "description": "as opposed to  \\bf  and  \\mathbf ,\n\\boldsymbol  applies to nearly all symbols, not just letters and numbers\n\nclass ORD\n\n\\boldsymbol #1",
             "examples": [
                 "\\boldsymbol aa",
-                "\\boldsymbol \\alpha\\alpha",
-                "\\boldsymbol{a\\alpha}a\\alpha",
                 "\\boldsymbol{a+2+\\alpha+\\frac{x+3}{\\beta+4}}",
-                "\\mathbf{a+2+\\alpha+\\frac{x+3}{\\beta+4}}"
+                "\\mathbf{a+2+\\alpha+\\frac{x+3}{\\beta+4}}",
+                "\\boldsymbol \\alpha\\alpha",
+                "\\boldsymbol{a\\alpha}a\\alpha"
             ],
             "see_also": [
                 "\\bf",
@@ -764,9 +763,9 @@
             "description": "puts a box around argument; argument is in math mode\n\\boxed #1",
             "examples": [
                 "\\boxed ab",
-                "\\boxed{ab}",
                 "\\boxed{ab\\strut}",
-                "\\boxed{\\text{boxed text}}"
+                "\\boxed{\\text{boxed text}}",
+                "\\boxed{ab}"
             ],
             "see_also": [
                 "\\fbox"
@@ -784,10 +783,10 @@
             "name": "\\brace",
             "description": "creates a braced structure\n{ <subformula1> \\brace <subformula2> }",
             "examples": [
-                "\\brace",
-                "a\\brace b",
                 "a+b+c\\brace d+e+f",
-                "a+{b+c\\brace d+e}+f"
+                "a\\brace b",
+                "a+{b+c\\brace d+e}+f",
+                "\\brace"
             ],
             "see_also": [],
             "snippet": "@1@ \\brace @2@"
@@ -804,9 +803,9 @@
             "description": "creates a bracketed structure\n{ <subformula1> \\brack <subformula2> }",
             "examples": [
                 "\\brack",
-                "a\\brack b",
+                "a+{b+c\\brack d+e}+f",
                 "a+b+c\\brack d+e+f",
-                "a+{b+c\\brack d+e}+f"
+                "a\\brack b"
             ],
             "see_also": [],
             "snippet": ""
@@ -817,8 +816,8 @@
             "examples": [
                 "\\breve e",
                 "\\breve E",
-                "\\breve eu",
-                "\\breve{eu}"
+                "\\breve{eu}",
+                "\\breve eu"
             ],
             "see_also": [],
             "snippet": ""
@@ -827,8 +826,8 @@
             "name": "\\buildrel",
             "description": "\\buildrel <subformula1> \\over #1\nThe result is of class  REL  (binary relation), so it has the\nspacing of a relation.",
             "examples": [
-                "\\buildrel \\alpha\\beta \\over \\longrightarrow",
-                "\\buildrel \\rm def \\over {:=}"
+                "\\buildrel \\rm def \\over {:=}",
+                "\\buildrel \\alpha\\beta \\over \\longrightarrow"
             ],
             "see_also": [],
             "snippet": "\\buildrel @1@ \\over @2@"
@@ -851,13 +850,13 @@
             "name": "\\cal",
             "description": "class ORD\nturns on calligraphic mode;  only affects uppercase letters and digits\n{\\cal ... }",
             "examples": [
-                "\\cal ABCDEFGHIJKLMNOPQRSTUVWXYZ",
                 "\\cal 0123456789",
                 "\\cal abcdefghijklmnopqrstuvwxyz",
-                "abcdefghijklmnopqrstuvwxyz",
                 "{\\cal AB}AB",
+                "\\cal ABCDEFGHIJKLMNOPQRSTUVWXYZ",
                 "\\cal AB \\rm AB",
-                "\\cal{AB}CD"
+                "\\cal{AB}CD",
+                "abcdefghijklmnopqrstuvwxyz"
             ],
             "see_also": [
                 "\\oldstyle",
@@ -917,8 +916,8 @@
             "description": "&#x22C5;  \nclass BIN\ncentered dot",
             "examples": [
                 "a\\cdot b",
-                "a\\cdotp b",
-                "a\\centerdot b"
+                "a\\centerdot b",
+                "a\\cdotp b"
             ],
             "see_also": [
                 "\\cdotp",
@@ -931,8 +930,8 @@
             "name": "\\cdotp",
             "description": "&#x22C5;  \nclass PUNCT\ncentered dot, punctuation symbol",
             "examples": [
-                "\\rm s \\cdot h",
-                "\\rm s \\cdotp h"
+                "\\rm s \\cdotp h",
+                "\\rm s \\cdot h"
             ],
             "see_also": [
                 "\\cdot",
@@ -955,8 +954,8 @@
             "description": "&#x22C5;  \nclass BIN\ncentered dot",
             "examples": [
                 "a\\cdot b",
-                "a\\cdotp b",
-                "a\\centerdot b"
+                "a\\centerdot b",
+                "a\\cdotp b"
             ],
             "see_also": [
                 "\\cdot",
@@ -988,10 +987,10 @@
             "name": "\\check{}",
             "description": "&#x02C7;\ncheck accent\n\\check #1\nUsually, #1 is a single letter;  otherwise, accent is centered over argument.",
             "examples": [
+                "\\check{oe}",
                 "\\check o",
                 "\\check O",
-                "\\check oe",
-                "\\check{oe}"
+                "\\check oe"
             ],
             "see_also": [],
             "snippet": ""
@@ -1085,8 +1084,8 @@
             "name": "\\colon",
             "description": "&#x003A;  \nclass PUNCT\n\na colon, treated as a punctuation mark (instead of a relation)",
             "examples": [
-                "f:A\\to B",
-                "f\\colon A\\to B"
+                "f\\colon A\\to B",
+                "f:A\\to B"
             ],
             "see_also": [],
             "snippet": ""
@@ -1095,8 +1094,8 @@
             "name": "\\color{}{}",
             "description": "used to specify a color in mathematics\n\\color #1 #2\nwhere\n#1   is the desired color\n#2   is the mathematics to be colored\n\nThis works differently from standard $\\,\\rm\\LaTeX\\,$ (where  \\color  is a switch).\nIn a future version of MathJax, it will be possible to load an extension\nto make the command behave like the $\\,\\rm\\LaTeX\\,$ version.",
             "examples": [
-                "\\color{red}{ \\frac{1+\\sqrt{5}}{2} }",
-                "\\color{#0000FF}AB"
+                "\\color{#0000FF}AB",
+                "\\color{red}{ \\frac{1+\\sqrt{5}}{2} }"
             ],
             "see_also": [],
             "snippet": ""
@@ -1152,8 +1151,8 @@
             "name": "\\cot",
             "description": "class OP\ncotangent;\ndoes not change size;\ndefault limit placement is the same in both inline and display modes;\ncan change limit placement using \\limits;\nsee the Big Operators Table for more examples",
             "examples": [
-                "\\cot x",
-                "\\cot(2x-1)"
+                "\\cot(2x-1)",
+                "\\cot x"
             ],
             "see_also": [
                 "\\tan"
@@ -1181,8 +1180,8 @@
             "name": "\\csc",
             "description": "class OP\ncosecant\ndoes not change size;\ndefault limit placement is the same in both inline and display modes;\ncan change limit placement using \\limits;\nsee the Big Operators Table for more examples",
             "examples": [
-                "\\csc x",
-                "\\csc(2x-1)"
+                "\\csc(2x-1)",
+                "\\csc x"
             ],
             "see_also": [
                 "\\sec"
@@ -1277,10 +1276,9 @@
             "name": "\\dbinom{}",
             "description": "notation commonly used for binomial coefficients;\ndisplay version (in both inline and display modes)\n\\dbinom #1 #2",
             "examples": [
-                "\\dbinom n k",
-                "\\dbinom n k",
+                "\\dbinom{n-1}{k-1}",
                 "\\dbinom{n-1}k-1",
-                "\\dbinom{n-1}{k-1}"
+                "\\dbinom n k"
             ],
             "see_also": [
                 "\\binom",
@@ -1293,12 +1291,12 @@
             "name": "\\dot{}",
             "description": "&#x02D9;dot accent\n&#x00A8;double dot accent\ntriple dot accent\nquadruple dot accent\n\n\\dot #1\n\\ddot #1\n\\dddot #1\n\\ddddot #1\nUsually, #1 is a single letter;  otherwise, accent is centered over argument.",
             "examples": [
-                "\\dot x",
-                "\\ddot x",
-                "\\dddot x",
+                "\\ddddot{y(x)}",
                 "\\ddddot x",
-                "\\ddot x(t)",
-                "\\ddddot{y(x)}"
+                "\\dddot x",
+                "\\ddot x",
+                "\\dot x",
+                "\\ddot x(t)"
             ],
             "see_also": [],
             "snippet": ""
@@ -1312,25 +1310,24 @@
         },
         {
             "name": "\\DeclareMathOperator",
-            "suggestion_display":"",
+            "suggestion_display": "",
             "description": "Multi-letter operator names (like $\\,\\log\\,$,\n$\\,\\sin\\,$, and $\\,\\lim\\,$) are traditionally typeset in a roman font.\n\\DeclareMathOperator  allows you to define your own\noperator names;\nthey are subsequently typeset using the proper font and spacing;\nyou can control the way that limits appear (see",
             "examples": [
                 "myOp(x)",
-                "\\text{myOp}(x)",
+                "DeclareMathOperator",
                 "\\myOp_a^b(x)",
-                "\\myOp_a^b(x)",
-                "\n                                    \\DeclareMathOperator*\n                                    {\\myOP}{myOP}\n                                    \\myOP_a^b(x)\n                                ",
-                "\\myOp",
-                "\\myOP",
                 "DeclareMathOperator*",
-                "DeclareMathOperator"
+                "\\myOP",
+                "\\myOp",
+                "\n                                    \\DeclareMathOperator*\n                                    {\\myOP}{myOP}\n                                    \\myOP_a^b(x)\n                                ",
+                "\\text{myOp}(x)"
             ],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\def",
-            "suggestion_display":"",
+            "suggestion_display": "",
             "description": "for defining your own commands (control sequences, macros, definitions);\nmust appear (within math delimiters) before it is used;\nalternatively, you can\ndefine macros using the MathJax configuration\noptions in the  <head>\n\\def\\myCommandName{ <replacement text> }",
             "examples": [],
             "see_also": [
@@ -1358,10 +1355,9 @@
             "name": "\\det",
             "description": "class OP\ndeterminant;\ndoes not change size;\ndefault limit placement can be changed using  \\limits  and   \\nolimits;\ndoes not change size;\nsee the Big Operators Table for more examples",
             "examples": [
-                "\\det_{\\rm sub}",
-                "\\det_{\\rm sub}",
+                "\\det\\nolimits_{\\rm sub}",
                 "\\det\\limits_{\\rm sub}",
-                "\\det\\nolimits_{\\rm sub}"
+                "\\det_{\\rm sub}"
             ],
             "see_also": [],
             "snippet": ""
@@ -1370,11 +1366,10 @@
             "name": "\\dfrac{}{}",
             "description": "fractions;\ndisplay version (in both inline and display modes)\n\\dfrac #1 #2",
             "examples": [
-                "\\dfrac a b",
-                "\\dfrac a b",
                 "\\frac a b",
                 "\\dfrac{a-1}b-1",
-                "\\dfrac{a-1}{b-1}"
+                "\\dfrac{a-1}{b-1}",
+                "\\dfrac a b"
             ],
             "see_also": [
                 "\\above",
@@ -1484,8 +1479,8 @@
             "examples": [
                 "x_1, \\dots, x_n",
                 "x_1 + \\dots + x_n",
-                "x_1 + \\dotsb + x_n",
-                "x_1 + \\cdots + x_n"
+                "x_1 + \\cdots + x_n",
+                "x_1 + \\dotsb + x_n"
             ],
             "see_also": [
                 "\\cdots",
@@ -1686,8 +1681,8 @@
             "name": "\\fbox{}",
             "description": "puts a box around argument; argument is in text mode\nequivalent to \\boxed{\\text{#1}}\n\\fbox #1\nwhere #1 is rendered as text",
             "examples": [
-                "\\boxed{Hi there!}",
-                "\\fbox{Hi there!}"
+                "\\fbox{Hi there!}",
+                "\\boxed{Hi there!}"
             ],
             "see_also": [
                 "\\boxed"
@@ -1723,9 +1718,8 @@
             "description": "fractions;\ndisplays differently in inline and display modes\n\\frac #1 #2",
             "examples": [
                 "\\frac a b",
-                "\\frac a b",
-                "\\frac{a-1}b-1",
-                "\\frac{a-1}{b-1}"
+                "\\frac{a-1}{b-1}",
+                "\\frac{a-1}b-1"
             ],
             "see_also": [
                 "\\above",
@@ -1744,12 +1738,12 @@
             "name": "\\frak",
             "description": "class ORD\nturns on fraktur;  affects uppercase and lowercase letters, and digits\n{\\frak ... }",
             "examples": [
-                "\\frak ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-                "\\frak 0123456789",
-                "\\frak abcdefghijklmnopqrstuvwxyz",
                 "{\\frak AB}AB",
                 "\\frak AB \\rm AB",
-                "{\\frak AB \\cal AB} AB"
+                "\\frak abcdefghijklmnopqrstuvwxyz",
+                "{\\frak AB \\cal AB} AB",
+                "\\frak 0123456789",
+                "\\frak ABCDEFGHIJKLMNOPQRSTUVWXYZ"
             ],
             "see_also": [
                 "\\mathfrak"
@@ -1884,9 +1878,9 @@
             "description": "&#x02CB;\ngrave accent\n\\grave #1\nUsually, #1 is a single letter;  otherwise, accent is centered over argument.",
             "examples": [
                 "\\grave e",
-                "\\grave E",
                 "\\grave eu",
-                "\\grave{eu}"
+                "\\grave{eu}",
+                "\\grave E"
             ],
             "see_also": [],
             "snippet": ""
@@ -1925,10 +1919,10 @@
             "name": "\\hat{}",
             "description": "&#x02CA;\nnon-stretchy hat accent\n\\hat #1\nUsually, #1 is a single letter;  otherwise, accent is centered over argument.",
             "examples": [
-                "\\hat\\imath",
+                "\\hat{ab}",
                 "\\hat\\jmath",
                 "\\hat ab",
-                "\\hat{ab}"
+                "\\hat\\imath"
             ],
             "see_also": [
                 "\\widehat"
@@ -1946,9 +1940,9 @@
             "name": "\\hbox{}",
             "description": "class ORD\nhorizontal box;\ncontents are treated as text, but you can switch to math mode inside;\ntext appears in  \\rm \n\\hbox #1",
             "examples": [
-                "\\hbox{\\alpha a }\\alpha a",
+                "\\hbox{for all $x > 0$}",
                 "\\hbox{This is a sentence.}",
-                "\\hbox{for all $x > 0$}"
+                "\\hbox{\\alpha a }\\alpha a"
             ],
             "see_also": [
                 "\\rm"
@@ -1959,8 +1953,8 @@
             "name": "\\hdashline",
             "description": "works in many of the environments\nto create a horizontal line (\\hline), or a horizontal dashed line (\\hdashline)\n\nPutting   \\hdashline   or   \\hline   first or last encases the entire structure\n(which is different from standard $\\,\\rm\\LaTeX\\,$ behavior):\n\n\\begin{matrix}\n\\hdashline\nx_{11} & x_{12} \\\\\nx_{21} & x_{22} \\\\\nx_{31} & x_{32}\n\\end{matrix}\n\nyields\n\n$\n\\begin{matrix}\n\\hdashline\nx_{11} & x_{12} \\\\\nx_{21} & x_{22} \\\\\nx_{31} & x_{32}\n\\end{matrix}\n$\n\n\\begin{matrix}\nx_{11} & x_{12} \\\\\nx_{21} & x_{22} \\\\\nx_{31} & x_{32} \\\\\n\\hline\n\\end{matrix}\n\nyields\n\n$\n\\begin{matrix}\nx_{11} & x_{12} \\\\\nx_{21} & x_{22} \\\\\nx_{31} & x_{32} \\\\\n\\hline\n\\end{matrix}\n$\n\nPutting   \\hdashline   or   \\hline   at the beginning of any subsequent row puts a line over that row\n\n\\begin{matrix}\nx_{11} & x_{12} \\\\\nx_{21} & x_{22} \\\\\n\\hline\nx_{31} & x_{32}\n\\end{matrix}\n\nyields\n\n$\n\\begin{matrix}\nx_{11} & x_{12} \\\\\nx_{21} & x_{22} \\\\\n\\hline\nx_{31} & x_{32}\n\\end{matrix}\n$\n\nYou can combine effects, and put in struts (as desired) for additional vertical spacing:\n\n\\begin{matrix}\n\\hline\nx_{11} & x_{12} \\\\\nx_{21} & x_{22} \\strut \\\\\n\\hdashline\nx_{31} & x_{32} \\strut\n\\end{matrix}\n\nyields\n\n$\n\\begin{matrix}\n\\hline\nx_{11} & x_{12} \\\\\nx_{21} & x_{22} \\strut \\\\\n\\hdashline\nx_{31} & x_{32} \\strut\n\\end{matrix}\n$",
             "examples": [
-                "\n\\begin{matrix}\n\\hdashline\nx_{11} & x_{12} \\\\\nx_{21} & x_{22} \\\\\nx_{31} & x_{32}\n\\end{matrix}\n",
-                "\n\\begin{matrix}\nx_{11} & x_{12} \\\\\nx_{21} & x_{22} \\\\\nx_{31} & x_{32} \\\\\n\\hline\n\\end{matrix}\n"
+                "\n\\begin{matrix}\nx_{11} & x_{12} \\\\\nx_{21} & x_{22} \\\\\nx_{31} & x_{32} \\\\\n\\hline\n\\end{matrix}\n",
+                "\n\\begin{matrix}\n\\hdashline\nx_{11} & x_{12} \\\\\nx_{21} & x_{22} \\\\\nx_{31} & x_{32}\n\\end{matrix}\n"
             ],
             "see_also": [],
             "snippet": ""
@@ -2048,9 +2042,9 @@
             "name": "\\Huge",
             "description": "both class ORD\nturns on huge mode and an even bigger Huge mode\n\n{\\Huge ... }\n{\\huge ... }",
             "examples": [
+                "A\\alpha\\huge A\\alpha \\Huge A\\alpha",
                 "\\huge AaBb\\alpha\\beta123\\frac ab\\sqrt x",
-                "{\\huge A B} A B",
-                "A\\alpha\\huge A\\alpha \\Huge A\\alpha"
+                "{\\huge A B} A B"
             ],
             "see_also": [
                 "\\LARGE, \\Large, \\large"
@@ -2075,8 +2069,8 @@
             "name": "\\iiiint",
             "description": "four occurrences of &#x222B; \n&#x222D;\n&#x222C;\n&#x222B;\n\nall class OP;\nsee the Big Operators Table for examples\n\nCompare the different limit placements (both in display mode):\n\n\\int_a^byields$$\\int_a^b$$\n\\intop_a^byields$$\\intop_a^b$$",
             "examples": [
-                "\\int_a^b",
-                "\\intop_a^b"
+                "\\intop_a^b",
+                "\\int_a^b"
             ],
             "see_also": [
                 "\\intop"
@@ -2140,7 +2134,6 @@
             "name": "\\inf",
             "description": "class OP\ninfimum;  \ngreatest lower bound;\ndoes not change size;\ncan change limit placement using \\limits and  \\nolimits;\nsee the Big Operators Table for examples",
             "examples": [
-                "\\inf_{\\rm limit}",
                 "\\inf_{\\rm limit}"
             ],
             "see_also": [
@@ -2182,9 +2175,9 @@
             "name": "\\it",
             "description": "class ORD\nturns on math italic mode;\nto return to math italic mode if it had been turned off\n{\\it ... }",
             "examples": [
+                "\\Delta\\Gamma\\Lambda{\\it \\Delta\\Gamma\\Lambda}",
                 "{\\bf ab \\it ab} ab",
-                "\\rm for\\ all\\ {\\it x}\\ in\\ \\Bbb R",
-                "\\Delta\\Gamma\\Lambda{\\it \\Delta\\Gamma\\Lambda}"
+                "\\rm for\\ all\\ {\\it x}\\ in\\ \\Bbb R"
             ],
             "see_also": [
                 "\\mathit",
@@ -2196,8 +2189,8 @@
             "name": "\\jmath",
             "description": "&#x0237;  \nclass ORD\na dotless ‘j’;\nbetter to use when accented",
             "examples": [
-                "\\hat j",
-                "\\hat\\jmath"
+                "\\hat\\jmath",
+                "\\hat j"
             ],
             "see_also": [
                 "\\imath"
@@ -2303,8 +2296,8 @@
             "name": "\\lbrace",
             "description": "left brace\nnon-stretchy when used alone;\nstretchy when used with   \\left   or   \\right   (see below)\n\nclass OPEN",
             "examples": [
-                "\\lbrace \\frac ab, c \\rbrace",
-                "\\left\\lbrace \\frac ab, c \\right\\rbrace"
+                "\\left\\lbrace \\frac ab, c \\right\\rbrace",
+                "\\lbrace \\frac ab, c \\rbrace"
             ],
             "see_also": [
                 "\\rbrace",
@@ -2342,8 +2335,8 @@
             "name": "\\ldotp",
             "description": "lower dot, punctuation symbol\n\n&#x002E;  \nclass PUNCT",
             "examples": [
-                "\\rm s \\ldotp h",
-                "\\rm s.h"
+                "\\rm s.h",
+                "\\rm s \\ldotp h"
             ],
             "see_also": [
                 "\\cdotp"
@@ -2459,11 +2452,11 @@
             "suggestion_display": "",
             "description": "used to fine-tune the placement of the index inside\n  \\sqrt   or   \\root   (see examples)\n\n\\sqrt[... \\leftroot #1 ...]{...}\n\\root ... \\leftroot #1 ... \\of {...}\n\nwhere the argument is a small integer\na positive integer moves the index to the left;\na negative integer moves the index to the right",
             "examples": [
-                "\\sqrt[3]{x}",
-                "\\sqrt[3\\leftroot1]{x}",
                 "\\root 3 \\of x",
+                "\\sqrt[3\\leftroot1]{x}",
+                "\\root 3\\leftroot{-1}\\uproot2 \\of x",
                 "\\root 3\\leftroot{-1} \\of x",
-                "\\root 3\\leftroot{-1}\\uproot2 \\of x"
+                "\\sqrt[3]{x}"
             ],
             "see_also": [
                 "\\uproot",
@@ -2571,7 +2564,6 @@
             "name": "\\lim",
             "description": "limit;\ndoes not change size;\ncan change limit placement using  \\limits  and\n \\nolimits;\nsee the Big Operators Table for examples\n\nclass OP",
             "examples": [
-                "\\lim_{n\\rightarrow\\infty} f(x) = \\ell",
                 "\\lim_{n\\rightarrow\\infty} f(x) = \\ell"
             ],
             "see_also": [],
@@ -2594,10 +2586,8 @@
             "description": "used to set limits above/below any token of class OP;\nsee the Big Operators table for more information and examples",
             "examples": [
                 "\\int_a^b f(x)\\,dx",
-                "\\int\\limits_a^b f(x)\\,dx",
-                "\\int_a^b f(x)\\,dx",
-                "\\int\\limits_a^b f(x)\\,dx",
-                "\\mathop{x}\\limits_0^1"
+                "\\mathop{x}\\limits_0^1",
+                "\\int\\limits_a^b f(x)\\,dx"
             ],
             "see_also": [
                 "\\nolimits"
@@ -2627,15 +2617,13 @@
             "name": "\\llap{}",
             "description": "left overlap\n\nclass ORD\n\n\\llap #1\n\ncreates a box of width zero;\nthe argument is then placed just to the left of this zero-width box\n(and hence will overlap whatever lies to the left);\nproper use of  \\llap  and  \\rlap  in math expressions is somewhat delicate",
             "examples": [
-                "a\\mathrel{{=}\\llap{/}}b",
+                "a=\\mathrel{\\llap{/\\,}}b",
                 "{=}",
                 "REL",
                 "ORD",
-                "REL",
                 "a\\mathrel{{=}\\llap{/\\,}}b",
-                "\\,",
-                "a=\\mathrel{\\llap{/\\,}}b",
-                "REL"
+                "a\\mathrel{{=}\\llap{/}}b",
+                "\\,"
             ],
             "see_also": [
                 "\\rlap"
@@ -2859,10 +2847,10 @@
             "name": "\\mathbb{}",
             "description": "blackboard-bold for uppercase letters and lowercase ‘k’;\nif lowercase blackboard-bold letters are not available, then they are typeset in a roman font\n\nclass ORD\n\n\\mathbb #1\nWhether lower-case letters are displayed in blackboard-bold, or not, depends on the fonts being used.\nThe MathJax web-based fonts don't have lowercase blackboard-bold, but the STIX fonts do;\nso users with the STIX fonts installed will be able to display lowercase blackboard-bold letters.",
             "examples": [
-                "\\mathbb R",
                 "\\mathbb ZR",
-                "\\mathbb{AaBbKk}Cc",
-                "\\mathbb{ABCDEFGHIJKLMNOPQRSTUVWXYZ}"
+                "\\mathbb R",
+                "\\mathbb{ABCDEFGHIJKLMNOPQRSTUVWXYZ}",
+                "\\mathbb{AaBbKk}Cc"
             ],
             "see_also": [
                 "\\Bbb"
@@ -2873,9 +2861,9 @@
             "name": "\\mathbf{}",
             "description": "boldface for uppercase and lowercase letters and digits\n\nclass ORD\n\n\\mathbf #1",
             "examples": [
-                "\\mathbf{AaBb\\alpha\\beta123}",
                 "\\mathbf ZR",
-                "\\mathbf{uvw}xyz"
+                "\\mathbf{uvw}xyz",
+                "\\mathbf{AaBb\\alpha\\beta123}"
             ],
             "see_also": [
                 "\\bf",
@@ -2901,9 +2889,9 @@
             "examples": [
                 "\\mathcal{ABCDEFGHIJKLMNOPQRSTUVWXYZ}",
                 "\\mathcal{0123456789}",
+                "\\mathcal{AB}AB",
                 "\\mathcal{abcdefghijklmnopqrstuvwxyz}",
-                "abcdefghijklmnopqrstuvwxyz",
-                "\\mathcal{AB}AB"
+                "abcdefghijklmnopqrstuvwxyz"
             ],
             "see_also": [
                 "\\cal",
@@ -2915,10 +2903,10 @@
             "name": "\\mathchoice{}",
             "description": "provides content that is dependent on the current style (display, text, script, or scriptscript);\ncan be used in defining a macro for general use\n\\mathchoice #1 #2 #3 #4\nwhere\n\n#1 is rendered when the  \\mathchoice  appears in display style\n#2 is rendered when the  \\mathchoice  appears in text style\n#3 is rendered when the  \\mathchoice  appears in script style\n#4 is rendered when the  \\mathchoice  appears in scriptscript style",
             "examples": [
-                "\\mathchoice{D}{T}{S}{SS}   (in display style)",
-                "\\mathchoice{D}{T}{S}{SS}   (in text style)",
+                "\\mathchoice{D}{T}{S}{SS}   (in scriptscript style)",
                 "\\mathchoice{D}{T}{S}{SS}   (in script style)",
-                "\\mathchoice{D}{T}{S}{SS}   (in scriptscript style)"
+                "\\mathchoice{D}{T}{S}{SS}   (in text style)",
+                "\\mathchoice{D}{T}{S}{SS}   (in display style)"
             ],
             "see_also": [],
             "snippet": ""
@@ -2927,8 +2915,8 @@
             "name": "\\mathclose{}",
             "description": "forces the argument to be treated in the ‘closing’ class;   for example, like ‘$)$’ and ‘$]$’;\ncreates an element of class CLOSE\n\nclass CLOSE\n\n\\mathclose #1",
             "examples": [
-                "a + \\lt b\\gt + c",
-                "a + \\mathopen\\lt b\\mathclose\\gt + c"
+                "a + \\mathopen\\lt b\\mathclose\\gt + c",
+                "a + \\lt b\\gt + c"
             ],
             "see_also": [
                 "\\mathopen"
@@ -2939,10 +2927,10 @@
             "name": "\\mathfrak{}",
             "description": "fraktur font for uppercase and lowercase letters and digits\n(and a few other characters)\n\nclass ORD\n\n\\mathfrak #1",
             "examples": [
+                "\\mathfrak{AB}AB",
                 "\\mathfrak{ABCDEFGHIJKLMNOPQRSTUVWXYZ}",
-                "\\mathfrak{0123456789}",
                 "\\mathfrak{abcdefghijklmnopqrstuvwxyz}",
-                "\\mathfrak{AB}AB"
+                "\\mathfrak{0123456789}"
             ],
             "see_also": [
                 "\\frak"
@@ -2972,10 +2960,10 @@
             "name": "\\mathop{}",
             "description": "forces the argument to be treated in the ‘large operator’ class;   for example, like ‘$\\sum$’;\ncreates an element of class OP\n\nclass OP\n\n\\mathop #1",
             "examples": [
+                "\\mathop{\\star}_a^b",
                 "atbtc",
                 "a\\mathop{t}b\\mathop{t}c",
-                "\\star_a^b",
-                "\\mathop{\\star}_a^b"
+                "\\star_a^b"
             ],
             "see_also": [],
             "snippet": ""
@@ -2984,8 +2972,8 @@
             "name": "\\mathopen{}",
             "description": "forces the argument to be treated in the ‘opening’ class;   for example, like ‘$($’ and ‘$[$’;\ncreates an element of class OPEN\n\nclass OPEN\n\n\\mathopen #1",
             "examples": [
-                "a + \\lt b\\gt + c",
-                "a + \\mathopen\\lt b\\mathclose\\gt + c"
+                "a + \\mathopen\\lt b\\mathclose\\gt + c",
+                "a + \\lt b\\gt + c"
             ],
             "see_also": [
                 "\\mathclose"
@@ -2996,10 +2984,10 @@
             "name": "\\mathord{}",
             "description": "forces the argument to be treated in the ‘ordinary’ class;   for example, like ‘$/$’;\nspacing is determined by pairs of tokens;\nthere is no extra spacing between adjacent ORD's (as in the second example below);\nthere is extra spacing between an  ORD  and a  BIN  (as in the first example below);\ncreates an element of class ORD\n\nclass ORD\n\n\\mathord #1",
             "examples": [
-                "a+b+c",
-                "a\\mathord{+}b\\mathord{+}c",
                 "1,234,567",
-                "1\\mathord{,}234{,}567"
+                "1\\mathord{,}234{,}567",
+                "a+b+c",
+                "a\\mathord{+}b\\mathord{+}c"
             ],
             "see_also": [],
             "snippet": ""
@@ -3038,8 +3026,8 @@
             "name": "\\mathrm{}",
             "description": "roman typestyle for uppercase and lowercase letters\n\nclass ORD\n\n\\mathrm #1",
             "examples": [
-                "\\mathrm{AaBb\\alpha\\beta123}",
                 "\\mathrm ZR",
+                "\\mathrm{AaBb\\alpha\\beta123}",
                 "\\mathrm{uvw}xyz"
             ],
             "see_also": [
@@ -3051,11 +3039,11 @@
             "name": "\\mathscr{}",
             "description": "script typestyle for uppercase letters;\nif lowercase script letters are not available, then they are typeset in a roman typestyle\n\nclass ORD\n\n\\mathscr #1\nWhether lower-case letters are displayed in script, or not, depends on the fonts being used.\nThe MathJax web-based fonts don't have lowercase script, but the STIX fonts do;\nso users with the STIX fonts installed will be able to display lowercase script letters.",
             "examples": [
-                "\\mathscr{ABCDEFGHIJKLMNOPQRSTUVWXYZ}",
+                "\\mathscr{AB}AB",
                 "\\mathscr{0123456789}",
                 "\\mathscr{abcdefghijklmnopqrstuvwxyz}",
                 "abcdefghijklmnopqrstuvwxyz",
-                "\\mathscr{AB}AB"
+                "\\mathscr{ABCDEFGHIJKLMNOPQRSTUVWXYZ}"
             ],
             "see_also": [
                 "\\scr"
@@ -3066,12 +3054,12 @@
             "name": "\\mathsf{}",
             "description": "sans serif typestyle for uppercase and lowercase letters and digits;\nalso affects uppercase greek (as do the other font switches,\nlike \\rm,\n\\it,\n\\bf,\n\\mathrm,\n\\mathit,\n\\mathbf, etc).\n\nclass ORD\n\n\\mathsf #1",
             "examples": [
+                "\\mathsf{AB}AB",
+                "\\mathsf{abcdefghijklmnopqrstuvwxyz}",
                 "\\mathsf{ABCDEFGHIJKLMNOPQRSTUVWXYZ}",
                 "\\mathsf{0123456789}",
-                "\\mathsf{abcdefghijklmnopqrstuvwxyz}",
-                "\\Delta\\Gamma\\Lambda\\mathsf{\\Delta\\Gamma\\Lambda}",
                 "abcdefghijklmnopqrstuvwxyz",
-                "\\mathsf{AB}AB"
+                "\\Delta\\Gamma\\Lambda\\mathsf{\\Delta\\Gamma\\Lambda}"
             ],
             "see_also": [
                 "\\sf"
@@ -3092,12 +3080,12 @@
             "name": "\\mathtt{}",
             "description": "typewriter typestyle for uppercase and lowercase letters and digits;\nalso affects uppercase Greek\n\nclass ORD\n\n\\mathtt #1",
             "examples": [
-                "\\mathtt{ABCDEFGHIJKLMNOPQRSTUVWXYZ}",
                 "\\mathtt{0123456789}",
                 "\\mathtt{abcdefghijklmnopqrstuvwxyz}",
-                "abcdefghijklmnopqrstuvwxyz",
+                "\\mathtt{AB}AB",
                 "\\Delta\\Gamma\\Lambda\\mathtt{\\Delta\\Gamma\\Lambda}",
-                "\\mathtt{AB}AB"
+                "\\mathtt{ABCDEFGHIJKLMNOPQRSTUVWXYZ}",
+                "abcdefghijklmnopqrstuvwxyz"
             ],
             "see_also": [
                 "\\tt"
@@ -3119,7 +3107,6 @@
             "name": "\\max",
             "description": "maximum;\ndoes not change size;\ncan change limit placement using  \\limits  and\n \\nolimits;\nsee the Big Operators Table for examples\n\nclass OP",
             "examples": [
-                "\\max_{\\rm sub}",
                 "\\max_{\\rm sub}"
             ],
             "see_also": [
@@ -3157,8 +3144,8 @@
             "name": "\\mid",
             "description": "the spacing is perfect for use in set-builder notation\n\n&#x2223;  \nclass REL",
             "examples": [
-                "\\{x | x\\gt 1\\}",
-                "\\{x \\mid x\\gt 1\\}"
+                "\\{x \\mid x\\gt 1\\}",
+                "\\{x | x\\gt 1\\}"
             ],
             "see_also": [
                 "\\nmid",
@@ -3171,7 +3158,6 @@
             "name": "\\min",
             "description": "minimum;\ndoes not change size;\ncan change limit placement using  \\limits  and\n \\nolimits;\nsee the Big Operators Table for examples\n\nclass OP",
             "examples": [
-                "\\min_{\\rm sub}",
                 "\\min_{\\rm sub}"
             ],
             "see_also": [
@@ -3194,9 +3180,9 @@
             "name": "\\mkern",
             "description": "\\mkern <dimen>\ngives horizontal space",
             "examples": [
+                "a\\mkern18pt b",
                 "ab",
-                "a\\mkern18mu b",
-                "a\\mkern18pt b"
+                "a\\mkern18mu b"
             ],
             "see_also": [],
             "snippet": ""
@@ -3224,11 +3210,11 @@
             "name": "\\moveleft",
             "description": "shifts boxes to the left or right\n\n\\moveleft <dimen> <box>\n\\moveright <dimen> <box>\n\nIn actual $\\rm\\TeX$, these require an  \\hbox  (or some\nbox) as an argument, and can only appear in vertical mode;\nMathJax is less picky you don't need an actual box, and MathJax\ndoesn't have a vertical mode;\nthese are not really designed as user-level macros, but instead allow existing macros to work;\nthe box takes up its original space (unlike something like\n \\llap  or  \\rlap ),\nbut its contents are shifted (without affecting its\nbounding box)",
             "examples": [
-                "\\rm tight",
-                "\\rm t\\moveleft3pt ight",
                 "\\rm t\\moveleft3pt i\\moveleft3pt g\\moveleft3pt h\\moveleft3pt t",
-                "\\rm t\\moveleft3pt i\\moveleft6pt g\\moveleft9pt h\\moveleft12pt t",
+                "\\rm t\\moveleft3pt ight",
                 "\\square\\square\\moveleft 2em {\\diamond\\diamond}",
+                "\\rm t\\moveleft3pt i\\moveleft6pt g\\moveleft9pt h\\moveleft12pt t",
+                "\\rm tight",
                 "\\square\\square\\moveright 2em {\\diamond\\diamond}"
             ],
             "see_also": [
@@ -3250,9 +3236,9 @@
             "name": "\\mskip",
             "description": "\\mskip <dimen>\ngives horizontal space",
             "examples": [
-                "ab",
                 "a\\mskip18mu b",
-                "a\\mskip18pt b"
+                "a\\mskip18pt b",
+                "ab"
             ],
             "see_also": [],
             "snippet": ""
@@ -3262,8 +3248,8 @@
             "description": "\\mspace <dimen>\ngives horizontal space",
             "examples": [
                 "ab",
-                "a\\mspace18mu b",
-                "a\\mspace18pt b"
+                "a\\mspace18pt b",
+                "a\\mspace18mu b"
             ],
             "see_also": [],
             "snippet": ""
@@ -3343,10 +3329,10 @@
             "name": "\\negthinspace",
             "description": "negative thin space\nnegative medium space\nnegative thick space",
             "examples": [
-                "ab",
-                "a\\negthinspace b",
+                "a\\negthickspace b",
                 "a\\negmedspace b",
-                "a\\negthickspace b"
+                "ab",
+                "a\\negthinspace b"
             ],
             "see_also": [
                 "\\thinspace"
@@ -3724,13 +3710,13 @@
             "name": "\\oldstyle",
             "description": "this is intended for oldstyle numbers;\nit is a switch that turns on oldstyle mode;\nthe way it works in $\\rm\\TeX$ is to select the caligraphic font\n(which is where the oldstyle\nnumbers are stored),\nso it has the side effect of selecting\ncaligraphic upper-case letters;\nMathJax does the same for compatibility\n\nclass ORD\n\n{\\oldstyle ... }",
             "examples": [
+                "\\oldstyle abcdefghijklmnopqrstuvwxyz",
+                "\\oldstyle AB \\rm AB",
                 "\\oldstyle 0123456789",
                 "\\oldstyle ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-                "\\oldstyle abcdefghijklmnopqrstuvwxyz",
+                "\\oldstyle{AB}CD",
                 "abcdefghijklmnopqrstuvwxyz",
-                "{\\oldstyle AB}AB",
-                "\\oldstyle AB \\rm AB",
-                "\\oldstyle{AB}CD"
+                "{\\oldstyle AB}AB"
             ],
             "see_also": [
                 "\\cal",
@@ -3758,8 +3744,8 @@
             "name": "\\operatorname{}",
             "description": "This is similar to  \\DeclareMathOperator,\nbut rather than defining a\nmacro, it produces an instance of an operator like  \\lim .\n\nFor example,\n\\operatorname{myOp}\n\nis equivalent to the use of  \\myOp , after having defined\n\n\\DeclareMathOperator{\\myOp}{myOp}\n\nIf displaystyle limits are desired in both inline and display modes,\nthen use  operatorname*   instead of  operatorname\n\nclass OP",
             "examples": [
-                "\\operatorname{myFct}(x)",
-                "\\operatorname*{myFct}_a^b(x)"
+                "\\operatorname*{myFct}_a^b(x)",
+                "\\operatorname{myFct}(x)"
             ],
             "see_also": [],
             "snippet": ""
@@ -3769,8 +3755,8 @@
             "description": "general command for making fractions\n{ <subformula1> \\over <subformula2> }\nCreates a fraction\nnumerator:   subformula1\ndenominator:   subformula2",
             "examples": [
                 "a \\over b",
-                "a+1 \\over b+2",
-                "{a+1 \\over b+2}+c"
+                "{a+1 \\over b+2}+c",
+                "a+1 \\over b+2"
             ],
             "see_also": [
                 "\\above",
@@ -3812,9 +3798,9 @@
             "name": "\\overline{}",
             "description": "stretchy overline\n\n&#x203E;\n\n\\overline #1",
             "examples": [
-                "\\overline{AB}",
+                "\\overline{\\text{a long argument}}",
                 "\\overline a",
-                "\\overline{\\text{a long argument}}"
+                "\\overline{AB}"
             ],
             "see_also": [],
             "snippet": ""
@@ -3838,9 +3824,9 @@
             "name": "\\overset{}{}",
             "description": "\\overset #1 #2\noversets argument #1 (in scriptstyle) over argument #2",
             "examples": [
-                "\\overset{\\rm top}{\\rm bottom}",
+                "a\\,\\overset{?}{=}\\,b",
                 "\\overset ab",
-                "a\\,\\overset{?}{=}\\,b"
+                "\\overset{\\rm top}{\\rm bottom}"
             ],
             "see_also": [
                 "\\atop",
@@ -3852,8 +3838,8 @@
             "name": "\\overwithdelims",
             "description": "general command for making fractions;\nuses default thickness for fraction bar for current size\nspecifies left and right enclosing delimiters\n\n{ <subformula1> \\overwithdelims <delim1> <delim2> <subformula2> }\n\nCreates a fraction\nnumerator   subformula1\ndenominator   subformula2\ndelim1   is put before the fraction\ndelim2   is put after the fraction\nFor an empty delimiter, use ‘.’ in place of the delimiter.",
             "examples": [
-                "a \\overwithdelims [ ] b",
                 "a+1 \\overwithdelims . | b+2",
+                "a \\overwithdelims [ ] b",
                 "{a+1 \\overwithdelims \\{ \\} b+2}+c"
             ],
             "see_also": [
@@ -3910,10 +3896,10 @@
             "name": "\\phantom{}",
             "description": "phantom (both horizontal and vertical)\n\nclass ORD\n\nSometimes you want to pretend that something is there, for spacing reasons,\nbut you don't want it to appear—you want it to be invisible—you want it to be a phantom.\n\nThe box created by   \\phantom   has width, height and depth equal to its argument.\nIn other words, \\phantom   creates horizontal and vertical space equal to that of its argument,\neven though the argument isn't visible.\n\\phantom #1",
             "examples": [
-                "\n\\sqrt{\\frac ab}\n\\sqrt{\\phantom{\\frac ab}}\n",
-                "\n\\frac{2x+3y-\\phantom{5}z}\n  {\\phantom{2}x+\\phantom{3}y+5z}\n",
                 "\n\\Gamma^{\\phantom{i}j}_{i\\phantom{j}k}\n",
-                "\n\\matrix{1&-1\\cr 2&\\phantom{-}3}\n"
+                "\n\\matrix{1&-1\\cr 2&\\phantom{-}3}\n",
+                "\n\\frac{2x+3y-\\phantom{5}z}\n  {\\phantom{2}x+\\phantom{3}y+5z}\n",
+                "\n\\sqrt{\\frac ab}\n\\sqrt{\\phantom{\\frac ab}}\n"
             ],
             "see_also": [
                 "\\hphantom",
@@ -3982,8 +3968,8 @@
             "name": "\\pmod{}",
             "description": "parenthesized modulus operator; parenthesized modulo;\n18 mu of leading space before the opening parenthesis in display style;\n8 mu of leading space before the opening parenthesis in other styles;\n6 mu of space after the word  mod\n\\pmod #1",
             "examples": [
-                "5\\equiv 8 \\pmod 3",
-                "\\pmod{n+m}"
+                "\\pmod{n+m}",
+                "5\\equiv 8 \\pmod 3"
             ],
             "see_also": [
                 "\\mod",
@@ -3995,8 +3981,8 @@
             "name": "\\pod{}",
             "description": "parenthesized argument with leading space;\n18 mu of leading space before the opening parenthesis in display style;\n8 mu of leading space before the opening parenthesis in other styles\n\\pod #1",
             "examples": [
-                "x=y\\pod{\\text{inline mode}}",
-                "x=y\\pod{\\text{display mode}}"
+                "x=y\\pod{\\text{display mode}}",
+                "x=y\\pod{\\text{inline mode}}"
             ],
             "see_also": [],
             "snippet": ""
@@ -4005,7 +3991,6 @@
             "name": "\\Pr",
             "description": "does not change size;\ndefault limit placement can be changed using  \\limits  and   \\nolimits;\ndoes not change size;\nsee the Big Operators Table for more examples\n\nclass OP",
             "examples": [
-                "\\Pr_{\\rm sub}",
                 "\\Pr_{\\rm sub}"
             ],
             "see_also": [],
@@ -4055,9 +4040,9 @@
             "name": "\\prime",
             "description": "prime character\n\n&#x2032;  \nclass ORD",
             "examples": [
-                "f'",
                 "f\\prime",
                 "f^\\prime",
+                "f'",
                 "f^{\\prime\\prime}",
                 "f''"
             ],
@@ -4071,7 +4056,6 @@
             "name": "\\prod",
             "description": "changes size;\ncan change limit placement using \\limits and\n\\nolimits;\nsee the Big Operators Table for more examples\n\n&#x220F;  \nclass OP",
             "examples": [
-                "\\prod_{j=1}^n",
                 "\\prod_{j=1}^n"
             ],
             "see_also": [],
@@ -4109,15 +4093,15 @@
             "name": "\\quad",
             "description": "\\quad   is a 1em space\n\\qquad   is a 2em space",
             "examples": [
-                "|\\quad|\\quad|",
-                "|\\qquad\\hphantom{|}|"
+                "|\\qquad\\hphantom{|}|",
+                "|\\quad|\\quad|"
             ],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\raise",
-            "suggestion_display" : "",
+            "suggestion_display": "",
             "description": "\\raise <dimen> #1\nraises the argument by the amount specified in <dimen>;\nin actual $\\rm\\TeX$, the argument to  \\raise  (and  \\lower ) must be an\n \\hbox ,\nbut in MathJax it can be any expression (using an \\hbox is allowed, but not required)",
             "examples": [
                 "h\\raise 2pt {ighe} r"
@@ -4184,7 +4168,7 @@
         },
         {
             "name": "\\renewcommand",
-            "suggestion_display" : "",
+            "suggestion_display": "",
             "description": "equivalent to \\newcommand;\nfor clarity of code, you may choose to use   \\renewcommand  \nwhen re-defining a macro;\nthis is different from actual $\\,\\rm\\TeX\\,$,\nwhere  \\renewcommand  only allows redefining of an existing command",
             "examples": [],
             "see_also": [
@@ -4196,7 +4180,7 @@
         },
         {
             "name": "\\require",
-            "suggestion_display" : "",
+            "suggestion_display": "",
             "description": "This is a MathJax-specific macro that can be used to load MathJax $\\rm\\TeX$ extensions (like the AMSmath extension)\nfrom within math mode, rather than having to include it in the configuration.\nFor example,\n\n$\\require{AMSsymbols}$\n\nwould cause MathJax to load the\n extensions/TeX/AMSsymbols.js  file at that point.\n\nSince many people use MathJax in blogs and wikis that may not have all the extensions loaded,\nthis makes it possible to load a lesser-used extension on a particular page,\nwithout having to include it in every page.",
             "examples": [],
             "see_also": [],
@@ -4251,12 +4235,12 @@
         },
         {
             "name": "\\right",
-            "suggestion_display" : "",
+            "suggestion_display": "",
             "description": "used for stretchy delimiters;\nsee the Variable-Sized Delimiters Table for details\n\nCan be followed by\n\ndelimiter:\nsample code:\nyields:\n\n(   )\n\\left( \\frac12 \\right)\n$\\left( \\frac12 \\right)$\n\n\\updownarrow\\Updownarrow\n\\left\\updownarrow \\phantom{\\frac12} \\right\\Updownarrow\n$\\left\\updownarrow \\phantom{\\frac12} \\right\\Updownarrow$",
             "examples": [
-                "(   )",
                 "\\left( \\frac12 \\right)",
                 "\\updownarrow\\Updownarrow",
+                "(   )",
                 "\\left\\updownarrow \\phantom{\\frac12} \\right\\Updownarrow"
             ],
             "see_also": [
@@ -4354,9 +4338,9 @@
             "description": "turns on roman;  affects uppercase and lowercase letters, and digits;\nalso affects uppercase Greek\n\nclass ORD\n\n{\\rm ... }",
             "examples": [
                 "\\rm AaBb\\alpha\\beta123",
-                "{\\rm A B} A B",
                 "\\Delta\\Gamma\\Lambda{\\rm\\Delta\\Gamma\\Lambda}",
                 "\\rm AB \\bf CD",
+                "{\\rm A B} A B",
                 "\\rm{AB}CD"
             ],
             "see_also": [
@@ -4382,8 +4366,8 @@
             "description": "\\root <index> \\of #1",
             "examples": [
                 "\\root 3 \\of x",
-                "\\root 13 \\of {\\frac 12}",
-                "\\root n+1 \\of x + 2"
+                "\\root n+1 \\of x + 2",
+                "\\root 13 \\of {\\frac 12}"
             ],
             "see_also": [
                 "\\sqrt",
@@ -4453,12 +4437,12 @@
             "name": "\\scr",
             "description": "turns on script typestyle for uppercase letters;\nlowercase letters are in a roman typestyle\n\nclass ORD\n\n{ \\scr ... }",
             "examples": [
-                "\\scr ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                "\\scr{AB}CD",
                 "\\scr 0123456789abcdefghijklmnopqrstuvwxyz",
-                "0123456789abcdefghijklmnopqrstuvwxyz",
                 "{\\scr AB}AB",
+                "\\scr ABCDEFGHIJKLMNOPQRSTUVWXYZ",
                 "\\scr AB \\rm AB",
-                "\\scr{AB}CD"
+                "0123456789abcdefghijklmnopqrstuvwxyz"
             ],
             "see_also": [
                 "\\mathscr"
@@ -4513,8 +4497,8 @@
             "name": "\\sec",
             "description": "secant;\ndoes not change size;\ndefault limit placement is the same in both inline and display modes;\ncan change limit placement using \\limits;\nsee the Big Operators Table for more examples\n\nclass OP",
             "examples": [
-                "\\sec x",
-                "\\sec(2x-1)"
+                "\\sec(2x-1)",
+                "\\sec x"
             ],
             "see_also": [
                 "\\csc"
@@ -4525,8 +4509,8 @@
             "name": "\\setminus",
             "description": "set minus\n\n&#x2216;  \nclass BIN",
             "examples": [
-                "A\\setminus B",
-                "A\\backslash B"
+                "A\\backslash B",
+                "A\\setminus B"
             ],
             "see_also": [
                 "\\backslash"
@@ -4538,12 +4522,12 @@
             "description": "turns on sans serif mode for uppercase and lowercase letters and digits,\nand for uppercase Greek\n\nclass ORD\n\n{ \\sf ... }",
             "examples": [
                 "\\sf ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-                "\\sf 0123456789",
-                "\\sf abcdefghijklmnopqrstuvwxyz",
                 "ABCDE 01234 abcde",
                 "{\\sf AB\\Delta\\Gamma\\Lambda}\\ AB\\Delta\\Gamma\\Lambda",
+                "\\sf abcdefghijklmnopqrstuvwxyz",
                 "\\sf AB \\rm AB",
-                "\\sf{AB}CD"
+                "\\sf{AB}CD",
+                "\\sf 0123456789"
             ],
             "see_also": [
                 "\\mathsf"
@@ -4621,8 +4605,8 @@
             "name": "\\sin",
             "description": "sine;\ndoes not change size;\ndefault limit placement is the same in both inline and display modes;\ncan change limit placement using \\limits;\nsee the Big Operators Table for more examples\n\nclass OP",
             "examples": [
-                "\\sin x",
-                "\\sin(2x-1)"
+                "\\sin(2x-1)",
+                "\\sin x"
             ],
             "see_also": [
                 "\\cos"
@@ -4633,8 +4617,8 @@
             "name": "\\sinh",
             "description": "hyperbolic sine;\ndoes not change size;\ndefault limit placement is the same in both inline and display modes;\ncan change limit placement using \\limits;\nsee the Big Operators Table for more examples\n\nclass OP",
             "examples": [
-                "\\sinh x",
-                "\\sinh(2x-1)"
+                "\\sinh(2x-1)",
+                "\\sinh x"
             ],
             "see_also": [
                 "\\cosh"
@@ -4645,12 +4629,12 @@
             "name": "\\skew{}",
             "description": "used to finely adjust the positioning on accents;\nparticularly useful for adjusting superaccents (accents on accents);\nusually requires trial-and-error adjustment for proper positioning\n\\skew #1 <accent>\nwhere #1 is a positive integer (the skew amount)",
             "examples": [
+                "\\skew4\\hat{\\hat A}",
                 "\\hat A",
-                "\\skew7\\hat A",
-                "\\tilde M",
-                "\\skew{8}\\tilde M",
                 "\\hat{\\hat A}",
-                "\\skew4\\hat{\\hat A}"
+                "\\skew{8}\\tilde M",
+                "\\skew7\\hat A",
+                "\\tilde M"
             ],
             "see_also": [],
             "snippet": ""
@@ -4659,8 +4643,8 @@
             "name": "\\small",
             "description": "turns on small size; affects all math\n\nclass ORD\n\n{\\small ... }",
             "examples": [
-                "ab{\\small cd} cd",
-                "ab\\small{cd} cd"
+                "ab\\small{cd} cd",
+                "ab{\\small cd} cd"
             ],
             "see_also": [
                 "\\tiny",
@@ -4754,8 +4738,8 @@
             "name": "\\Space",
             "description": "a MathJax-specific macro giving space with\na specified width, height, and depth\n\n\\Space <dimenWidth> <dimenHeight> <dimenDepth>\n\nwhere each argument is a\ndimension\n\nCompare\n\na\\Rule{5px}{4ex}{2ex}^b_c d\nyields\n$a\\Rule{5px}{4ex}{2ex}^b_c d$\n\na\\Space{5px}{4ex}{2ex}^b_c d\nyields\n$a\\Space{5px}{4ex}{2ex}^b_c d$",
             "examples": [
-                "a\\Rule{5px}{4ex}{2ex}^b_c d",
-                "a\\Space{5px}{4ex}{2ex}^b_c d"
+                "a\\Space{5px}{4ex}{2ex}^b_c d",
+                "a\\Rule{5px}{4ex}{2ex}^b_c d"
             ],
             "see_also": [
                 "\\Rule"
@@ -4792,9 +4776,9 @@
             "name": "\\sqrt{}",
             "description": "square root (and other roots)\n\nclass ORD\n\n\\sqrt #1\n\\sqrt[n]{op}   is equivalent to   \\root n \\of {op}",
             "examples": [
-                "\\sqrt x",
-                "\\sqrt xy",
                 "\\sqrt{xy}",
+                "\\sqrt xy",
+                "\\sqrt x",
                 "\\sqrt[3]{x+1}"
             ],
             "see_also": [
@@ -4844,9 +4828,9 @@
             "name": "\\strut",
             "description": "an invisible box with no width, height 8.6pt and depth 3pt;\nnote that   \\mathstrut   changes with the current size, but\n  \\strut   does not",
             "examples": [
+                "\n\\Large\n\\sqrt{(\\ )}\n\\sqrt{\\mathstrut\\rm mathstrut}\n\\sqrt{\\strut\\rm strut}\n",
                 "\n\\sqrt{(\\ )}\n\\sqrt{\\mathstrut\\rm mathstrut}\n\\sqrt{\\strut\\rm strut}\n",
-                "\n\\Tiny\n\\sqrt{(\\ )}\n\\sqrt{\\mathstrut\\rm mathstrut}\n\\sqrt{\\strut\\rm strut}\n",
-                "\n\\Large\n\\sqrt{(\\ )}\n\\sqrt{\\mathstrut\\rm mathstrut}\n\\sqrt{\\strut\\rm strut}\n"
+                "\n\\Tiny\n\\sqrt{(\\ )}\n\\sqrt{\\mathstrut\\rm mathstrut}\n\\sqrt{\\strut\\rm strut}\n"
             ],
             "see_also": [
                 "\\mathstrut"
@@ -4957,7 +4941,6 @@
             "name": "\\sup",
             "description": "supremum;\nleast upper bound;\ndoes not change size;\ncan change limit placement using \\limits and  \\nolimits;\nsee the Big Operators Table for examples\n\nclass OP",
             "examples": [
-                "\\sup_{\\rm limit}",
                 "\\sup_{\\rm limit}"
             ],
             "see_also": [
@@ -5022,8 +5005,8 @@
             "name": "\\tan",
             "description": "tangent;\ndoes not change size;\ndefault limit placement is the same in both inline and display modes;\ncan change limit placement using \\limits;\nsee the Big Operators Table for more examples\n\nclass OP",
             "examples": [
-                "\\tan x",
-                "\\tan(2x-1)"
+                "\\tan(2x-1)",
+                "\\tan x"
             ],
             "see_also": [
                 "\\cot"
@@ -5054,11 +5037,10 @@
             "name": "\\tbinom{}",
             "description": "notation commonly used for binomial coefficients; in textstyle\n\\tbinom #1 #2",
             "examples": [
-                "\\tbinom n k",
-                "\\tbinom n k",
+                "\\tbinom{n-1}{k-1}",
                 "\\binom n k",
-                "\\tbinom{n-1}k-1",
-                "\\tbinom{n-1}{k-1}"
+                "\\tbinom n k",
+                "\\tbinom{n-1}k-1"
             ],
             "see_also": [
                 "\\binom",
@@ -5083,13 +5065,13 @@
             "name": "\\text{}",
             "description": "\\text   text\n\\textbf:   boldface text\n\\textit:   italic text\n\\textrm:   roman text\n\\textsf:   sans serif text (added in MathJax 2.4)\n\\texttt:   typewriter text (added in MathJax 2.4)\n\nused to produce text-mode material (in a given font) within a mathematical expression;\nMathJax does not process any macros within the text (unlike $\\rm\\TeX$ itself);\nyou can get math mode within the text using  \\(...\\)  delimiters\n\nclass ORD\n\n\\text #1\n\\textbf #1\n\\textit #1\n\\textrm #1\n\\textsf #1\n\\texttt #1",
             "examples": [
-                "|x| = x \\text{ for all \\(x \\ge 0\\)}",
-                "\\text{\\alpha in text mode }\\alpha",
                 "\\textbf{\\alpha in textbf mode }\\alpha",
-                "\\textit{\\alpha in textit mode }\\alpha",
-                "\\textrm{\\alpha in textrm mode }\\alpha",
+                "\\text{\\alpha in text mode }\\alpha",
                 "\\textsf{\\alpha in textsf mode }\\alpha",
-                "\\texttt{\\alpha in texttt mode }\\alpha"
+                "\\textrm{\\alpha in textrm mode }\\alpha",
+                "|x| = x \\text{ for all \\(x \\ge 0\\)}",
+                "\\texttt{\\alpha in texttt mode }\\alpha",
+                "\\textit{\\alpha in textit mode }\\alpha"
             ],
             "see_also": [
                 "\\bf",
@@ -5120,7 +5102,6 @@
             "name": "\\tfrac{}{}",
             "description": "textstyle fraction\n\\tfrac #1 #2",
             "examples": [
-                "\\tfrac ab \\frac ab",
                 "\\tfrac ab \\frac ab"
             ],
             "see_also": [
@@ -5178,8 +5159,8 @@
             "examples": [
                 "\\tilde e",
                 "\\tilde E",
-                "\\tilde eu",
-                "\\tilde{eu}"
+                "\\tilde{eu}",
+                "\\tilde eu"
             ],
             "see_also": [],
             "snippet": ""
@@ -5195,8 +5176,8 @@
             "name": "\\tiny",
             "description": "turns on tiny; a bit smaller than \\Tiny\n\nclass ORD\n\n{\\tiny ... }",
             "examples": [
-                "\\tiny AaBb\\alpha\\beta123",
                 "{\\tiny A B} A B",
+                "\\tiny AaBb\\alpha\\beta123",
                 "\\tiny AB \\Tiny CD",
                 "\\tiny{AB}CD"
             ],
@@ -5207,10 +5188,10 @@
             "name": "\\Tiny",
             "description": "turns on Tiny; a bit bigger than \\tiny\n\nclass ORD\n\n{\\Tiny ... }",
             "examples": [
-                "\\Tiny AaBb\\alpha\\beta123",
-                "{\\Tiny A B} A B",
                 "\\Tiny AB \\tiny CD",
-                "\\Tiny{AB}CD"
+                "\\Tiny{AB}CD",
+                "{\\Tiny A B} A B",
+                "\\Tiny AaBb\\alpha\\beta123"
             ],
             "see_also": [],
             "snippet": ""
@@ -5278,10 +5259,10 @@
             "name": "\\tt",
             "description": "turns on typewriter type\n\nclass ORD\n\n{\\tt ... }",
             "examples": [
-                "\\tt AaBb\\alpha\\beta123",
                 "{\\tt A B} A B",
                 "\\tt AB \\rm CD",
-                "\\tt{AB}CD"
+                "\\tt{AB}CD",
+                "\\tt AaBb\\alpha\\beta123"
             ],
             "see_also": [],
             "snippet": ""
@@ -5318,10 +5299,10 @@
             "name": "\\underleftarrow{}",
             "description": "stretchy under left arrow\n&#x2190;\n\nstretchy under right arrow\n&#x2192;\n\nstretchy under left right arrow\n&#x2194;\n\n\\underleftarrow #1\n\\underrightarrow #1\n\\underleftrightarrow #1",
             "examples": [
-                "\\underleftarrow{\\text{the argument}}",
-                "\\underrightarrow{AB}",
                 "\\underrightarrow{AB\\strut}",
-                "\\underleftrightarrow{\\hspace1in}"
+                "\\underleftrightarrow{\\hspace1in}",
+                "\\underleftarrow{\\text{the argument}}",
+                "\\underrightarrow{AB}"
             ],
             "see_also": [],
             "snippet": ""
@@ -5330,9 +5311,9 @@
             "name": "\\underline{}",
             "description": "stretchy underline\n\n&#x005F;\n\n\\underline #1",
             "examples": [
-                "\\underline{AB}",
+                "\\underline{\\text{a long argument}}",
                 "\\underline a",
-                "\\underline{\\text{a long argument}}"
+                "\\underline{AB}"
             ],
             "see_also": [],
             "snippet": ""
@@ -5368,9 +5349,9 @@
             "name": "\\unicode",
             "description": "implements a  \\unicode{}  extension to $\\rm\\TeX$\nthat allows arbitrary unicode code points to be entered in mathematics;\ncan optionally specify height and depth of character (width is determined by browser);\ncan optionally specify the default font from which to take the character;\nonce a size and font are provided for a given unicode point, they need not be specified again in subsequent\n \\unicode{}  calls for that character\n\nclass ORD\n\n\\unicode[optHeight,optDepth][optFont]#1",
             "examples": [
-                "\\unicode{x263a}",
                 "&#x263a;",
                 "\\unicode[.55,0.05]{x22D6}",
+                "\\unicode{x263a}",
                 "\\unicode[.55,0.05][Geramond]{x22D6}",
                 "\\unicode[Geramond]{x22D6}"
             ],
@@ -5416,10 +5397,10 @@
             "name": "\\uproot{}",
             "description": "used to fine-tune the placement of the index inside\n  \\sqrt   or   \\root   (see examples)\n\n\\sqrt[... \\uproot #1 ...]{...}\n\\root ... \\uproot #1 ... \\of {...}\n\nwhere the argument is a small integer\na positive integer moves the index up;\na negative integer moves the index down\n\nIn actual TeX,  \\uproot  is not allowed in\n \\root ,\nso this is a difference between MathJax and $\\rm\\TeX$.",
             "examples": [
-                "\\sqrt[3]{x}",
-                "\\sqrt[3\\uproot2]{x}",
                 "\\root 3 \\of x",
-                "\\root 3\\uproot{-2} \\of x"
+                "\\sqrt[3\\uproot2]{x}",
+                "\\root 3\\uproot{-2} \\of x",
+                "\\sqrt[3]{x}"
             ],
             "see_also": [
                 "\\leftroot",
@@ -5681,9 +5662,9 @@
             "description": "\\vcenter #1\ncenters the argument on the ‘math axis’,\nwhich is at\nhalf the height of an ‘x’, or about the position of a minus sign;\none of the reasons for  \\vcenter  is to get stretchy delimiters to match the\ncontents better",
             "examples": [
                 "\\left(\\Rule{1ex}{2em}{0pt}\\right)",
-                "\\left(\\vcenter{\\Rule{1ex}{2em}{0pt}}\\right)",
                 "\\left(\\frac{a+b}{\\dfrac{c}{d}}\\right)",
-                "\\left(\\vcenter{\\frac{a+b}{\\dfrac{c}{d}}}\\right)"
+                "\\left(\\vcenter{\\frac{a+b}{\\dfrac{c}{d}}}\\right)",
+                "\\left(\\vcenter{\\Rule{1ex}{2em}{0pt}}\\right)"
             ],
             "see_also": [],
             "snippet": ""
@@ -5719,8 +5700,8 @@
             "name": "\\vec{}",
             "description": "non-stretchy vector symbol\n\\vec #1",
             "examples": [
-                "\\vec v",
-                "\\vec{AB}"
+                "\\vec{AB}",
+                "\\vec v"
             ],
             "see_also": [
                 "\\overrightarrow"
@@ -5799,10 +5780,10 @@
             "name": "\\widehat{}",
             "description": "stretchy hat accent\n\n&#x02C6;\n\n\\widehat #1",
             "examples": [
-                "\\widehat a",
-                "\\widehat A",
                 "\\widehat AB",
-                "\\widehat{AB}"
+                "\\widehat{AB}",
+                "\\widehat a",
+                "\\widehat A"
             ],
             "see_also": [
                 "\\hat"
@@ -5814,8 +5795,8 @@
             "description": "stretchy tilde accent\n\n&#x02DC;\n\n\\widetilde #1",
             "examples": [
                 "\\widetilde a",
-                "\\widetilde A",
                 "\\widetilde AB",
+                "\\widetilde A",
                 "\\widetilde{AB}"
             ],
             "see_also": [],
@@ -5855,11 +5836,11 @@
             "name": "\\xleftarrow",
             "description": "stretchy arrows with mathematical overset and optional mathematical underset\n\nclass REL\n\n\\xleftarrow[optionalArgument] #1\n\\xrightarrow[optionalArgument] #1\n\nwhere the optional arguments (inside brackets, if desired) appear below the arrows (see examples).",
             "examples": [
-                "\\xrightarrow a",
+                "\\xrightarrow[f]{\\text{see (1)}}",
                 "\\xrightarrow ab",
-                "\\xrightarrow{ab}",
                 "\\xleftarrow{\\text{see equation (1)}}",
-                "\\xrightarrow[f]{\\text{see (1)}}"
+                "\\xrightarrow{ab}",
+                "\\xrightarrow a"
             ],
             "see_also": [],
             "snippet": ""
@@ -6050,7 +6031,6 @@
             "description": "Used to create a small matrix (an array);\nparticularly suited for use in text;\ncolumns are centered.\n\nsuppose that $n$ columns are desired in the array;\nthen, $n-1$ ampersands are used to separate the columns\n\na double backslash ‘\\\\’ or carriage return ‘\\cr’ separates rows",
             "examples": [
                 "\nthe matrix\n$\\begin{smallmatrix}\naaa & b\\cr\nc   & ddd\n\\end{smallmatrix}$\nis...\n",
-                "\n\\left[\n\\begin{smallmatrix}\naaa & b\\cr\nc   & ddd\n\\end{smallmatrix}\n\\right]\n",
                 "\n\\left[\n\\begin{smallmatrix}\naaa & b\\cr\nc   & ddd\n\\end{smallmatrix}\n\\right]\n"
             ],
             "see_also": [
