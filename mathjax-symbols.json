@@ -15,7 +15,7 @@
         {
             "name": "\\,",
             "description": "\\,thin space (normally $\\frac 16 = \\frac{3}{18}$ of a quad)\n\\:medium space (normally $\\frac 29 = \\frac{4}{18}$ of a quad)\n\\>alternate medium space\n\\;thick space (normally $\\frac 5{18}$ of a quad)",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\thinspace"
             ],
@@ -51,40 +51,31 @@
         {
             "name": "\\#",
             "description": "literal number sign; literal pound sign;\nneeded since   #   is used to indicate arguments in definitions\n\n&#x0023;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\\\$",
             "description": "literal dollar sign;\nneeded since   $   may (optionally) be used to delimit math mode\n\nDollar sign outside of math \"mode\": \n\nThe configuration information below enables dollar signs as inline math delimiters;\nsetting   processEscapes:   to   true   allows use of   \\$   outside of math mode, as a literal dollar sign:\n\nMathJax.Hub.Config({\ntex2jax: {\ninlineMath: [['$','$'],['\\\\(','\\\\)']],\nprocessEscapes: true\n}\n});\n\n&#x0024;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\%",
             "description": "literal percent sign;\nneeded since   %   is used to begin a single-line comment\n\n&#x0025;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\&",
             "description": "literal ampersand;\nneeded since ampersands are used as separators in alignment environments\nand for HTML entity references inside math mode\n\n&#x0026;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "<code>\\And</code>"
             ],
-            "snippet": ""
-        },
-        {
-            "name": "\\\\",
-            "description": "line separator in alignment modes and environments",
-            "examples": [
-                "\\begin{gather}a\\\\a+b\\\\a+b+c\\end{gather}"
-            ],
-            "see_also": [],
             "snippet": ""
         },
         {
@@ -157,7 +148,7 @@
         {
             "name": ".",
             "description": "period; decimal point\n\nclass PUNCT\n\nIn some math environments (but not all):\n\nWith numbers on either side, there is no surrounding \"space\":\n\n3.14\nyields\n$3.14$\n\nWith non-numeric characters, there is a slight amount of space on right:\na.b\nyields\n$a.b$\n\nTo suppress this space, enclose the ‘.’ in braces:\na{.}b\nyields\n$a{.}b$",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -209,7 +200,7 @@
         {
             "name": "=",
             "description": "equal; equals\n\nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\ne",
                 "\\neq"
@@ -284,28 +275,28 @@
         {
             "name": "\\aleph",
             "description": "Hebrew letter aleph;\ncommonly used for the cardinality of the real numbers\n\n&#x2135;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\alpha",
             "description": "lowercase Greek letter alpha\n\n&#x03B1;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\amalg",
             "description": "this symbol is often used for co-products\n\n&#x2A3F;   class BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\And",
             "description": "ampersand\n\n&#x0026;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\&"
             ],
@@ -314,49 +305,49 @@
         {
             "name": "\\angle",
             "description": "&#x2220;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\approx",
             "description": "&#x2248;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\approxeq",
             "description": "&#x224A;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\arccos",
             "description": "does not change size;\ndefault limit placement is the same in both inline and display modes;\ncan change limit placement using \\limits;\nsee the Big Operators Table for examples\n\nIf alternate notation is desired, \"define\":\n\\def\\arccosAlt{\\cos^{-1}}   so that  \n$\\arccosAlt(x)$   yields  \n$\\def\\arccosAlt{\\cos^{-1}} \\arccosAlt(x)$\n\nclass OP",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\arcsin",
             "description": "does not change size;\ndefault limit placement is the same in both inline and display modes;\ncan change limit placement using \\limits;\nsee the Big Operators Table for examples\n\nIf alternate notation is desired, \"define\":\n\\def\\arcsinAlt{\\sin^{-1}}   so that  \n$\\arcsinAlt(x)$   yields  \n$\\def\\arcsinAlt{\\sin^{-1}} \\arcsinAlt(x)$\n\nclass OP",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\arctan",
             "description": "does not change size;\ndefault limit placement is the same in both inline and display modes;\ncan change limit placement using \\limits;\nsee the Big Operators Table for examples\n\nIf alternate notation is desired, \"define\":\n\\def\\arctanAlt{\\tan^{-1}}   so that  \n$\\arctanAlt(x)$   yields  \n$\\def\\arctanAlt{\\tan^{-1}} \\arctanAlt(x)$\n\nclass OP",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\arg",
             "description": "the complex argument function;\ndoes not change size;\ndefault limit placement is the same in both inline and display modes;\ncan change limit placement using \\limits;\nsee the Big Operators Table for examples\n\nclass OP",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -374,7 +365,7 @@
         {
             "name": "\\arrowvert",
             "description": "not intended for direct use;\nused internally to create stretchy delimiters\n\n&#x23D0;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "|",
                 "\\vert",
@@ -386,7 +377,7 @@
         {
             "name": "\\Arrowvert",
             "description": "not intended for direct use;\nused internally to create stretchy delimiters\n\n&#x2016;   class PUNCT",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\|",
                 "\\Vert",
@@ -398,14 +389,14 @@
         {
             "name": "\\ast",
             "description": "asterisk\n\n&#x2217;   class BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\asymp",
             "description": "asymptotic\n\n&#x224D;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -454,14 +445,14 @@
         {
             "name": "\\backepsilon",
             "description": "&#x220D;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\backprime",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\prime",
                 "ORD"
@@ -471,21 +462,21 @@
         {
             "name": "\\backsim",
             "description": "&#x223D;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\backsimeq",
             "description": "&#x22CD;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\backslash",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\setminus"
             ],
@@ -506,7 +497,7 @@
         {
             "name": "\\barwedge",
             "description": "&#x22BC;   class BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -527,42 +518,42 @@
         {
             "name": "\\Bbbk",
             "description": "blackboard-bold lowercase k\n\n&#x006B;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\because",
             "description": "&#x2235;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\begin",
             "description": "used in  \n\\begin{xxx} ... \\end{xxx}   environments",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\beta",
             "description": "lowercase Greek letter beta\n\n&#x03B2;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\beth",
             "description": "Hebrew letter beth\n\n&#x2136;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\between",
             "description": "&#x226C;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -584,91 +575,91 @@
         {
             "name": "\\Bigg",
             "description": "used to obtain various-sized delimiters;\nmay be followed by any of these Variable-Sized Delimiters",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\Biggl",
             "description": "Used to obtain various-sized delimiters, with a left/right/middle context;\nmay be followed by any of these Variable-Sized Delimiters.\n\nThe ‘l’ (left), ’m’ (middle), and ‘r’ (right) specifications\nmay make reading the source code more meaningful,\nespecially when there are delimiters inside delimiters.\n\nWhereas (say)  \\Bigg  produces results of class ORD, we \"have\":\n\n \\Biggl  produces results of class OPEN\n \\Biggr  produces results of class CLOSE\n \\Biggm  produces results of class REL\n\nThe spacing for these differ (but may not always be apparent, as it depends on the class of what is next to it).\nFor example,  $x\\big| y$  ($\\,x\\big| y\\,$)\nhas less space than  $x\\bigm| y$  ($\\,x\\bigm| y\\,$).\nTherefore, these commands affect typeset results in a fundamental way;\nit is best to use the form appropriate for the position of the desired delimiter.",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\bigcap",
             "description": "changes size;\ncan change limit placement using \\limits and  \\nolimits;\nsee the Big Operators Table for examples\n\n&#x22C2;   class OP",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\bigcirc",
             "description": "&#x25EF;   class BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\bigcup",
             "description": "changes size;\ncan change limit placement using \\limits and  \\nolimits;\nsee the Big Operators Table for examples\n\n&#x22C3;   class OP",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\bigodot",
             "description": "all change size;\ncan change limit placement using \\limits and  \\nolimits;\nsee the Big Operators Table for examples\n\n&#x2A00;   class OP\n\n&#x2A01;   class OP\n&#x2A02;   class OP",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\bigsqcup",
             "description": "changes size;\ncan change limit placement using \\limits and  \\nolimits;\nsee the Big Operators Table for examples\n\n&#x2A06;   class OP",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\bigstar",
             "description": "&#x2605;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\bigtriangledown",
             "description": "&#x25BD;   class BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\bigtriangleup",
             "description": "&#x25B3;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\biguplus",
             "description": "changes size;\ncan change limit placement using \\limits and  \\nolimits;\nsee the Big Operators Table for examples\n\n&#x2A04;   class OP",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\bigvee",
             "description": "changes size;\ncan change limit placement using \\limits and  \\nolimits;\nsee the Big Operators Table for examples\n\n&#x22C1;   class OP",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\bigwedge",
             "description": "changes size;\ncan change limit placement using \\limits and  \\nolimits;\nsee the Big Operators Table for examples\n\n&#x22C0;   class OP",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -692,35 +683,35 @@
         {
             "name": "\\blacklozenge",
             "description": "&#x29EB;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\blacksquare",
             "description": "&#x25A0;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\blacktriangle",
             "description": "&#x25B2;  \nclass ORD\n\n&#x25BC;  \nclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\blacktriangleleft",
             "description": "&#x25C0;  \nclass BIN\n\n&#x25B6;  \nclass BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\bmod",
             "description": "properly spaced as a binary operator\n\nclass BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -743,28 +734,28 @@
         {
             "name": "\\bot",
             "description": "&#x22A5;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\bowtie",
             "description": "&#x22C8;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\Box",
             "description": "&#x25A1;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\boxdot",
             "description": "&#x22A1;   class BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -785,7 +776,7 @@
         {
             "name": "\\boxminus",
             "description": "&#x229F;  \nclass BIN\n\n&#x229E;  \nclass BIN\n\n&#x22A0;  \nclass BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -804,7 +795,7 @@
         {
             "name": "\\bracevert",
             "description": "not intended for direct use;\nused internally to create stretchy delimiters\n\n&#x23AA;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -845,14 +836,14 @@
         {
             "name": "\\bullet",
             "description": "&#x2219;   class BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\Bumpeq",
             "description": "&#x224E;  \nclass REL\n\n&#x224F;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -887,7 +878,7 @@
         {
             "name": "\\Cap",
             "description": "&#x22D2;  \nclass BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\bigcap",
                 "\\cap",
@@ -901,7 +892,7 @@
         {
             "name": "\\cap",
             "description": "&#x2229;  \nclass BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\bigcap",
                 "\\Cap",
@@ -952,7 +943,7 @@
         {
             "name": "\\cdots",
             "description": "&#x22EF;  \nclass INNER\ncentered dots;   dot dot dot",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\dots",
                 "\\ldots"
@@ -1008,14 +999,14 @@
         {
             "name": "\\checkmark",
             "description": "#x2713;  \nclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\chi",
             "description": "&#x03C7;  \nclass ORD\nlowercase Greek letter chi",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -1045,28 +1036,28 @@
         {
             "name": "\\circeq",
             "description": "&#x2257;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\circlearrowleft",
             "description": "&#x21BA;\ncounterclockwise\nclass REL\n\n&#x21BB;\nclockwise\nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\circledast",
             "description": "&#x229B;circled asteriskclass BIN\n&#x229A;circled circleclass BIN\n&#x229D;circled dashclass BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\circledR",
             "description": "&#x00AE;circled Rclass ORD\n&#x24C8;circled Sclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -1082,7 +1073,7 @@
         {
             "name": "\\clubsuit",
             "description": "&#x2663;  \nclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\diamondsuit",
                 "\\heartsuit",
@@ -1113,14 +1104,14 @@
         {
             "name": "\\complement",
             "description": "&#x2201;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\cong",
             "description": "&#x2245;  \nclass REL\n\ncongruent",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\ncong"
             ],
@@ -1129,7 +1120,7 @@
         {
             "name": "\\coprod",
             "description": "&#x2210;  \nclass OP\n\ncoproduct",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -1182,7 +1173,7 @@
         {
             "name": "\\cr",
             "description": "carriage return;\nline separator in alignment modes and environments\n\nin MathJax, these are essentially the same   \\\\,\n  \\newline",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -1201,14 +1192,14 @@
         {
             "name": "\\cssId{}",
             "description": "non-standard;   class ORD;  \nextension is loaded automatically when used;\n\nused to set a MathML element's ID attribute, so it can be accessed dynamically\n(e.g., to add an event handler, add CSS styling, or set display status)\n\n\\cssId #1 #2\n\nwhere\n\n#1  is an ID attribute (without quotes)\n#2  is the mathematics to be identified by the ID",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\Cup",
             "description": "&#x22D3;  \nclass BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\bigcup",
                 "\\Cap",
@@ -1222,7 +1213,7 @@
         {
             "name": "\\cup",
             "description": "&#x222A;  \nclass BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\bigcup",
                 "\\Cap",
@@ -1236,49 +1227,49 @@
         {
             "name": "\\curlyeqprec",
             "description": "&#x22DE;class REL\n&#x22DF;class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\curlyvee",
             "description": "&#x22CE;class BIN \n&#x22CF;class BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\curvearrowleft",
             "description": "&#x21B6;counterclockwiseclass REL\n&#x21B7;clockwiseclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\dagger",
             "description": "&#x2020;daggerclass BIN\n&#x2021;double daggerclass BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\daleth",
             "description": "&#x2138;   class ORD \nHebrew letter daleth",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\dashleftarrow",
             "description": "&#x21E0;dashed left arrow; non-stretchyclass REL\n&#x21E2;dashed right arrow; non-stretchyclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\dashv",
             "description": "&#x22A3;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -1315,7 +1306,7 @@
         {
             "name": "\\ddots",
             "description": "&#x22F1;   class INNER\nthree diagonal dots",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -1341,7 +1332,7 @@
             "name": "\\def",
             "suggestion_display":"",
             "description": "for defining your own commands (control sequences, macros, definitions);\nmust appear (within math delimiters) before it is used;\nalternatively, you can\ndefine macros using the MathJax configuration\noptions in the  <head>\n\\def\\myCommandName{ <replacement text> }",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\newcommand"
             ],
@@ -1350,14 +1341,14 @@
         {
             "name": "\\deg",
             "description": "class OP\ndegree;\ndoes not change size;\ndefault limit placement is the same in both inline and display modes;\ncan change limit placement using \\limits;\nsee the Big Operators Table for examples",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\Delta",
             "description": "&#x0394;uppercase Greek letter deltaclass ORD\n&#x03B4;lowercase Greek letter deltaclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\varDelta"
             ],
@@ -1401,21 +1392,21 @@
         {
             "name": "\\diagdown",
             "description": "&#x2572;diagonal down (from left to right)class ORD\n&#x2571;diagonal up (from left to right)class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\Diamond",
             "description": "&#x25CA;large diamondclass ORD\n&#x22C4;small diamondclass BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\diamondsuit",
             "description": "&#x2662;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\clubsuit",
                 "\\heartsuit",
@@ -1426,14 +1417,14 @@
         {
             "name": "\\digamma",
             "description": "&#x03DD;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\dim",
             "description": "class OP\ndimension;\ndoes not change size;\ndefault limit placement is the same in both inline and display modes;\ncan change limit placement using  \\limits;\nsee the Big Operators Table for examples",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -1451,7 +1442,7 @@
         {
             "name": "\\displaystyle",
             "description": "class ORD\nused to over-ride automatic style rules and force display style;\nstays in force until the end of math mode or the braced group, or until another style is selected\n{ \\displaystyle ... }",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\textstyle",
                 "\\scriptstyle",
@@ -1462,28 +1453,28 @@
         {
             "name": "\\div",
             "description": "&#x00F7;   class BIN\ndivision symbol",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\divideontimes",
             "description": "&#x22C7;   class BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\Doteq",
             "description": "&#x2251;class REL\n&#x2250;class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\dotplus",
             "description": "&#x2214;   class BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -1510,7 +1501,7 @@
         {
             "name": "\\dotsb",
             "description": "&#x22EF;\\dotsbclass INNERdots with binary operations and relations$x_1 + x_2 +\\dotsb + x_n$\n&#x2026;\\dotscclass INNERdots with commas$x_1,x_2,\\dotsc,x_n$\n&#x22EF;\\dotsiclass INNERdots with integrals$\\int_{A_1}\\int_{A_2}\\dotsi\\int_{A_n}$\n&#x22EF;\\dotsmclass INNERdots with multiplication$x_1x_2\\dotsm x_n$\n&#x2026;\\dotsoclass INNERother dots$A_1\\dotso A_n$",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\cdots",
                 "\\dots",
@@ -1521,14 +1512,14 @@
         {
             "name": "\\doublebarwedge",
             "description": "&#x2A5E;   BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\doublecap",
             "description": "&#x22D2;class BIN\n&#x22D3;class BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\Cap",
                 "\\Cup",
@@ -1540,21 +1531,21 @@
         {
             "name": "\\downarrow",
             "description": "&#x2193;down arrow; non-stretchyclass REL\n&#x21D3;double down arrow; non-stretchyclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\downdownarrows",
             "description": "&#x21CA;   class REL\ndown down arrows; non-stretchy",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\downharpoonleft",
             "description": "&#x21C3;down harpoon left; non-stretchyclass REL\n&#x21C2;down harpoon right; non-stretchyclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\leftharpoondown",
                 "\\leftharpoonup"
@@ -1564,14 +1555,14 @@
         {
             "name": "\\ell",
             "description": "&#x2113;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\emptyset",
             "description": "&#x2205;   class ORD\nempty set",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\varnothing"
             ],
@@ -1580,7 +1571,7 @@
         {
             "name": "\\end",
             "description": "used in  \n\\begin{xxx} ... \\end{xxx}   environments",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -1596,7 +1587,7 @@
         {
             "name": "\\epsilon",
             "description": "&#x03F5;   class ORD\nlowercase Greek letter epsilon",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\varepsilon"
             ],
@@ -1605,7 +1596,7 @@
         {
             "name": "\\eqalign",
             "description": "equation alignment;\nfor aligning multi-line displays at a single place\n\\eqalign{ <math> & <math> \\cr <repeat as needed> }\nthe ampersand is placed where alignment is desired;\na double-backslash can be used in place of the  \\cr ;\nthe final   \\\\   or   \\cr   is optional;\nsupports only a single \\tag, which is vertically centered",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\eqalignno",
                 "align environment",
@@ -1616,7 +1607,7 @@
         {
             "name": "\\eqalignno",
             "description": "equation alignment with optionally numbered (tagged) lines\n\\eqalignno{ <math> & <math> & <equation tag> \\cr <repeat as needed> }\nthe first ampersand is placed where alignment is desired;\nthe second ampersand is used just before a tag;\nif there is no tag, then the final    & <equation tag>   is omitted;\na double-backslash can be used in place of the  \\cr ;\nthe final   \\\\   or   \\cr   is optional",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\eqalign",
                 "\\leqalignno",
@@ -1627,49 +1618,49 @@
         {
             "name": "\\eqcirc",
             "description": "&#x2256;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\eqsim",
             "description": "&#x2242;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\eqslantgtr",
             "description": "&##x2A96;\n\nclass REL\n\n&##x2A95;class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\equiv",
             "description": "&#x2261;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\eta",
             "description": "&#x03B7;  \nclass ORD\nlowercase Greek letter eta",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\eth",
             "description": "&#x00F0;  \nclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\exists",
             "description": "&#x2203;  \nclass ORD\nthere exists",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\nexists"
             ],
@@ -1678,14 +1669,14 @@
         {
             "name": "\\exp",
             "description": "class OP\nexponential function;\ndoes not change size;\ndefault limit placement is the same in both inline and display modes;\ncan change limit placement using \\limits;\nsee the Big Operators Table for examples",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\fallingdotseq",
             "description": "&#x2252;  \nclass REL\nfalling dot sequence;",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\risingdotseq"
             ],
@@ -1706,14 +1697,14 @@
         {
             "name": "\\Finv",
             "description": "&#x2132;  \nclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\flat",
             "description": "&#x266D;  \nclass ORD\nmusical flat symbol",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\natural",
                 "\\sharp"
@@ -1723,7 +1714,7 @@
         {
             "name": "\\forall",
             "description": "&#x2200;  \nclass ORD\nuniversal quantifier; for all; for every; for each",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -1768,7 +1759,7 @@
         {
             "name": "\\frown",
             "description": "&#x2322;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\smallfrown",
                 "\\smallsmile",
@@ -1779,14 +1770,14 @@
         {
             "name": "\\Game",
             "description": "&#x2141;  \nclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\Gamma",
             "description": "&#x0393;  \nclass ORD\nuppercase Greek letter gamma",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\varGamma"
             ],
@@ -1795,7 +1786,7 @@
         {
             "name": "\\gamma",
             "description": "&#x03B3;  \nclass ORD\nlowercase Greek letter gamma",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -1803,7 +1794,6 @@
             "name": "\\gcd",
             "description": "class OP\ngreatest common divisor;\ndoes not change size;\ncan change limit placement using \\limits and  \\nolimits;\nsee the Big Operators Table for examples",
             "examples": [
-                "\\gcd_{\\rm sub}^{\\rm sup}",
                 "\\gcd_{\\rm sub}^{\\rm sup}"
             ],
             "see_also": [],
@@ -1812,7 +1802,7 @@
         {
             "name": "\\ge",
             "description": "&#x2265;   \\ge\n&#x2265;   \\geq\n&#x2267;   \\geqq\n&#x2A7E;   \\geqslant\n\nall class REL\ngreater than or equal to",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\ngeq",
                 "\\ngeqq",
@@ -1843,49 +1833,49 @@
         {
             "name": "\\gets",
             "description": "&#x2190;  \nclass REL\nleft arrow;\nnon-stretchy",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\gg",
             "description": "&#x226B;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\ggg",
             "description": "&#x22D9;\n\nclass REL\n\n&#x22D9;class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\gimel",
             "description": "&#x2137;  \nclass ORD\nHebrew letter gimel",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\gtrapprox",
             "description": "&#x2A86;class REL\n&#x2A8A;class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\gneq",
             "description": "&#x2A88;class REL\n&#x2269;class REL\n&#x2269;class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\gtrsim",
             "description": "&#x2273;class REL\n&#x22E7;class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -1904,7 +1894,7 @@
         {
             "name": "\\gt",
             "description": "&#x003E;   class REL\ngreater than",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\ngtr"
             ],
@@ -1913,21 +1903,21 @@
         {
             "name": "\\gtrdot",
             "description": "&#x22D7;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\gtreqless",
             "description": "&#x22DB;class REL\n&#x2A8C;class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\gtrless",
             "description": "&#x2277;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -1948,7 +1938,7 @@
         {
             "name": "\\hbar",
             "description": "&#x210F;  \nclass ORD\nPlanck's constant",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -1978,7 +1968,7 @@
         {
             "name": "\\heartsuit",
             "description": "&#x2661;  \nclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\clubsuit",
                 "\\diamondsuit",
@@ -1989,7 +1979,7 @@
         {
             "name": "\\hfil",
             "description": "horizontal glue; horizontal fill (added in MathJax 2.5);\ncan be used to set horizontal alignment in matrices and arrays (as in old-fashioned $\\,\\TeX\\,$ layout);\nit ‘expands’ to fill available horizontal space, pushing contents on right or left to the boundary",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\hskip",
                 "\\hspace",
@@ -2003,21 +1993,21 @@
         {
             "name": "\\hom",
             "description": "class OP\nhomomorphism;\ndoes not change size;\ndefault limit placement is the same in both inline and display modes;\ncan change limit placement using \\limits;\nsee the Big Operators Table for examples",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\hookleftarrow",
             "description": "&#x21A9;non-stretchy\n&#x21AA;non-stretchy\n\nboth class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\hphantom{}",
             "description": "class ORD\nhorizontal phantom\n\nSometimes you want to pretend that something is there, for spacing reasons,\nbut you don't want it to appear—you want it to be invisible—you want it to be a phantom.\n\nThe box created by   \\hphantom   has the width of its argument,\nbut its height and depth are zero (so it doesn't contribute to any vertical spacing issues).\nIn other words, \\hphantom   creates horizontal space equal to that produced by its argument,\nbut doesn't create any vertical space.\n\\hphantom #1",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\phantom",
                 "\\vphantom"
@@ -2036,21 +2026,21 @@
         {
             "name": "\\hskip",
             "description": "horizontal glue; horizontal space; horizontal skipping;\n\\hskip <dimen>",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\hslash",
             "description": "&#x210F;  \nclass ORD\nperhaps an alternative form of Planck's constant",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\hspace",
             "description": "horizontal glue; horizontal space; horizontal skipping\n\\hspace <dimen>",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -2070,14 +2060,14 @@
         {
             "name": "\\idotsint",
             "description": "class OP\nchanges size;\ncan change limit placement using \\limits;\nsee the Big Operators Table for examples",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\iff",
             "description": "&#x27FA;   with a thick space on both sides\nif and only if;   is equivalent to;\nnon-stretchy",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -2096,7 +2086,7 @@
         {
             "name": "\\intop",
             "description": "&#x222B; (with movable limits)  \nclass OP\n\nSee the Big Operators Table for examples.",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\iiiint, \\iiint, \\iint, \\int"
             ],
@@ -2105,7 +2095,7 @@
         {
             "name": "\\Im",
             "description": "&#x2111;  \nclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -2124,21 +2114,21 @@
         {
             "name": "\\impliedby",
             "description": "&#x27F8;   with a thick space on both sides\nnon-stretchy",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\implies",
             "description": "&#x27F9;   with a thick space on both sides\nnon-stretchy",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\in",
             "description": "&#x2208;  \nclass REL\nis in;   is an element of;   indicates membership in a set;",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\ni",
                 "\\notin",
@@ -2161,14 +2151,14 @@
         {
             "name": "\\infty",
             "description": "&#x221E;  \nclass ORD\ninfinity",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\injlim",
             "description": "class OP\ninjective limit;\ndoes not change size;\ncan change limit placement using \\limits and  \\nolimits;\nsee the Big Operators Table for examples",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\varinjlim"
             ],
@@ -2177,14 +2167,14 @@
         {
             "name": "\\intercal",
             "description": "&#x22BA;  \nclass BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\iota",
             "description": "&#x03B9;  \nclass ORD\nlowercase Greek letter iota",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -2217,14 +2207,14 @@
         {
             "name": "\\Join",
             "description": "&#x22C8;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\kappa",
             "description": "&#x03BA;  \nclass ORD\n\nlowercase Greek letter kappa",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\varkappa"
             ],
@@ -2233,7 +2223,7 @@
         {
             "name": "\\ker",
             "description": "class OP\nkernel;\ndoes not change size;\ndefault limit placement is the same in both inline and display modes;\ncan change limit placement using \\limits;\nsee the Big Operators Table for examples",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -2250,7 +2240,7 @@
         {
             "name": "\\Lambda",
             "description": "uppercase Greek letter lambda\n\n&#x039B;  \nclass ORD\n\nlowercase Greek letter lambda\n\n&#x03BB;  \nclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\varLambda"
             ],
@@ -2259,7 +2249,7 @@
         {
             "name": "\\lambda",
             "description": "uppercase Greek letter lambda\n\n&#x039B;  \nclass ORD\n\nlowercase Greek letter lambda\n\n&#x03BB;  \nclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\varLambda"
             ],
@@ -2268,7 +2258,7 @@
         {
             "name": "\\land",
             "description": "logical AND\n\n&#x2227;  \nclass BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\lor",
                 "\\wedge"
@@ -2303,7 +2293,7 @@
         {
             "name": "\\LaTeX",
             "description": "the LaTeX logo\n\nclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\TeX"
             ],
@@ -2363,7 +2353,7 @@
         {
             "name": "\\ldots",
             "description": "lower dots;   ellipsis;   ellipses;   dot dot dot\n\n&#x2026;  \nclass INNER",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\cdots",
                 "\\dots"
@@ -2373,7 +2363,7 @@
         {
             "name": "\\le",
             "description": "less than or equal to&#x2264;   class REL\nless than or equal to&#x2264;   class REL\nless than or equal to&#x2266;   class REL\nless than or equal to&#x2A7D;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\nleq",
                 "\\nleqq",
@@ -2384,7 +2374,7 @@
         {
             "name": "\\leadsto",
             "description": "&#x21DD;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -2403,7 +2393,7 @@
         {
             "name": "\\leftarrow",
             "description": "left arrow; non-stretchy\n\n&#x2190;  \nclass REL\n\nleft arrow; non-stretchy\n\n&#x21D0;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\nleftarrow",
                 "\\nLeftarrow"
@@ -2413,7 +2403,7 @@
         {
             "name": "\\leftarrowtail",
             "description": "left arrow tail; non-stretchy\n\n&#x21A2;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\rightarrowtail"
             ],
@@ -2422,21 +2412,21 @@
         {
             "name": "\\leftharpoondown",
             "description": "left harpoon arrow; non-stretchy\n\n&#x21BD;  \nclass REL\n\nleft harpoon arrow; non-stretchy\n\n&#x21BC;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\leftleftarrows",
             "description": "left left arrows; non-stretchy\n\n&#x21C7;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\leftrightarrow",
             "description": "left right arrow; non-stretchy\n\n&#x2194;  \nclass REL\n\nleft right arrow; non-stretchy\n\n&#x21D4;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\nleftrightarrow",
                 "\\nLeftrightarrow"
@@ -2446,21 +2436,21 @@
         {
             "name": "\\leftrightarrows",
             "description": "left right arrows; non-stretchy\n\n&#x21C6;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\leftrightharpoons",
             "description": "left right harpoons; non-stretchy\n\n&#x21CB;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\leftrightsquigarrow",
             "description": "left right squiqqle arrow; non-stretchy\n\n&#x21AD;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -2484,14 +2474,14 @@
         {
             "name": "\\leftthreetimes",
             "description": "&#x22CB;  \nclass BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\leqalignno",
             "description": "equation alignment with optionally numbered (tagged) lines;\nin $\\rm\\TeX$,  \\leqalignno  puts the tags on the left, but MathJax\ndoesn't implement this behavior;\ncurrently, tags appear in a column on the\nright separated from the equations by a fixed amount of space (so they\ndon't work like tags in the AMS math environments);\nthis may be fixed in a future version of MathJax\n\\leqalignno{ <math> & <math> & <equation tag> \\cr <repeat as needed> }\nthe first ampersand is placed where alignment is desired;\nthe second ampersand is used just before a tag;\nif there is no tag, then the final    & <equation tag>   is omitted;\na double-backslash can be used in place of the  \\cr ;\nthe final   \\\\   or   \\cr   is optional;\noutput is the same in both inline and display modes\n(except for the amount of vertical space before and after);",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\eqalignno",
                 "align environment"
@@ -2501,7 +2491,7 @@
         {
             "name": "\\lessapprox",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\lnapprox",
                 "REL"
@@ -2511,28 +2501,28 @@
         {
             "name": "\\lessdot",
             "description": "&#x22D6;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\lesseqgtr",
             "description": "&#x22DA;  \nclass REL\n\n&#x2A8B;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\lessgtr",
             "description": "&#x2276;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\lesssim",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\lnsim",
                 "REL"
@@ -2542,7 +2532,7 @@
         {
             "name": "\\lfloor",
             "description": "left floor;\nnon-stretchy when used alone;\nstretchy when used with   \\left   or   \\right\n\n&#x230A;  \nclass OPEN",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\rfloor",
                 "\\lceil",
@@ -2553,7 +2543,7 @@
         {
             "name": "\\lg",
             "description": "does not change size;\ndefault limit placement is the same in both inline and display modes;\ncan change limit placement using \\limits;\nsee the Big Operators Table for examples\n\nclass OP",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -2571,7 +2561,7 @@
         {
             "name": "\\lhd",
             "description": "left-hand diamond\n\n&#x22B2;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\rhd"
             ],
@@ -2629,7 +2619,7 @@
         {
             "name": "\\ll",
             "description": "&x226A;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -2655,7 +2645,7 @@
         {
             "name": "\\llcorner",
             "description": "lower left corner&#x2514;   class REL\nlower right corner&#x2518;   class REL\n\nThese are technically delimiters, but MathJax doesn't stretch them like it should.",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\ulcorner",
                 "\\urcorner"
@@ -2665,14 +2655,14 @@
         {
             "name": "\\Lleftarrow",
             "description": "non-stretchy\n\n&#x21DA;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\lll",
             "description": "&#x22D8;  \nclass REL\n\n&#x22D8;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -2690,14 +2680,14 @@
         {
             "name": "\\ln",
             "description": "natural logarithm;\ndoes not change size;\ndefault limit placement is the same in both inline and display modes;\ncan change limit placement using \\limits;\nsee the Big Operators Table for examples\n\nclass OP",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\lnapprox",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\lessapprox",
                 "REL"
@@ -2707,7 +2697,7 @@
         {
             "name": "\\lneq",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\leq",
                 "REL",
@@ -2719,7 +2709,7 @@
         {
             "name": "\\lnot",
             "description": "logical not\n\n&#x00AC;  \nclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\neg"
             ],
@@ -2728,7 +2718,7 @@
         {
             "name": "\\lnsim",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\lesssim",
                 "REL"
@@ -2738,28 +2728,28 @@
         {
             "name": "\\log",
             "description": "logarithm;\ndoes not change size;\ndefault limit placement is the same in both inline and display modes;\ncan change limit placement using \\limits;\nsee the Big Operators Table for examples\n\nclass OP",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\longleftarrow",
             "description": "non-stretchy\n\n&#x27F5;  \nclass REL\n\nnon-stretchy\n\n&#x27F8;  \nclass REL\n\nnon-stretchy\n\n&#x27F6;  \nclass REL\n\nnon-stretchy\n\n&#x27F9;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\longleftrightarrow",
             "description": "non-stretchy\n\n&#x27F7;  \nclass REL\n\nnon-stretchy\n\n&#x27FA;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\longmapsto",
             "description": "long maps to\n\n&#x27FC;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\mapsto"
             ],
@@ -2768,14 +2758,14 @@
         {
             "name": "\\looparrowleft",
             "description": "non-stretchy\n\n&#x21AB;  \nclass REL\n\nnon-stretchy\n\n&#x21AC;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\lor",
             "description": "logical OR\n\n&#x2228;  \nclass BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\land",
                 "\\vee"
@@ -2796,14 +2786,14 @@
         {
             "name": "\\lozenge",
             "description": "&#x25CA;  \nclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\Lsh",
             "description": "left shift; non-stretchy\n\n&#x21B0;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\Rsh"
             ],
@@ -2812,7 +2802,7 @@
         {
             "name": "\\lt",
             "description": "less than\n\n&#x003C;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\nless"
             ],
@@ -2821,7 +2811,7 @@
         {
             "name": "\\ltimes",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\rtimes",
                 "BIN"
@@ -2845,21 +2835,21 @@
         {
             "name": "\\lvertneqq",
             "description": "&#x2268;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\maltese",
             "description": "&#x2720;  \nclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\mapsto",
             "description": "maps to; non-stretchy math operator\n\n&#x21A6;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\longmapsto"
             ],
@@ -3152,14 +3142,14 @@
         {
             "name": "\\measuredangle",
             "description": "&#x2221;  \nclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\mho",
             "description": "&#x2127;  \nclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -3226,7 +3216,7 @@
         {
             "name": "\\models",
             "description": "&#x22A8;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -3250,7 +3240,7 @@
         {
             "name": "\\mp",
             "description": "minus plus\n\n&#x2213;  \nclass BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\pm"
             ],
@@ -3281,28 +3271,28 @@
         {
             "name": "\\mu",
             "description": "lowercase Greek letter mu\n\n&#x03BC;  \nclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\multimap",
             "description": "&#x22B8;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\nabla",
             "description": "&#x2207;  \nclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\natural",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\flat",
                 "\\sharp",
@@ -3313,7 +3303,7 @@
         {
             "name": "\\ncong",
             "description": "not congruent\n\n&#x2246;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\cong"
             ],
@@ -3322,7 +3312,7 @@
         {
             "name": "\\ne",
             "description": "not equal\n\n&#x2260;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "equals",
                 "\\neq"
@@ -3332,7 +3322,7 @@
         {
             "name": "\\nearrow",
             "description": "northeast arrow; non-stretchy\n\n&#x2197;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\nwarrow",
                 "\\searrow",
@@ -3343,7 +3333,7 @@
         {
             "name": "\\neg",
             "description": "negate; negation\n\n&#x00AC;  \nclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\lnot"
             ],
@@ -3366,7 +3356,7 @@
         {
             "name": "\\neq",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "equals",
                 "\\ne",
@@ -3377,7 +3367,7 @@
         {
             "name": "\\newcommand",
             "description": "for defining your own commands (control sequences, macros, definitions);\n\\newcommand  must appear (within math delimiters) before it is used;\nif desired, you can use the  TeX.Macros \nproperty of the configuration to define\nmacros in the head\n\n\\newcommand\\myCommandName\n[ <optional # of arguments, from 1 to 9> ]\n{ <replacement text> }\n\nThe bracketed # of arguments is omitted when there are no arguments.\n\nExample (no arguments):\n\n\\newcommand\\myHearts\n{\\color{purple}{\\heartsuit}\\kern-2.5pt\\color{green}{\\heartsuit}}\n\n\\myHearts\\myHearts\n\nyields\n$\n\\newcommand\\myHearts\n{\\color{purple}{\\heartsuit}\\kern-2.5pt\\color{green}{\\heartsuit}}\n\n\\myHearts\\myHearts\n$\n\nA definition may take one or more arguments:\n\nExample (two arguments):\n\n\\newcommand\\myHearts[2]\n{\\color{#1}{\\heartsuit}\\kern-2.5pt\\color{#2}{\\heartsuit}}\n\n\\myHearts{red}{blue}\n\nyields:\n$\n\\newcommand\\myHearts[2]\n{\\color{#1}{\\heartsuit}\\kern-2.5pt\\color{#2}{\\heartsuit}}\n\n\\myHearts{red}{blue}\n$",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\def",
                 "\\newenvironment"
@@ -3387,7 +3377,7 @@
         {
             "name": "\\newenvironment",
             "description": "for defining your own environments;\n\\newenvironment  must appear (within math delimiters) before it is used\n\n\\newenvironment{myEnvironmentName}\n[ <optional # of arguments, from 1 to 9> ]\n{ <replacement text for each occurrence of \\begin{myEnvironmentName}> }\n{ <replacement text for each occurrence of \\end{myEnvironmentName}> }\n\nThe bracketed # of arguments is omitted when there are no arguments.\nThere must not be a command having the same name as the environment\nfor example, to use   \\begin{myHeart}...\\end{myHeart}   there may not be a command \\myHeart.\n\nExample (no arguments):\n\n\\newenvironment{myHeartEnv}\n{\\color{purple}{\\heartsuit}\\kern-2.5pt\\color{green}{\\heartsuit}}\n{\\text{ forever}}\n\n\\begin{myHeartEnv}\n\\end{myHeartEnv}\n\nyields:\n$\n\\newenvironment{myHeartEnv}\n{\\color{purple}{\\heartsuit}\\kern-2.5pt\\color{green}{\\heartsuit}}\n{\\text{ forever}}\n\n\\begin{myHeartEnv}\n\\end{myHeartEnv}\n$\n\nAn environment may take one or more arguments:\n\nExample (two arguments):\n\n\\newenvironment{myHeartEnv}[2]\n{\\color{#1}{\\heartsuit}\\kern-2.5pt\\color{#2}{\\heartsuit}}\n{\\text{ forever}}\n\n\\begin{myHeartEnv}{red}{blue}\n\\end{myHeartEnv}\n\nyields:\n$\n\\newenvironment{myHeartEnv}[2]\n{\\color{#1}{\\heartsuit}\\kern-2.5pt\\color{#2}{\\heartsuit}}\n{\\text{ forever}}\n\n\\begin{myHeartEnv}{red}{blue}\n\\end{myHeartEnv}\n$",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\def",
                 "\\newcommand"
@@ -3397,14 +3387,14 @@
         {
             "name": "\\newline",
             "description": "line separator in alignment modes and environments\n\nin MathJax, these are essentially the same   \\cr,\n  \\\\",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\nexists",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\exists",
                 "ORD"
@@ -3414,7 +3404,7 @@
         {
             "name": "\\ngeq",
             "description": "not greater than or equal to&#x2271;   class REL\nnot greater than or equal to&#x2271;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\geq",
                 "\\geqq"
@@ -3424,7 +3414,7 @@
         {
             "name": "\\ngeqslant",
             "description": "slanted not greater than or equal to\n\n&#x2A88;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\geqslant"
             ],
@@ -3433,7 +3423,7 @@
         {
             "name": "\\ngtr",
             "description": "not greater than\n\n&#x226F;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\gt"
             ],
@@ -3442,7 +3432,7 @@
         {
             "name": "\\ni",
             "description": "backwards ‘in’; contains\n\n&#x220B;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\in"
             ],
@@ -3451,7 +3441,7 @@
         {
             "name": "\\nleftarrow",
             "description": "&#x219A;   class REL\n&#x21CD;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\leftarrow",
                 "\\Leftarrow"
@@ -3461,7 +3451,7 @@
         {
             "name": "\\nleftrightarrow",
             "description": "&#x21AE;   class REL\n&#x21CE;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\leftrightarrow",
                 "\\Leftrightarrow"
@@ -3471,7 +3461,7 @@
         {
             "name": "\\nleq",
             "description": "not less than or equal to&#x2270;   class REL\nnot less than or equal to&#x2270;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\leq",
                 "\\leqq"
@@ -3481,7 +3471,7 @@
         {
             "name": "\\nleqslant",
             "description": "slanted not less than or equal to\n\n&#x2A87;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\leqslant"
             ],
@@ -3490,7 +3480,7 @@
         {
             "name": "\\nless",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\lt",
                 "REL"
@@ -3500,7 +3490,7 @@
         {
             "name": "\\nmid",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\mid",
                 "REL"
@@ -3552,14 +3542,14 @@
         {
             "name": "\\notag",
             "description": "used in AMS math environments that do automatic equation numbering,\nto suppress the equation number;\nsince MathJax doesn't implement auto-numbering (as of version 1.1a), it is basically a no-op,\nalthough it will cancel an explicit  \\tag ;\nwhen auto-numbering is added, then this will work as expected;\n\\notag  is included now for compatibility with existing TeX code (to\nprevent throwing an error, even though it has no effect)\n\nclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\notin",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\in",
                 "REL"
@@ -3569,7 +3559,7 @@
         {
             "name": "\\nparallel",
             "description": "not parallel\n\n&#x2226;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\parallel"
             ],
@@ -3578,7 +3568,7 @@
         {
             "name": "\\nprec",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\prec",
                 "REL"
@@ -3588,7 +3578,7 @@
         {
             "name": "\\npreceq",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\preceq",
                 "REL"
@@ -3598,7 +3588,7 @@
         {
             "name": "\\nrightarrow",
             "description": "&#x219B;   class REL\n&#x21CF;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\rightarrow",
                 "\\Rightarrow"
@@ -3608,7 +3598,7 @@
         {
             "name": "\\nshortmid",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\mid",
                 "\\shortmid",
@@ -3619,7 +3609,7 @@
         {
             "name": "\\nshortparallel",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\parallel",
                 "\\shortparallel",
@@ -3630,7 +3620,7 @@
         {
             "name": "\\nsim",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\sim",
                 "REL"
@@ -3640,7 +3630,7 @@
         {
             "name": "\\nsubseteq",
             "description": "&#x2288;   class REL\n&#x2288;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\subseteq",
                 "\\subseteqq"
@@ -3650,7 +3640,7 @@
         {
             "name": "\\nsucc",
             "description": "&#x2281;   class REL\n&#x22E1;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\succ",
                 "\\succeq"
@@ -3660,7 +3650,7 @@
         {
             "name": "\\nsupseteq",
             "description": "&#x2289;   class REL\n&#x2289;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\supseteq",
                 "\\supseteqq"
@@ -3670,7 +3660,7 @@
         {
             "name": "\\ntriangleleft",
             "description": "&#x22EA;   class REL\n&#x22EC;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\triangleleft",
                 "\\trianglelefteq"
@@ -3680,7 +3670,7 @@
         {
             "name": "\\ntriangleright",
             "description": "&#x22EB;    class REL\n&#x22ED;    class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\triangleright",
                 "\\trianglerighteq"
@@ -3690,14 +3680,14 @@
         {
             "name": "\\nu",
             "description": "lowercase Greek letter nu\n\n&#x03BD;  \nclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\nVDash",
             "description": "&#x22AF;   class REL\n&#x22AE;   class REL\n&#x22AD;   class REL\n&#x22AC;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\Vdash",
                 "\\vDash",
@@ -3708,7 +3698,7 @@
         {
             "name": "\\nwarrow",
             "description": "northwest arrow; non-stretchy\n\n&#x2196;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\nearrow",
                 "\\searrow",
@@ -3719,14 +3709,14 @@
         {
             "name": "\\odot",
             "description": "&#x2299;   class BIN\n&#x2296;   class BIN\n&#x2295;   class BIN\n&#x2298;   class BIN\n&#x2297;   class BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\oint",
             "description": "changes size;\ncan change limit placement using \\limits;\nsee the Big Operators Table for examples\n\n&#x222E;  \nclass OP",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -3751,7 +3741,7 @@
         {
             "name": "\\omega",
             "description": "lowercase Greek letter omega&#x03C9;   class ORD\nuppercase Greek letter omega&#x03A9;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\varOmega"
             ],
@@ -3760,7 +3750,7 @@
         {
             "name": "\\omicron",
             "description": "lowercase Greek letter omicron\n\n&#x03BF;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -3882,7 +3872,7 @@
         {
             "name": "\\owns",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\ni",
                 "\\in",
@@ -3893,7 +3883,7 @@
         {
             "name": "\\parallel",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\nparallel",
                 "REL"
@@ -3912,7 +3902,7 @@
         {
             "name": "\\perp",
             "description": "perpendicular to\n\n&#x22A5;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -3934,7 +3924,7 @@
         {
             "name": "\\phi",
             "description": "lowercase Greek letter phi\n&##x03D5;   class ORD\n\nuppercase Greek letter phi\n&#x03A6;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\varphi",
                 "\\varPhi"
@@ -3944,7 +3934,7 @@
         {
             "name": "\\pi",
             "description": "lowercase Greek letter pi\n&#x03C0;   class ORD\n\nuppercase Greek letter Pi\n&#x03A0;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\varpi",
                 "\\varPi"
@@ -3954,14 +3944,14 @@
         {
             "name": "\\pitchfork",
             "description": "&#x22D4;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\pm",
             "description": "plus or minus\n\n&x00B1;  \nclass BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\mp"
             ],
@@ -4024,7 +4014,7 @@
         {
             "name": "\\prec",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\nprec",
                 "REL"
@@ -4034,21 +4024,21 @@
         {
             "name": "\\precapprox",
             "description": "&#x2AB7;   class REL\n&#x2AB9;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\preccurlyeq",
             "description": "&#x227C;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\preceq",
             "description": "&#x2AAF;   class REL\n&#x2AB5;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\npreceq"
             ],
@@ -4057,7 +4047,7 @@
         {
             "name": "\\precsim",
             "description": "&#x227E;   class REL\n&#x22E8;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -4090,7 +4080,7 @@
         {
             "name": "\\projlim",
             "description": "projective limit;\ndoes not change size;\ncan change limit placement using \\limits and\n\\nolimits;\nsee the Big Operators Table for examples\n\nclass OP",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\varprojlim"
             ],
@@ -4099,7 +4089,7 @@
         {
             "name": "\\propto",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\varpropto",
                 "REL"
@@ -4109,7 +4099,7 @@
         {
             "name": "\\psi",
             "description": "lowercase Greek letter psi\n&#x03C9;   class ORD\n\nuppercase Greek letter psi\n&#x03A9;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\varPsi"
             ],
@@ -4188,7 +4178,7 @@
         {
             "name": "\\Re",
             "description": "&#x211C;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -4196,7 +4186,7 @@
             "name": "\\renewcommand",
             "suggestion_display" : "",
             "description": "equivalent to \\newcommand;\nfor clarity of code, you may choose to use   \\renewcommand  \nwhen re-defining a macro;\nthis is different from actual $\\,\\rm\\TeX\\,$,\nwhere  \\renewcommand  only allows redefining of an existing command",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\def",
                 "\\newcommand",
@@ -4208,21 +4198,21 @@
             "name": "\\require",
             "suggestion_display" : "",
             "description": "This is a MathJax-specific macro that can be used to load MathJax $\\rm\\TeX$ extensions (like the AMSmath extension)\nfrom within math mode, rather than having to include it in the configuration.\nFor example,\n\n$\\require{AMSsymbols}$\n\nwould cause MathJax to load the\n extensions/TeX/AMSsymbols.js  file at that point.\n\nSince many people use MathJax in blogs and wikis that may not have all the extensions loaded,\nthis makes it possible to load a lesser-used extension on a particular page,\nwithout having to include it in every page.",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\restriction",
             "description": "&#x21BE;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\rfloor",
             "description": "right floor;\nnon-stretchy when used alone;\nstretchy when used with   \\left   or   \\right\n\n&#x230B;   class CLOSE",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\lfloor",
                 "\\lceil",
@@ -4244,7 +4234,7 @@
         {
             "name": "\\rhd",
             "description": "right-hand diamond\n\n&#x22B3;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\lhd"
             ],
@@ -4253,7 +4243,7 @@
         {
             "name": "\\rho",
             "description": "lowercase Greek letter rho\n\n&#x0000;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\varrho"
             ],
@@ -4277,7 +4267,7 @@
         {
             "name": "\\rightarrow",
             "description": "non-stretchy&#x2192;   class REL\nnon-stretchy&#x21D2;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\nrightarrow",
                 "\\nRightarrow",
@@ -4288,7 +4278,7 @@
         {
             "name": "\\rightarrowtail",
             "description": "right arrow tail; non-stretchy\n\n&#x21A3;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\leftarrowtail"
             ],
@@ -4297,7 +4287,7 @@
         {
             "name": "\\rightharpoondown",
             "description": "non-stretchy&#x21C1;   class REL\nnon-stretchy&#x21C0;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\leftharpoondown",
                 "\\rightharpoondown"
@@ -4307,42 +4297,42 @@
         {
             "name": "\\rightleftarrows",
             "description": "right left arrows; non-stretchy\n\n&#x21C4;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\rightleftharpoons",
             "description": "right left harpoons; non-stretchy\n\n&#x21CC;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\rightrightarrows",
             "description": "right right arrows; non-stretchy\n\n&#x21C9;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\rightsquigarrow",
             "description": "right squiggle arrow; non-stretchy\n\n&#x21DD;  class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\rightthreetimes",
             "description": "right three times\n\n&#x22CC;   class BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\risingdotseq",
             "description": "rising dot sequence\n\n&#x2253;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\fallingdotseq"
             ],
@@ -4405,14 +4395,14 @@
         {
             "name": "\\Rrightarrow",
             "description": "non-stretchy\n\n&#x21DB;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\Rsh",
             "description": "right shift; non-stretchy\n\n&#x21B1;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\Lsh"
             ],
@@ -4421,7 +4411,7 @@
         {
             "name": "\\rtimes",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\ltimes",
                 "BIN"
@@ -4455,7 +4445,7 @@
         {
             "name": "\\S",
             "description": "section symbol\n\n&#xA700;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -4478,7 +4468,7 @@
         {
             "name": "\\scriptscriptstyle",
             "description": "used to over-ride automatic style rules and force scriptscript style;\nstays in force until the end of math mode or the braced group, or until another style is selected\n\nclass ORD\n\n{ \\scriptscriptstyle ... }",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\displaystyle",
                 "\\scriptstyle",
@@ -4500,7 +4490,7 @@
         {
             "name": "\\scriptstyle",
             "description": "used to over-ride automatic style rules and force script style;\nstays in force until the end of math mode or the braced group, or until another style is selected\n\nclass ORD\n\n{ \\scriptstyle ... }",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\displaystyle",
                 "\\scriptscriptstyle",
@@ -4511,7 +4501,7 @@
         {
             "name": "\\searrow",
             "description": "southeast arrow; non-stretchy\n\n&#x2198;  \nclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\nearrow",
                 "\\nwarrow",
@@ -4563,7 +4553,7 @@
         {
             "name": "\\sharp",
             "description": "musical sharp symbol\n\n&#x266F;  \nclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\flat",
                 "\\natural"
@@ -4573,7 +4563,7 @@
         {
             "name": "\\shortmid",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\nshortmid",
                 "\\mid",
@@ -4584,7 +4574,7 @@
         {
             "name": "\\shortparallel",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\nshortparallel",
                 "REL"
@@ -4594,7 +4584,7 @@
         {
             "name": "\\shoveleft",
             "description": "forces flush left or flush right typesetting in a   \\multline   or   \\multline*   environment (see examples)",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -4610,7 +4600,7 @@
         {
             "name": "\\sigma",
             "description": "lowercase Greek letter sigma\n&#x03C3;   class ORD\n\nuppercase Greek letter sigma\n&#x03A3;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\sum",
                 "\\varsigma",
@@ -4621,7 +4611,7 @@
         {
             "name": "\\sim",
             "description": "&#x223C;   class REL\n&#x2243;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\nsim"
             ],
@@ -4687,7 +4677,7 @@
         {
             "name": "\\smallfrown",
             "description": "small frown\n\n&#x2322;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\frown",
                 "\\smile",
@@ -4698,7 +4688,7 @@
         {
             "name": "\\smallint",
             "description": "small integral\n\n&#x222B;   class OP",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\int"
             ],
@@ -4707,7 +4697,7 @@
         {
             "name": "\\smallsetminus",
             "description": "small set minus\n\n&#x2216;   class BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\setminus"
             ],
@@ -4716,7 +4706,7 @@
         {
             "name": "\\smallsmile",
             "description": "small smile\n\n&#x2323;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\smile",
                 "\\frown",
@@ -4743,7 +4733,7 @@
         {
             "name": "\\smile",
             "description": "smile\n\n&#x2323;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\smallsmile",
                 "\\frown",
@@ -4775,7 +4765,7 @@
         {
             "name": "\\spadesuit",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\clubsuit",
                 "\\diamondsuit",
@@ -4787,14 +4777,14 @@
         {
             "name": "\\sphericalangle",
             "description": "&#x2222;  \nclass ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\sqcap",
             "description": "square cap&#x2293;   class BIN\nsquare cup&#x2294;   class BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -4815,21 +4805,21 @@
         {
             "name": "\\sqsubset",
             "description": "square subset&#x228F;   class REL\nsquare superset&#x2290;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\sqsubseteq",
             "description": "&#x2291;   class REL\n&#x2292;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\square",
             "description": "&#x25A1;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -4846,7 +4836,7 @@
         {
             "name": "\\star",
             "description": "&#x22C6;   class BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -4879,21 +4869,21 @@
         {
             "name": "\\subset",
             "description": "&#x2282;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\Subset",
             "description": "&#x22D0;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\subseteq",
             "description": "&#x2286;   class REL\n&#x228A;   class REL\n&#x2AC5;   class REL\n&#x2ACB;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\nsubseteq",
                 "\\nsubseteqq",
@@ -4917,7 +4907,7 @@
         {
             "name": "\\succ",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\nsucc",
                 "REL"
@@ -4927,21 +4917,21 @@
         {
             "name": "\\succapprox",
             "description": "&#x2AB8;   class REL\n&#x2ABA;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\succcurlyeq",
             "description": "&#x227D;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\succeq",
             "description": "&#x2AB0;   class REL\n&#x2AB6;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\nsucceq"
             ],
@@ -4950,14 +4940,14 @@
         {
             "name": "\\succsim",
             "description": "&#x227F;   class REL\n&#x22E9;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\sum",
             "description": "summation notation;\nchanges size;\ncan change limit placement using \\limits and  \\nolimits;\nsee the Big Operators Table for examples\n\n&#x2211;   class OP",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\Sigma"
             ],
@@ -4978,21 +4968,21 @@
         {
             "name": "\\supset",
             "description": "&#x2283;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\Supset",
             "description": "&#x22D1;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\supseteq",
             "description": "&#x2287;   class REL\n&#x228B;   class REL\n&#x2AC6;   class REL\n&#x2ACC;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\nsupseteq",
                 "\\nsupseteqq",
@@ -5004,14 +4994,14 @@
         {
             "name": "\\surd",
             "description": "&#x221A;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\swarrow",
             "description": "southwest arrow; non-stretchy\n\n&#x2199;  \nclass REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\nearrow",
                 "\\nwarrow",
@@ -5056,7 +5046,7 @@
         {
             "name": "\\tau",
             "description": "lowercase Greek letter tau\n\n&#x03C4;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -5118,7 +5108,7 @@
         {
             "name": "\\textstyle",
             "description": "used to over-ride automatic style rules and force text (inline) style;\nstays in force until the end of math mode or the braced group, or until another style is selected\n\nclass ORD\n\n{ \\textstyle ... }",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\displaystyle",
                 "\\scriptstyle",
@@ -5142,14 +5132,14 @@
         {
             "name": "\\therefore",
             "description": "&#x2234   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\theta",
             "description": "lowercase Greek letter theta&#x03B8;   class ORD\nuppercase Greek letter theta&#x0398;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\vartheta",
                 "\\varTheta"
@@ -5159,7 +5149,7 @@
         {
             "name": "\\thickapprox",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\approx"
             ],
@@ -5168,14 +5158,14 @@
         {
             "name": "\\thicksim",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\thinspace",
             "description": "thin space; normally $\\frac 16$ of a quad",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "symbols for spaces",
                 "\\negthinspace"
@@ -5197,7 +5187,7 @@
         {
             "name": "\\times",
             "description": "&#x00D7;   class BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -5228,7 +5218,7 @@
         {
             "name": "\\to",
             "description": "non-stretchy\n\n&#x2192;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\rightarrow"
             ],
@@ -5237,14 +5227,14 @@
         {
             "name": "\\top",
             "description": "&#x22A4;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\triangle",
             "description": "&#x25B3;   class ORD\n&#x25BD;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\ntriangleleft",
                 "\\ntriangleright",
@@ -5257,7 +5247,7 @@
         {
             "name": "\\triangleleft",
             "description": "&#x25C3;   class BIN\n&#x25B9;   class BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\ntriangleleft",
                 "\\ntriangleright",
@@ -5270,7 +5260,7 @@
         {
             "name": "\\trianglelefteq",
             "description": "&#x22B4;   class REL\n&#x22B5   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\ntrianglelefteq",
                 "\\ntrianglerighteq"
@@ -5280,7 +5270,7 @@
         {
             "name": "\\triangleq",
             "description": "&#x225C;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -5299,14 +5289,14 @@
         {
             "name": "\\twoheadleftarrow",
             "description": "non-stretchy &#x219E;   class REL\nnon-stretchy&#x21A0;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\ulcorner",
             "description": "upper left corner\n&#x250C;   class REL\n\nupper right corner\n&#x2510;   class REL\n\nThese are technically delimiters, but MathJax\ndoesn't stretch them.\nThey are valid after  \\left,\n \\right, and the various  \\big  commands.",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\llcorner",
                 "\\lrcorner"
@@ -5390,35 +5380,35 @@
         {
             "name": "\\unlhd",
             "description": "underlined left-hand (left-pointing) diamond\n&#x22B4;   class REL\n\nunderlined right-hand (right-pointing) diamond\n&#x22B5;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\uparrow",
             "description": "non-stretchy\n&#x2191;   class REL\n\nnon-stretchy\n&#x21D1;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\updownarrow",
             "description": "non-stretchy\n&#x2195;   class REL\n\nnon-stretchy\n&#x21D5;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\upharpoonleft",
             "description": "non-stretchy\n&#x21BF;   class REL\n\nnon-stretchy\n&#x21BE;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\uplus",
             "description": "&#x228E;   class BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -5440,7 +5430,7 @@
         {
             "name": "\\upsilon",
             "description": "lowercase Greek letter upsilon\n&#x03C5;   class ORD\n\nuppercase Greek letter upsilon\n&#x03A5;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\varupsilon",
                 "\\varUpsilon"
@@ -5450,14 +5440,14 @@
         {
             "name": "\\upuparrows",
             "description": "non-stretchy\n\n&#x21C8;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\varDelta",
             "description": "uppercase Greek letter delta; variant\n\n&#x0394;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\Delta"
             ],
@@ -5466,7 +5456,7 @@
         {
             "name": "\\varepsilon",
             "description": "lowercase Greek letter epsilon; variant\n\n&#x03B5;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\epsilon"
             ],
@@ -5475,7 +5465,7 @@
         {
             "name": "\\varGamma",
             "description": "uppercase Greek letter gamma; variant\n\n&#x0393;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\Gamma"
             ],
@@ -5484,7 +5474,7 @@
         {
             "name": "\\varinjlim",
             "description": "injective limit; variant;\ndoes not change size;\ncan change limit placement using \\limits and  \\nolimits;\nsee the Big Operators Table for examples\n\nclass OP",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\injlim"
             ],
@@ -5493,7 +5483,7 @@
         {
             "name": "\\varkappa",
             "description": "lowercase Greek letter kappa; variant\n\n&#x03F0;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\kappa"
             ],
@@ -5502,7 +5492,7 @@
         {
             "name": "\\varLambda",
             "description": "uppercase Greek letter lambda; variant\n\n&#x039B;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\Lambda"
             ],
@@ -5511,7 +5501,7 @@
         {
             "name": "\\varlimsup",
             "description": "limit superior; variant\nclass OP\n\nlimit inferior; variant\nclass OP\n\ndo not change size;\ncan change limit placement using  \\limits  and\n \\nolimits;\nsee the Big Operators Table for examples",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\limsup",
                 "\\liminf"
@@ -5521,7 +5511,7 @@
         {
             "name": "\\varnothing",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\emptyset",
                 "ORD"
@@ -5531,7 +5521,7 @@
         {
             "name": "\\varOmega",
             "description": "uppercase Greek letter omega; variant\n\n&#x03A9;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\Omega"
             ],
@@ -5540,7 +5530,7 @@
         {
             "name": "\\varphi",
             "description": "lowercase Greek letter phi; variant\n\n&#x03C6;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\phi"
             ],
@@ -5549,7 +5539,7 @@
         {
             "name": "\\varPhi",
             "description": "uppercase Greek letter phi; variant\n\n&#x03A6;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\Phi"
             ],
@@ -5558,7 +5548,7 @@
         {
             "name": "\\varpi",
             "description": "lowercase Greek letter pi; variant\n\n&#x03D6;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\pi"
             ],
@@ -5567,7 +5557,7 @@
         {
             "name": "\\varPi",
             "description": "uppercase Greek letter pi; variant\n\n&#x03A0;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\Pi"
             ],
@@ -5576,7 +5566,7 @@
         {
             "name": "\\varprojlim",
             "description": "projective limit; variant;\ndoes not change size;\ncan change limit placement using \\limits and\n\\nolimits;\nsee the Big Operators Table for examples",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\projlim"
             ],
@@ -5585,7 +5575,7 @@
         {
             "name": "\\varpropto",
             "description": "proportional to; variant\n\n&#x221D;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\propto"
             ],
@@ -5594,7 +5584,7 @@
         {
             "name": "\\varPsi",
             "description": "uppercase Greek letter pi; variant\n\n&#x03A8;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\Psi"
             ],
@@ -5603,7 +5593,7 @@
         {
             "name": "\\varrho",
             "description": "lowercase Greek letter rho; variant\n\n&#x03F1;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\rho"
             ],
@@ -5612,7 +5602,7 @@
         {
             "name": "\\varsigma",
             "description": "lowercase Greek letter sigma; variant\n\n&#x03C2;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\sigma"
             ],
@@ -5621,7 +5611,7 @@
         {
             "name": "\\varSigma",
             "description": "uppercase Greek letter sigma; variant\n\n&#x03C2;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\Sigma"
             ],
@@ -5630,7 +5620,7 @@
         {
             "name": "\\varsubsetneq",
             "description": "&#x228A;   class REL\n&#x2ACB;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\subsetneq",
                 "\\subsetneqq"
@@ -5640,7 +5630,7 @@
         {
             "name": "\\varsupsetneq",
             "description": "&#x228B;   class REL\n&#x2ACC;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\supsetneq",
                 "\\supsetneqq"
@@ -5650,7 +5640,7 @@
         {
             "name": "\\vartheta",
             "description": "lowercase Greek letter theta; variant&#x03D1;   class ORD\nuppercase Greek letter theta; variant&#x0398;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\theta",
                 "\\Theta"
@@ -5660,7 +5650,7 @@
         {
             "name": "\\vartriangle",
             "description": "&#x25B3;   class REL\n&#x22B2;   class REL\n&#x22B3;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\triangle",
                 "\\triangleleft",
@@ -5671,7 +5661,7 @@
         {
             "name": "\\varUpsilon",
             "description": "uppercase Greek letter upsilon; variant\n\n&#x03A5;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\upsilon"
             ],
@@ -5680,7 +5670,7 @@
         {
             "name": "\\varXi",
             "description": "uppercase Greek letter xi; variant\n\n&#x039E;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\Xi"
             ],
@@ -5701,7 +5691,7 @@
         {
             "name": "\\vdash",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\nvdash",
                 "REL"
@@ -5711,7 +5701,7 @@
         {
             "name": "\\Vdash",
             "description": "&#x22A9;   class REL\n&#x22A8;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\nVdash",
                 "\\nvDash"
@@ -5721,7 +5711,7 @@
         {
             "name": "\\vdots",
             "description": "vertical dots\n\n&#x22EE;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -5740,7 +5730,7 @@
         {
             "name": "\\vee",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\lor",
                 "BIN"
@@ -5750,21 +5740,21 @@
         {
             "name": "\\veebar",
             "description": "&#x22BB;   class BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\verb",
             "description": "verbatim mode;\nuseful for code snippets and for displaying special characters ‘as is’ (i.e., not interpreted by MathJax).\nOnly works in display mode.\nUsually, verbatim content is typeset in a sans serif font.\n\\verb $\\diamond$ <non-interpreted material> $\\diamond$\nwhere   $\\diamond$   denotes a non-letter character that does not appear in the <non-interpreted material>.\n\nTo use   \\verb  \n\nFirst look through the material that is to be typeset ‘as is’ (verbatim).\nChoose a non-letter character that does not appear in this material.\n\nThis chosen non-letter character will mark the beginning and end of the verbatim material,\nas illustrated in the",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\vert",
             "description": "class ORD\n&#x2225;   class ORD\n\nboth non-stretchy when used alone; stretchy when used with   \\left   or   \\right",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "|",
                 "\\|",
@@ -5791,14 +5781,14 @@
         {
             "name": "\\Vvdash",
             "description": "&#x22AA;   class REL",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\wedge",
             "description": "",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\land",
                 "BIN"
@@ -5834,21 +5824,21 @@
         {
             "name": "\\wp",
             "description": "‘wriggly’ letter p\n\n&#x2118;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\wr",
             "description": "‘wriggle’ symbol;\n\n&#x2240;   class BIN",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\Xi",
             "description": "uppercase Greek letter xi\n\n&#x039E;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\varXi"
             ],
@@ -5857,7 +5847,7 @@
         {
             "name": "\\xi",
             "description": "lowercase Greek letter xi\n\n&#x03BE;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
@@ -5877,21 +5867,21 @@
         {
             "name": "\\yen",
             "description": "&#x00A5;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "\\zeta",
             "description": "lowercase Greek letter zeta\n\n&#x03B6;   class ORD",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": ""
         },
         {
             "name": "align",
             "description": "For vertical alignment of two or more lines at one or more places\n\nampersand(s) ‘&’ are used to indicate desired alignments (see",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\eqalign",
                 "\\eqalignno",
@@ -5902,14 +5892,14 @@
         {
             "name": "align*",
             "description": "[May 2011] same as align",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": "\\begin{align*}\n\t@1@\n\\end{align*}"
         },
         {
             "name": "alignat",
             "description": "For vertical alignment of two or more lines at one or more places;\nproduces a more horizontally-compressed display than align\n\nthe alignat environment is started with   \\begin{alignat}{<num>} ,\nwhere   num   is a positive integer ($1,2,3,\\ldots$) that indicates the number of places\nwhere alignment is desired\n\nampersand(s) ‘&’ are used to indicate desired alignments (see",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\eqalignat",
                 "\\eqalignatno",
@@ -5920,14 +5910,14 @@
         {
             "name": "alignat*",
             "description": "[May 2011] same as alignat",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": "\\begin{alignat*}\n\t@1@\n\\end{alignat*}"
         },
         {
             "name": "array",
             "description": "Used to create an array (matrix),\nwhere columns can be individually left-justified,\ncentered, or right-justified.\n\nsuppose that $n$ columns are desired in the array;\nthen, $n-1$ ampersands are used to separate the columns\n\nthe array environment is started with   \\begin{array}{<justification info>} ,\nwhere   <justification info>   is a series of $n$ letters, one for each column\n\n‘l’ for left-justified\n‘c’ for centered\n‘r’ for right-justified\n\npipe character(s) ‘|’ can be used in the justification information to specify\noptional separating vertical line(s) (see example below)\n\na double backslash ‘\\\\’ or carriage return ‘\\cr’ separates rows\n\nCompare these scenarios:\n\nboth columns left-justified:\n\n\\begin{array}{ll}\naaa & b\\cr\nc   & ddd\n\\end{array}\n\nyields\n$$\n\\begin{array}{ll}\naaa & b\\cr\nc   & ddd\n\\end{array}\n$$\n\nboth columns right-justified:\n\n\\begin{array}{rr}\naaa & b\\cr\nc   & ddd\n\\end{array}\n\nyields\n$$\n\\begin{array}{rr}\naaa & b\\cr\nc   & ddd\n\\end{array}\n$$\n\nboth columns centered, with separating line:\n\n\\begin{array}{c|c}\naaa & b\\cr\nc   & ddd\n\\end{array}\n\nyields\n$$\n\\begin{array}{c|c}\naaa & b\\cr\nc   & ddd\n\\end{array}\n$$\n\nfirst column left-justified; second column right-justified:\n\n\\begin{array}{lr}\naaa & b\\cr\nc & ddd\n\\end{array}\n\nyields\n$$\n\\begin{array}{lr}\naaa & b\\cr\nc & ddd\n\\end{array}\n$$\n\nPutting a pipe character ‘|’ at the beginning or end of\nthe justification info encloses the entire structure,\nwhich is different from standard $\\,\\rm\\TeX\\,$:\n\n\\begin{array}{|lr}\naaa & b\\cr\nc & ddd\n\\end{array}\n\nyields\n$$\n\\begin{array}{|lr}\naaa & b\\cr\nc & ddd\n\\end{array}\n$$",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\begin{matrix}",
                 "\\begin{subarray}"
@@ -5972,35 +5962,35 @@
         {
             "name": "eqnarray",
             "description": "for ‘equation arrays’;\naligns at one or more places;\nsurround the character(s) to be aligned with ampersands, as shown below;\ncontent between alignment characters (or between alignment characters and end-of-line) is left-justified;\na double backslash ‘\\\\’ or carriage return ‘\\cr’ separates rows",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": "\\begin{eqnarray}\n\t@1@\n\\end{eqnarray}"
         },
         {
             "name": "eqnarray*",
             "description": "[May 2011] same as equarray",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": "\\begin{eqnarray*}\n\t@1@\n\\end{eqnarray*}"
         },
         {
             "name": "equation",
             "description": "[May 2011] ignored, until MathJax implements automatic numbering",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": "\\begin{equation}\n\t@1@\n\\end{equation}"
         },
         {
             "name": "equation*",
             "description": "[May 2011] ignored",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": "\\begin{equation*}\n\t@1@\n\\end{equation*}"
         },
         {
             "name": "gather",
             "description": "to display any number of centered formulas (without any alignment);\na double backslash ‘\\\\’ or carriage return ‘\\cr’ separates rows;\nindividual lines may be tagged using the \\tag{} command\n\ndefault input for  \\tag{}  is text\n\nyou may get mathematical content inside  \\tag{}  by using math delimiters;\ne.g., \\tag{$\\alpha$}",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\displaylines"
             ],
@@ -6009,7 +5999,7 @@
         {
             "name": "gather*",
             "description": "[May 2011] same as gather",
-            "examples": "",
+            "examples": [],
             "see_also": [],
             "snippet": "\\begin{gather*}\n\t@1@\n\\end{gather*}"
         },
@@ -6027,7 +6017,7 @@
         {
             "name": "multline",
             "description": "a multi-line environment;\ntypically used for formulas/equations that don't fit on a single line\n\nthe first (or only) line is displayed left-justified\nthe last line is displayed right-justified\nany intermediate line(s) are centered\n\nThe justification of intermediate lines can be adjusted with\n\\shoveleft and \\shoveright.",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\begin{split}"
             ],
@@ -6036,7 +6026,7 @@
         {
             "name": "multline*",
             "description": "[May 2011] same as multline",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\shoveleft",
                 "\\shoveright"
@@ -6072,7 +6062,7 @@
         {
             "name": "split",
             "description": "for single equations that are too long to ﬁt on one line, and hence must be split into multiple lines;\nallows for (optional) alignment at one or more places, using ‘&’ to mark alignment points",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\begin{multline}"
             ],
@@ -6081,7 +6071,7 @@
         {
             "name": "subarray",
             "description": "a more compact version of \\begin{array};\ncan be used for multi-subscripts and multi-superscripts on large operators;\ncolumns can be individually left-justified,\ncentered, or right-justified\n\nsuppose that $n$ columns are desired in the subarray;\nthen, $n-1$ ampersands are used to separate the columns\n\nthe subarray environment is started with   \\begin{subarray}{<justification info>} ,\nwhere   <justification info>   is a series of $n$ letters, one for each column\n\n‘l’ for left-justified\n‘c’ for centered\n‘r’ for right-justified\n\na double backslash ‘\\\\’ or carriage return ‘\\cr’ separates rows",
-            "examples": "",
+            "examples": [],
             "see_also": [
                 "\\substack",
                 "\\begin{array}"

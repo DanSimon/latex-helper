@@ -4,8 +4,8 @@ import * as symbols_json from "./mathjax-symbols.json";
 export type MathJaxSymbol = {
     name: string;
     searchName: string;
-    description: string | string[];
-    examples: string | string[];
+    description: string;
+    examples: string[];
     see_also: string[];
     snippet: string;
     suggestion_display?: string;
