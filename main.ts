@@ -9,6 +9,7 @@ import { CONFIG_VIEW_TYPE, ConfigView } from "./config_view";
 import { Prec } from "@codemirror/state";
 import { latexNavigation } from "./tab_extension";
 import { SYMBOL_VIEW_TYPE, SymbolReference } from "./symbol_reference";
+import { WordPopupSettingTab } from "./settings";
 
 export default class WordPopupPlugin extends Plugin {
     configManager: ConfigManager;
@@ -97,6 +98,7 @@ export default class WordPopupPlugin extends Plugin {
 
             workspace.revealLeaf(leaf);
         });
+        this.addSettingTab(new WordPopupSettingTab(this.app, this));
 
         console.log("Plugin Loaded");
     }
@@ -118,6 +120,7 @@ export default class WordPopupPlugin extends Plugin {
             wordUnderCursor,
             fillerColor,
             9,
+            this.configManager.config.settings,
         );
 
         if (suggestions.suggestions.length > 0) {

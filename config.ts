@@ -2,6 +2,7 @@ import { Plugin } from "obsidian";
 
 import { SuggestionMatcher } from "./pattern_matcher";
 import { EventEmitter } from "./events";
+import { UserSettings, DEFAULT_SETTINGS } from "./settings";
 
 export interface Pattern {
     type?: "regex";
@@ -14,6 +15,7 @@ export interface Pattern {
 export interface MathConfig {
     renderMath: boolean;
     patterns: Pattern[];
+    settings: UserSettings;
 }
 
 const DEFAULT_CONFIG: MathConfig = {
@@ -185,6 +187,7 @@ const DEFAULT_CONFIG: MathConfig = {
         { pattern: "Re", replacements: ["\\Re"] },
         { pattern: "Im", replacements: ["\\Im"] },
     ],
+    settings: DEFAULT_SETTINGS,
 };
 
 export class ConfigManager {

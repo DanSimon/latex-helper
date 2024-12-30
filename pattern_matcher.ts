@@ -2,6 +2,7 @@ import { Pattern } from "./config";
 import FuzzySearch from "fz-search";
 import { LATEX_SYMBOLS, MathJaxSymbol } from "./mathjax_symbols";
 import { Suggestion } from "./suggestion_popup";
+import { UserSettings } from "./settings";
 
 // Interface for lookup results
 interface SuggestionResult {
@@ -220,6 +221,7 @@ export class SuggestionMatcher {
         searchString: string,
         fillerColor: string,
         maxResults: number,
+        settings: UserSettings,
     ): SuggestionResult {
         const exactMatches = this.trie.lookup(searchString);
         const suggestions: Suggestion[] = [];
@@ -261,7 +263,10 @@ export class SuggestionMatcher {
             }
             fastReplace = fastReplace || regexResults.fastReplace;
         }
-        if (suggestions.length < maxResults) {
+        if (
+            suggestions.length < maxResults &&
+            settings.includeFuzzySuggestions
+        ) {
             const fuzzyResults = this.fuzzy.getSuggestions(
                 searchString,
                 fillerColor,
