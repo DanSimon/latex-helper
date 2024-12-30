@@ -26,7 +26,6 @@ const SymbolSection: React.FC<{
     view: ItemView;
 }> = React.memo(
     ({ letter, symbols, view }) => {
-        console.log(`render section ${letter}`);
         return (
             <div id={`section-${letter}`} style={{ marginBottom: "2rem" }}>
                 <h2
@@ -59,7 +58,6 @@ const SymbolSection: React.FC<{
     },
     (prevProps, nextProps) => {
         // Custom comparison for memo
-        console.log(`'${prevProps.letter}' '${nextProps.letter}'`);
         return prevProps.letter == nextProps.letter;
     },
 );
@@ -90,6 +88,9 @@ const SymbolCard: React.FC<{
                 <span
                     style={{
                         fontSize: "1.1rem",
+                        marginLeft: "0.5rem",
+                        padding: "4px",
+                        borderLeft: "solid 1px",
                     }}
                     className="rendered-math"
                     ref={(el) => {
@@ -259,7 +260,7 @@ const SymbolReferenceView: React.FC<{ view: ItemView }> = ({ view }) => {
     const fuzzySearch = useRef(
         new FuzzySearch({
             source: LATEX_SYMBOLS,
-            keys: ["name"],
+            keys: ["searchName"],
             sort: true,
         }),
     );
