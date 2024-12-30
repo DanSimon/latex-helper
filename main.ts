@@ -244,22 +244,8 @@ export default class WordPopupPlugin extends Plugin {
         }
         let i = cursorPos - 1;
         const delims = ["$", " "];
-        //for the most part we assume a command is either entirely alpha or entirely symbols
-        //this way if the user types "\alpha=bet" we use "bet" as the search string and not the whole thing
-        //The main exceptions are with parens and brackets, aka commands like \big)
-        const boundaries = ["{", "(", "[", "}", ")", "]"];
-        const isAlphaEnd =
-            (lineStr[i] >= "a" && lineStr[i] <= "z") ||
-            (lineStr[i] >= "A" && lineStr[i] <= "Z") ||
-            boundaries.contains(lineStr[i]);
         while (i >= 0) {
-            const isAlpha =
-                (lineStr[i] >= "a" && lineStr[i] <= "z") ||
-                (lineStr[i] >= "A" && lineStr[i] <= "Z");
-            if (
-                delims.contains(lineStr[i]) ||
-                (lineStr[i] != "\\" && isAlpha != isAlphaEnd)
-            ) {
+            if (delims.contains(lineStr[i])) {
                 i += 1;
                 break;
             } else {

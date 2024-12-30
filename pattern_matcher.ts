@@ -4,6 +4,38 @@ import { LATEX_SYMBOLS, MathJaxSymbol } from "./mathjax_symbols";
 import { Suggestion } from "./suggestion_popup";
 import { UserSettings } from "./settings";
 
+function getTrimmedWord(word: string): string {
+    let i = word.length - 1;
+    const delims = ["$", " "];
+    //for the most part we assume a command is either entirely alpha or entirely symbols
+    //this way if the user types "\alpha=bet" we use "bet" as the search string and not the whole thing
+    //The main exceptions are with parens and brackets, aka commands like \big)
+    const boundaries = ["{", "(", "[", "}", ")", "]"];
+    const isAlphaEnd =
+        (word[i] >= "a" && word[i] <= "z") ||
+        (word[i] >= "A" && word[i] <= "Z") ||
+        boundaries.contains(word[i]);
+    while (i >= 0) {
+        const isAlpha =
+            (word[i] >= "a" && word[i] <= "z") ||
+            (word[i] >= "A" && word[i] <= "Z");
+        if (
+            delims.contains(word[i]) ||
+            (word[i] != "\\" && isAlpha != isAlphaEnd)
+        ) {
+            i += 1;
+            break;
+        } else {
+            i -= 1;
+        }
+    }
+    if (i <= 0) {
+        return word;
+    }
+    const res = word.substr(i);
+    return res;
+}
+
 // Interface for lookup results
 interface SuggestionResult {
     suggestions: Suggestion[];
@@ -223,27 +255,10 @@ export class SuggestionMatcher {
         maxResults: number,
         settings: UserSettings,
     ): SuggestionResult {
-        const exactMatches = this.trie.lookup(searchString);
+        const trimmedSearch = getTrimmedWord(searchString);
         const suggestions: Suggestion[] = [];
         let fastReplace = false;
 
-        // Handle exact matches
-        for (const pattern of exactMatches) {
-            suggestions.push(
-                ...pattern.replacements
-                    .slice(0, maxResults)
-                    .map((r: string) => {
-                        return {
-                            replacement: r,
-                            displayReplacement: fillLatexBraces(r, fillerColor),
-                        };
-                    }),
-            );
-            // Enable fastReplace if any matching pattern enables it and has exactly one replacement
-            fastReplace =
-                fastReplace ||
-                (!!pattern.fastReplace && pattern.replacements.length === 1);
-        }
         if (suggestions.length < maxResults) {
             // Handle regex matches
             const regexResults = this.regexes.getSuggestions(searchString);
@@ -263,12 +278,51 @@ export class SuggestionMatcher {
             }
             fastReplace = fastReplace || regexResults.fastReplace;
         }
+
+        // Handle exact matches
+        if (suggestions.length < maxResults) {
+            const exactMatches = this.trie.lookup(trimmedSearch);
+            const queue = [];
+            while (suggestions.length < maxResults && exactMatches.length > 0) {
+                const nxt = (() => {
+                    if (queue.length == 0) {
+                        const pattern = exactMatches.shift()!;
+                        queue.push(
+                            ...pattern.replacements
+                                .slice(0, maxResults)
+                                .map((r: string) => {
+                                    return {
+                                        replacement: r,
+                                        displayReplacement: fillLatexBraces(
+                                            r,
+                                            fillerColor,
+                                        ),
+                                        fastReplace:
+                                            pattern.fastReplace || false,
+                                    };
+                                }),
+                        );
+                    }
+                    return queue.shift()!;
+                })();
+                if (
+                    !suggestions.find(
+                        (elem: Suggestion) =>
+                            elem.replacement == nxt.replacement,
+                    )
+                ) {
+                    suggestions.push(nxt);
+                    fastReplace = fastReplace || nxt.fastReplace;
+                }
+            }
+        }
+
         if (
             suggestions.length < maxResults &&
             settings.includeFuzzySuggestions
         ) {
             const fuzzyResults = this.fuzzy.getSuggestions(
-                searchString,
+                trimmedSearch,
                 fillerColor,
             );
             while (
