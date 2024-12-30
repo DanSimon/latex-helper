@@ -1,4 +1,4 @@
-import { Editor, MarkdownView, Plugin } from "obsidian";
+import { Editor, MarkdownView, Modifier, Platform, Plugin } from "obsidian";
 
 import { ConfigManager } from "./config";
 import { SuggestionPopup } from "./suggestion_popup";
@@ -42,7 +42,11 @@ export default class WordPopupPlugin extends Plugin {
             this.app.workspace.on(
                 "editor-change",
                 (editor: Editor, view: MarkdownView) => {
-                    this.handleEditorChange(editor, view);
+                    if (
+                        this.configManager.config.settings.autoShowSuggestions
+                    ) {
+                        this.showSuggestions(editor, view);
+                    }
                 },
             ),
         );
@@ -100,6 +104,10 @@ export default class WordPopupPlugin extends Plugin {
         });
         this.addSettingTab(new WordPopupSettingTab(this.app, this));
 
+        this.configManager.onChange.subscribe(() => {
+            this.registerHotkey();
+        });
+
         console.log("Plugin Loaded");
     }
 
@@ -107,7 +115,57 @@ export default class WordPopupPlugin extends Plugin {
         this.suggestionPopup.destroy();
     }
 
-    async handleEditorChange(editor: Editor, view: MarkdownView) {
+    private parseHotkey(hotkeyStr: string): {
+        modifiers: Modifier[];
+        key: string;
+    } {
+        const parts = hotkeyStr.split("+").map((p) => p.trim());
+        const key = parts[parts.length - 1].toLowerCase();
+
+        const modifiers: Modifier[] = parts.slice(0, -1).map((mod) => {
+            const normalized = mod.toLowerCase();
+            switch (normalized) {
+                case "ctrl":
+                case "control":
+                    return Platform.isMacOS ? "Mod" : "Ctrl";
+                case "cmd":
+                case "command":
+                case "meta":
+                    return Platform.isMacOS ? "Mod" : "Meta";
+                case "alt":
+                case "option":
+                    return "Alt";
+                case "shift":
+                    return "Shift";
+                default:
+                    return "Mod"; // fallback to Mod if unknown
+            }
+        });
+
+        return { modifiers, key };
+    }
+
+    private registerHotkey() {
+        const { modifiers, key } = this.parseHotkey(
+            this.configManager.config.settings.triggerKey,
+        );
+
+        this.addCommand({
+            id: "trigger-latex-suggestions",
+            name: "Trigger LaTeX Suggestions",
+            hotkeys: [
+                {
+                    modifiers: modifiers,
+                    key: key,
+                },
+            ],
+            editorCallback: (editor: Editor, view: MarkdownView) => {
+                this.showSuggestions(editor, view);
+            },
+        });
+    }
+
+    async showSuggestions(editor: Editor, view: MarkdownView) {
         const cursor = editor.getCursor();
         const line = editor.getLine(cursor.line);
         const wordUnderCursor = this.getWordUnderCursor(line, cursor.ch);
