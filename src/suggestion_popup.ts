@@ -2,6 +2,7 @@ import { MarkdownView } from "obsidian";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import SuggestionPopupComponent from "./components/SuggestionPopupComponent";
+import { ConfigManager } from "./config";
 
 export interface Suggestion {
     replacement: string;
@@ -16,10 +17,12 @@ export class SuggestionPopup {
     private currentReplacements: Suggestion[] | null = null;
     private view: MarkdownView | null = null;
     private visible: boolean = false;
+    private configManager: ConfigManager;
 
-    constructor() {
+    constructor(configManager: ConfigManager) {
         this.container = document.createElement("div");
         document.body.appendChild(this.container);
+        this.configManager = configManager;
     }
 
     show(
@@ -101,6 +104,7 @@ export class SuggestionPopup {
                     !!this.currentMatch &&
                     !!this.currentReplacements &&
                     !!this.view,
+                settings: this.configManager.config.settings,
             }),
             this.container,
         );

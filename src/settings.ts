@@ -5,12 +5,14 @@ export interface UserSettings {
     includeFuzzySuggestions: boolean;
     autoShowSuggestions: boolean;
     triggerKey: string;
+    enableFastReplace: boolean;
 }
 
 export const DEFAULT_SETTINGS: UserSettings = {
     includeFuzzySuggestions: true,
     autoShowSuggestions: true,
     triggerKey: "Ctrl+Space",
+    enableFastReplace: true,
 };
 
 export class WordPopupSettingTab extends PluginSettingTab {
@@ -27,6 +29,23 @@ export class WordPopupSettingTab extends PluginSettingTab {
 
         containerEl.createEl("h2", { text: "LaTeX Word Popup Settings" });
 
+        new Setting(containerEl)
+            .setName("Enable Fast Replace Shortcuts")
+            .setDesc(
+                "Shortcuts marked as Fast Replace are bumped to the top of suggestions and are auto-applied when any key besides Esc is typed.",
+            )
+            .addToggle((toggle) =>
+                toggle
+                    .setValue(
+                        this.plugin.configManager.config.settings
+                            .enableFastReplace,
+                    )
+                    .onChange(async (value) => {
+                        this.plugin.configManager.config.settings.enableFastReplace =
+                            value;
+                        await this.plugin.configManager.updateConfig();
+                    }),
+            );
         new Setting(containerEl)
             .setName("Include Fuzzy Search Results")
             .setDesc(

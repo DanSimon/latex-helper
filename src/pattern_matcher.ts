@@ -16,6 +16,9 @@ function getTrimmedWord(word: string): string {
         (word[i] >= "a" && word[i] <= "z") ||
         (word[i] >= "A" && word[i] <= "Z") ||
         boundaries.contains(word[i]);
+    if (isAlphaEnd) {
+        i -= 1;
+    }
     while (i >= 0) {
         const isAlpha =
             (word[i] >= "a" && word[i] <= "z") ||
@@ -250,10 +253,9 @@ export class SuggestionMatcher {
         fillerColor: string,
         maxResults: number,
         settings: UserSettings,
-    ): SuggestionResult {
+    ): Suggestion[] {
         const trimmedSearch = getTrimmedWord(searchString);
         const suggestions: Suggestion[] = [];
-        let fastReplace = false;
 
         const insertSuggestion = (nxt: Suggestion) => {
             if (
@@ -263,6 +265,7 @@ export class SuggestionMatcher {
             ) {
                 if (
                     nxt.fastReplace &&
+                    settings.enableFastReplace &&
                     (suggestions.length == 0 || !suggestions[0].fastReplace)
                 ) {
                     suggestions.splice(0, 0, nxt);
@@ -332,8 +335,6 @@ export class SuggestionMatcher {
             insertSuggestions(() => fuzzyResults.suggestions.shift() || null);
         }
 
-        fastReplace = fastReplace && suggestions.length === 1;
-
-        return { suggestions, fastReplace };
+        return suggestions;
     }
 }

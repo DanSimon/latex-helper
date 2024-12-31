@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { MarkdownRenderer, MarkdownView } from "obsidian";
 import { Suggestion } from "../suggestion_popup";
 import { fillLatexHtmlBraces } from "../latex_utils";
+import { UserSettings } from "../settings";
 
 interface SuggestionPopupProps {
     x: number;
@@ -14,6 +15,7 @@ interface SuggestionPopupProps {
     onSelect: (index: number) => void;
     onHide: () => void;
     visible: boolean;
+    settings: UserSettings;
 }
 
 const RenderMath = React.memo(
@@ -53,6 +55,7 @@ const SuggestionPopupComponent = ({
     onSelect,
     onHide,
     visible,
+    settings,
 }: SuggestionPopupProps) => {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const popupRef = useRef<HTMLDivElement>(null);
@@ -76,6 +79,7 @@ const SuggestionPopupComponent = ({
 
             // Handle fast replace for non-alphanumeric keys
             if (
+                settings.enableFastReplace &&
                 replacements[0].fastReplace &&
                 !/^[a-zA-Z0-9]$/.test(e.key) &&
                 !["Escape", "Tab", "Backspace"].includes(e.key)
@@ -176,12 +180,11 @@ const SuggestionPopupComponent = ({
                                     ? "var(--background-secondary)"
                                     : "var(--background-primary)",
                         }}
-                        onMouseOver={() =>
-                            selectedIndex !== index && setSelectedIndex(index)
-                        }
                         onClick={() => onSelect(index)}
                     >
-                        {option.fastReplace && index == 0 ? (
+                        {settings.enableFastReplace &&
+                        option.fastReplace &&
+                        index == 0 ? (
                             <span
                                 style={{
                                     color: "#22c55e",
@@ -194,7 +197,11 @@ const SuggestionPopupComponent = ({
                         ) : (
                             ""
                         )}
-                        {!(option.fastReplace && index == 0) && index < 9 ? (
+                        {!(
+                            settings.enableFastReplace &&
+                            option.fastReplace &&
+                            index == 0
+                        ) && index < 9 ? (
                             <span
                                 style={{
                                     color: "#666",

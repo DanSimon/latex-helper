@@ -21,7 +21,7 @@ export default class WordPopupPlugin extends Plugin {
     async onload() {
         this.configManager = new ConfigManager(this);
         await this.configManager.loadConfig();
-        this.suggestionPopup = new SuggestionPopup();
+        this.suggestionPopup = new SuggestionPopup(this.configManager);
         this.matchForm = new MatchForm(this.configManager);
         this.configDialog = new ConfigDialog(
             this.configManager,
@@ -186,7 +186,7 @@ export default class WordPopupPlugin extends Plugin {
             this.configManager.config.settings,
         );
 
-        if (suggestions.suggestions.length > 0) {
+        if (suggestions.length > 0) {
             // https://forum.obsidian.md/t/is-there-a-way-to-get-the-pixel-position-from-the-cursor-position-in-the-editor/69506
             //@ts-ignore
             const coords = editor.coordsAtPos(cursor);
@@ -195,7 +195,7 @@ export default class WordPopupPlugin extends Plugin {
                 coords.right,
                 coords.top,
                 wordUnderCursor,
-                suggestions.suggestions,
+                suggestions,
                 view,
             );
         } else {
