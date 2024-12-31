@@ -67,6 +67,9 @@ const SymbolCard: React.FC<{
     symbol: MathJaxSymbol;
     view: ItemView;
 }> = React.memo(({ symbol, view }) => {
+    const fillerColor = getComputedStyle(view.containerEl)
+        .getPropertyValue("--text-accent")
+        .trim();
     return (
         <div
             key={symbol.name}
@@ -104,7 +107,7 @@ const SymbolCard: React.FC<{
                             el.empty();
                             MarkdownRenderer.render(
                                 view.app,
-                                `$${LatexUtils.fillLatexBraces(symbol.name)}$`,
+                                `$${LatexUtils.fillLatexBraces(symbol.name, fillerColor)}$`,
                                 el,
                                 "",
                                 view,
