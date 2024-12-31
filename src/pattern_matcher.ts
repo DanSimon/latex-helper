@@ -1,7 +1,7 @@
 import { Pattern } from "./config";
 import FuzzySearch from "fz-search";
 import { LATEX_SYMBOLS, MathJaxSymbol } from "./mathjax_symbols";
-import { Suggestion } from "./suggestion_popup";
+import { CursorWord, Suggestion, TextMode } from "./suggestion_popup";
 import { UserSettings } from "./settings";
 import { fillLatexBraces } from "./latex_utils";
 
@@ -175,6 +175,7 @@ class RegexMatcher {
                         replacement: result,
                         displayReplacement: result,
                         fastReplace: pattern.fastReplace || false,
+                        normalMode: pattern.normalMode,
                         matchedString: input,
                     });
                 }
@@ -249,16 +250,19 @@ export class SuggestionMatcher {
      * @returns Object containing suggestions array and fastReplace flag.
      */
     getSuggestions(
-        searchString: string,
+        searchString: CursorWord,
         fillerColor: string,
         maxResults: number,
         settings: UserSettings,
     ): Suggestion[] {
-        const trimmedSearch = getTrimmedWord(searchString);
+        const trimmedSearch = getTrimmedWord(searchString.word);
         const suggestions: Suggestion[] = [];
 
         const insertSuggestion = (nxt: Suggestion) => {
             if (
+                (searchString.mode == TextMode.Math ||
+                    (searchString.mode == TextMode.Normal &&
+                        (nxt.normalMode || false))) &&
                 !suggestions.find(
                     (elem: Suggestion) => elem.replacement == nxt.replacement,
                 )
@@ -289,7 +293,7 @@ export class SuggestionMatcher {
 
         // Handle regex matches
         if (suggestions.length < maxResults) {
-            const regexResults = this.regexes.getSuggestions(searchString);
+            const regexResults = this.regexes.getSuggestions(searchString.word);
             insertSuggestions(() => regexResults.suggestions.shift() || null);
         }
 
@@ -315,6 +319,7 @@ export class SuggestionMatcher {
                                         fillerColor,
                                     ),
                                     fastReplace: pattern.fastReplace || false,
+                                    normalMode: pattern.normalMode,
                                 };
                             }),
                     );

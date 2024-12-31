@@ -6,6 +6,7 @@ export interface UserSettings {
     autoShowSuggestions: boolean;
     triggerKey: string;
     enableFastReplace: boolean;
+    enableNormalMode: boolean;
 }
 
 export const DEFAULT_SETTINGS: UserSettings = {
@@ -13,6 +14,7 @@ export const DEFAULT_SETTINGS: UserSettings = {
     autoShowSuggestions: true,
     triggerKey: "Ctrl+Space",
     enableFastReplace: true,
+    enableNormalMode: false,
 };
 
 export class WordPopupSettingTab extends PluginSettingTab {
@@ -99,6 +101,24 @@ export class WordPopupSettingTab extends PluginSettingTab {
                         this.plugin.configManager.config.settings.triggerKey =
                             normalizedKey;
                         text.setValue(normalizedKey);
+                        await this.plugin.configManager.updateConfig();
+                    }),
+            );
+
+        new Setting(containerEl)
+            .setName("Enable Shortcuts in Normal Mode")
+            .setDesc(
+                "Enable shortcuts while typing in normal mode (not inside '$' or '$$' tags).  Applied shortcuts will automatically be wrapped in '$' tags",
+            )
+            .addToggle((toggle) =>
+                toggle
+                    .setValue(
+                        this.plugin.configManager.config.settings
+                            .enableNormalMode,
+                    )
+                    .onChange(async (value) => {
+                        this.plugin.configManager.config.settings.enableNormalMode =
+                            value;
                         await this.plugin.configManager.updateConfig();
                     }),
             );

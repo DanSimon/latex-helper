@@ -10,6 +10,7 @@ export interface Pattern {
     replacements: string[];
     fastReplace?: boolean;
     category?: string;
+    normalMode?: boolean;
 }
 
 export interface MathConfig {

@@ -9,11 +9,22 @@ export interface Suggestion {
     displayReplacement: string;
     fastReplace: boolean;
     matchedString: string;
+    normalMode?: boolean;
+}
+
+export enum TextMode {
+    Normal,
+    Math,
+}
+
+export interface CursorWord {
+    word: string;
+    mode: TextMode;
 }
 
 export class SuggestionPopup {
     private container: HTMLDivElement;
-    private currentMatch: string | null = null;
+    private currentMatch: CursorWord | null = null;
     private currentReplacements: Suggestion[] | null = null;
     private view: MarkdownView | null = null;
     private visible: boolean = false;
@@ -28,7 +39,7 @@ export class SuggestionPopup {
     show(
         x: number,
         y: number,
-        match: string,
+        match: CursorWord,
         replacements: Suggestion[],
         view: MarkdownView,
     ): void {
@@ -66,7 +77,10 @@ export class SuggestionPopup {
             return;
 
         const suggestion = this.currentReplacements[index];
-        const replacement = suggestion.replacement;
+        const replacement =
+            this.currentMatch.mode == TextMode.Normal
+                ? `$${suggestion.replacement}$`
+                : suggestion.replacement;
         const start = this.view.editor.offsetToPos(
             this.view.editor.posToOffset(this.view.editor.getCursor()) -
                 suggestion.matchedString.length,
@@ -94,7 +108,7 @@ export class SuggestionPopup {
             React.createElement(SuggestionPopupComponent, {
                 x,
                 y,
-                match: this.currentMatch || "",
+                match: this.currentMatch?.word || "",
                 replacements: this.currentReplacements || [],
                 view: this.view!,
                 onSelect: this.handleSelect,

@@ -1,7 +1,7 @@
 import { Editor, MarkdownView, Modifier, Platform, Plugin } from "obsidian";
 
 import { ConfigManager } from "./config";
-import { SuggestionPopup } from "./suggestion_popup";
+import { CursorWord, SuggestionPopup, TextMode } from "./suggestion_popup";
 import { ConfigDialog } from "./config_dialog";
 import { SelectionButton } from "./selection_button";
 import { MatchForm } from "./match_form";
@@ -169,15 +169,14 @@ export default class WordPopupPlugin extends Plugin {
         const cursor = editor.getCursor();
         const line = editor.getLine(cursor.line);
         const wordUnderCursor = this.getWordUnderCursor(line, cursor.ch);
+        if (!wordUnderCursor) {
+            this.suggestionPopup.hide();
+            return;
+        }
 
         const fillerColor = getComputedStyle(view.containerEl)
             .getPropertyValue("--text-accent")
             .trim();
-
-        if (wordUnderCursor == "") {
-            this.suggestionPopup.hide();
-            return;
-        }
 
         const suggestions = this.configManager.matcher.getSuggestions(
             wordUnderCursor,
@@ -242,9 +241,15 @@ export default class WordPopupPlugin extends Plugin {
         return inMathMode;
     }
 
-    getWordUnderCursor(lineStr: string, cursorPos: number): string {
-        if (!this.hasUnclosedMathSection(lineStr.slice(0, cursorPos))) {
-            return "";
+    getWordUnderCursor(lineStr: string, cursorPos: number): CursorWord | null {
+        const mode = this.hasUnclosedMathSection(lineStr.slice(0, cursorPos))
+            ? TextMode.Math
+            : TextMode.Normal;
+        if (
+            !this.configManager.config.settings.enableNormalMode &&
+            mode == TextMode.Normal
+        ) {
+            return null;
         }
         let i = cursorPos - 1;
         const delims = ["$", " "];
@@ -257,9 +262,9 @@ export default class WordPopupPlugin extends Plugin {
             }
         }
         if (i <= 0) {
-            return lineStr;
+            return { mode: mode, word: lineStr };
         }
         const res = lineStr.substr(i, cursorPos - i);
-        return res;
+        return { mode: mode, word: res };
     }
 }
