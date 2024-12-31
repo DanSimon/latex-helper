@@ -174,6 +174,11 @@ export default class WordPopupPlugin extends Plugin {
             .getPropertyValue("--text-accent")
             .trim();
 
+        if (wordUnderCursor == "") {
+            this.suggestionPopup.hide();
+            return;
+        }
+
         const suggestions = this.configManager.matcher.getSuggestions(
             wordUnderCursor,
             fillerColor,

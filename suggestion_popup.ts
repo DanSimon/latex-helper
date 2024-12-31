@@ -6,6 +6,8 @@ import SuggestionPopupComponent from "./SuggestionPopupComponent";
 export interface Suggestion {
     replacement: string;
     displayReplacement: string;
+    fastReplace: boolean;
+    matchedString: string;
 }
 
 export class SuggestionPopup {
@@ -61,10 +63,11 @@ export class SuggestionPopup {
         if (!this.currentReplacements || !this.view || !this.currentMatch)
             return;
 
-        const replacement = this.currentReplacements[index].replacement;
+        const suggestion = this.currentReplacements[index];
+        const replacement = suggestion.replacement;
         const start = this.view.editor.offsetToPos(
             this.view.editor.posToOffset(this.view.editor.getCursor()) -
-                this.currentMatch.length,
+                suggestion.matchedString.length,
         );
         const end = this.view.editor.getCursor();
 

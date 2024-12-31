@@ -170,6 +170,8 @@ class RegexMatcher {
                     suggestions.push({
                         replacement: result,
                         displayReplacement: result,
+                        fastReplace: pattern.fastReplace || false,
+                        matchedString: input,
                     });
                 }
                 // Update fastReplace if this pattern enables it
@@ -199,6 +201,8 @@ class FuzzyMatcher {
     private search: FuzzySearch = new FuzzySearch<MathJaxSymbol>({
         source: LATEX_SYMBOLS,
         keys: ["searchName"],
+        token_query_min_length: 1,
+        token_field_min_length: 1,
     });
 
     constructor() {}
@@ -207,6 +211,8 @@ class FuzzyMatcher {
         return {
             suggestions: this.search.search(input).map((r: MathJaxSymbol) => {
                 return {
+                    fastReplace: false,
+                    matchedString: input,
                     replacement: r.name,
                     displayReplacement:
                         r.suggestion_display !== undefined &&
@@ -281,7 +287,7 @@ export class SuggestionMatcher {
 
         // Handle exact matches
         if (suggestions.length < maxResults) {
-            const exactMatches = this.trie.lookup(trimmedSearch);
+            const exactMatches = this.trie.lookup(trimmedSearch).slice();
             const queue = [];
             while (suggestions.length < maxResults && exactMatches.length > 0) {
                 const nxt = (() => {
@@ -293,6 +299,7 @@ export class SuggestionMatcher {
                                 .map((r: string) => {
                                     return {
                                         replacement: r,
+                                        matchedString: trimmedSearch,
                                         displayReplacement: fillLatexBraces(
                                             r,
                                             fillerColor,
