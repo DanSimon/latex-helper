@@ -1,8 +1,9 @@
 import * as React from "react";
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ItemView, MarkdownRenderer } from "obsidian";
 import FuzzySearch from "fz-search";
 import { LATEX_SYMBOLS, MathJaxSymbol } from "./mathjax_symbols";
+import * as LatexUtils from "./latex_utils";
 
 // Group symbols by their first character
 const groupSymbols = (symbols: MathJaxSymbol[]) => {
@@ -76,15 +77,20 @@ const SymbolCard: React.FC<{
             }}
         >
             <div style={{ marginBottom: "0.5rem" }}>
-                <code
+                <span
                     style={{
                         marginLeft: "0.5rem",
                         fontSize: "1.175rem",
                         color: "var(--text-muted)",
+                        fontFamily: "monospace",
                     }}
-                >
-                    {symbol.name}
-                </code>
+                    dangerouslySetInnerHTML={{
+                        __html: LatexUtils.fillLatexHtmlBraces(
+                            symbol.name,
+                            "var(--text-accent)",
+                        ),
+                    }}
+                />
                 <span
                     style={{
                         fontSize: "1.1rem",
@@ -98,7 +104,7 @@ const SymbolCard: React.FC<{
                             el.empty();
                             MarkdownRenderer.render(
                                 view.app,
-                                `$${symbol.name}$`,
+                                `$${LatexUtils.fillLatexBraces(symbol.name)}$`,
                                 el,
                                 "",
                                 view,
@@ -261,7 +267,6 @@ const SymbolReferenceView: React.FC<{ view: ItemView }> = ({ view }) => {
         new FuzzySearch({
             source: LATEX_SYMBOLS,
             keys: ["searchName"],
-            sort: true,
         }),
     );
     const [searchResults, setSearchResults] = useState<MathJaxSymbol[]>([]);

@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState, useEffect, useRef } from "react";
 import { MarkdownRenderer, MarkdownView } from "obsidian";
 import { Suggestion } from "./suggestion_popup";
+import { fillLatexHtmlBraces } from "./latex_utils";
 
 interface SuggestionPopupProps {
     x: number;
@@ -42,18 +43,6 @@ const RenderMath = React.memo(
         );
     },
 );
-
-function fillLatexBraces(input: string, color: string = "blue"): string {
-    let letterCode = "a".charCodeAt(0);
-
-    // Find all empty brace pairs
-    const emptyBraceRegex = /\{(\s*)\}/g;
-
-    return input.replace(emptyBraceRegex, () => {
-        const letter = String.fromCharCode(letterCode++);
-        return `{<span style="color:${color}">${letter}</span>}`;
-    });
-}
 
 const SuggestionPopupComponent = ({
     x,
@@ -236,7 +225,7 @@ const SuggestionPopupComponent = ({
                         <span style={{ color: "var(--text-faint)" }}>
                             <code
                                 dangerouslySetInnerHTML={{
-                                    __html: fillLatexBraces(
+                                    __html: fillLatexHtmlBraces(
                                         option.replacement,
                                         "var(--text-accent)",
                                     ),

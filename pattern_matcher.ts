@@ -3,6 +3,7 @@ import FuzzySearch from "fz-search";
 import { LATEX_SYMBOLS, MathJaxSymbol } from "./mathjax_symbols";
 import { Suggestion } from "./suggestion_popup";
 import { UserSettings } from "./settings";
+import { fillLatexBraces } from "./latex_utils";
 
 function getTrimmedWord(word: string): string {
     let i = word.length - 1;
@@ -184,17 +185,6 @@ class RegexMatcher {
 
         return { suggestions, fastReplace };
     }
-}
-function fillLatexBraces(input: string, color: string = "blue"): string {
-    let letterCode = "a".charCodeAt(0);
-
-    // Find all empty brace pairs
-    const emptyBraceRegex = /\{(\s*)\}/g;
-
-    return input.replace(emptyBraceRegex, () => {
-        const letter = String.fromCharCode(letterCode++);
-        return `{\\color{${color}}{${letter}}}`;
-    });
 }
 
 class FuzzyMatcher {
