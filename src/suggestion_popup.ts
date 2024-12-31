@@ -27,20 +27,19 @@ export class SuggestionPopup {
         y: number,
         match: string,
         replacements: Suggestion[],
-        fastReplace = false,
         view: MarkdownView,
     ): void {
         this.currentMatch = match;
         this.currentReplacements = replacements;
         this.view = view;
         this.visible = true;
-        this.render(x, y, fastReplace);
+        this.render(x, y);
     }
 
     hide(): void {
         if (this.visible) {
             this.visible = false;
-            this.render(0, 0, false);
+            this.render(0, 0);
         }
     }
 
@@ -86,7 +85,7 @@ export class SuggestionPopup {
         this.hide();
     };
 
-    private render(x: number, y: number, fastReplace: boolean) {
+    private render(x: number, y: number) {
         // Always render the component, letting it handle its own visibility
         ReactDOM.render(
             React.createElement(SuggestionPopupComponent, {
@@ -94,7 +93,6 @@ export class SuggestionPopup {
                 y,
                 match: this.currentMatch || "",
                 replacements: this.currentReplacements || [],
-                fastReplace,
                 view: this.view!,
                 onSelect: this.handleSelect,
                 onHide: () => this.hide(),

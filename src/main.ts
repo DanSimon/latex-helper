@@ -196,7 +196,6 @@ export default class WordPopupPlugin extends Plugin {
                 coords.top,
                 wordUnderCursor,
                 suggestions.suggestions,
-                suggestions.fastReplace,
                 view,
             );
         } else {

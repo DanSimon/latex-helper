@@ -49,7 +49,6 @@ const SuggestionPopupComponent = ({
     y,
     match,
     replacements,
-    fastReplace = false,
     view,
     onSelect,
     onHide,
@@ -57,7 +56,6 @@ const SuggestionPopupComponent = ({
 }: SuggestionPopupProps) => {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const popupRef = useRef<HTMLDivElement>(null);
-    const isFastReplace = fastReplace && replacements.length === 1;
 
     useEffect(() => {
         setSelectedIndex(0);
@@ -78,7 +76,7 @@ const SuggestionPopupComponent = ({
 
             // Handle fast replace for non-alphanumeric keys
             if (
-                isFastReplace &&
+                replacements[0].fastReplace &&
                 !/^[a-zA-Z0-9]$/.test(e.key) &&
                 !["Escape", "Tab", "Backspace"].includes(e.key)
             ) {
@@ -132,14 +130,7 @@ const SuggestionPopupComponent = ({
             document.removeEventListener("click", handleClickOutside);
             document.removeEventListener("keydown", handleKeyDown);
         };
-    }, [
-        visible,
-        replacements.length,
-        selectedIndex,
-        isFastReplace,
-        onSelect,
-        onHide,
-    ]);
+    }, [visible, replacements.length, selectedIndex, onSelect, onHide]);
 
     if (!visible || !match || replacements.length === 0) {
         return <div style={{ display: "none" }} />;
@@ -190,7 +181,7 @@ const SuggestionPopupComponent = ({
                         }
                         onClick={() => onSelect(index)}
                     >
-                        {isFastReplace ? (
+                        {option.fastReplace && index == 0 ? (
                             <span
                                 style={{
                                     color: "#22c55e",
@@ -203,7 +194,7 @@ const SuggestionPopupComponent = ({
                         ) : (
                             ""
                         )}
-                        {!fastReplace && index < 9 ? (
+                        {!(option.fastReplace && index == 0) && index < 9 ? (
                             <span
                                 style={{
                                     color: "#666",

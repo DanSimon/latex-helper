@@ -255,63 +255,70 @@ export class SuggestionMatcher {
         const suggestions: Suggestion[] = [];
         let fastReplace = false;
 
-        if (suggestions.length < maxResults) {
-            // Handle regex matches
-            const regexResults = this.regexes.getSuggestions(searchString);
-            while (
-                suggestions.length < maxResults &&
-                regexResults.suggestions.length > 0
+        const insertSuggestion = (nxt: Suggestion) => {
+            if (
+                !suggestions.find(
+                    (elem: Suggestion) => elem.replacement == nxt.replacement,
+                )
             ) {
-                const nxt = regexResults.suggestions.shift()!;
                 if (
-                    !suggestions.find(
-                        (elem: Suggestion) =>
-                            elem.replacement == nxt.replacement,
-                    )
+                    nxt.fastReplace &&
+                    (suggestions.length == 0 || !suggestions[0].fastReplace)
                 ) {
+                    suggestions.splice(0, 0, nxt);
+                } else {
                     suggestions.push(nxt);
                 }
+                return true;
             }
-            fastReplace = fastReplace || regexResults.fastReplace;
+            return false;
+        };
+
+        const insertSuggestions = (getNext: () => Suggestion | null) => {
+            while (suggestions.length < maxResults) {
+                const nxt = getNext();
+                if (!nxt) {
+                    return;
+                }
+                insertSuggestion(nxt);
+            }
+        };
+
+        // Handle regex matches
+        if (suggestions.length < maxResults) {
+            const regexResults = this.regexes.getSuggestions(searchString);
+            insertSuggestions(() => regexResults.suggestions.shift() || null);
         }
 
         // Handle exact matches
         if (suggestions.length < maxResults) {
             const exactMatches = this.trie.lookup(trimmedSearch).slice();
-            const queue = [];
-            while (suggestions.length < maxResults && exactMatches.length > 0) {
-                const nxt = (() => {
-                    if (queue.length == 0) {
-                        const pattern = exactMatches.shift()!;
-                        queue.push(
-                            ...pattern.replacements
-                                .slice(0, maxResults)
-                                .map((r: string) => {
-                                    return {
-                                        replacement: r,
-                                        matchedString: trimmedSearch,
-                                        displayReplacement: fillLatexBraces(
-                                            r,
-                                            fillerColor,
-                                        ),
-                                        fastReplace:
-                                            pattern.fastReplace || false,
-                                    };
-                                }),
-                        );
+            const queue: Suggestion[] = [];
+            const nxt = () => {
+                if (queue.length == 0) {
+                    const pattern = exactMatches.shift();
+                    if (!pattern) {
+                        return null;
                     }
-                    return queue.shift()!;
-                })();
-                if (
-                    !suggestions.find(
-                        (elem: Suggestion) =>
-                            elem.replacement == nxt.replacement,
-                    )
-                ) {
-                    suggestions.push(nxt);
-                    fastReplace = fastReplace || nxt.fastReplace;
+                    queue.push(
+                        ...pattern.replacements
+                            .slice(0, maxResults)
+                            .map((r: string) => {
+                                return {
+                                    replacement: r,
+                                    matchedString: trimmedSearch,
+                                    displayReplacement: fillLatexBraces(
+                                        r,
+                                        fillerColor,
+                                    ),
+                                    fastReplace: pattern.fastReplace || false,
+                                };
+                            }),
+                    );
                 }
-            }
+                return queue.shift()!;
+            };
+            insertSuggestions(nxt);
         }
 
         if (
@@ -322,20 +329,7 @@ export class SuggestionMatcher {
                 trimmedSearch,
                 fillerColor,
             );
-            while (
-                suggestions.length < maxResults &&
-                fuzzyResults.suggestions.length > 0
-            ) {
-                const nxt = fuzzyResults.suggestions.shift()!;
-                if (
-                    !suggestions.find(
-                        (elem: Suggestion) =>
-                            elem.replacement == nxt.replacement,
-                    )
-                ) {
-                    suggestions.push(nxt);
-                }
-            }
+            insertSuggestions(() => fuzzyResults.suggestions.shift() || null);
         }
 
         fastReplace = fastReplace && suggestions.length === 1;
