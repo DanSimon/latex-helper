@@ -2,8 +2,8 @@ import * as React from "react";
 import { useState, useEffect, useRef } from "react";
 import { ItemView, MarkdownRenderer } from "obsidian";
 import FuzzySearch from "fz-search";
-import { LATEX_SYMBOLS, MathJaxSymbol } from "./mathjax_symbols";
-import * as LatexUtils from "./latex_utils";
+import { LATEX_SYMBOLS, MathJaxSymbol } from "../mathjax_symbols";
+import * as LatexUtils from "../latex_utils";
 
 // Group symbols by their first character
 const groupSymbols = (symbols: MathJaxSymbol[]) => {

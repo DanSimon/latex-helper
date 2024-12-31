@@ -1,7 +1,7 @@
 import { MarkdownView } from "obsidian";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import SuggestionPopupComponent from "./SuggestionPopupComponent";
+import SuggestionPopupComponent from "./components/SuggestionPopupComponent";
 
 export interface Suggestion {
     replacement: string;

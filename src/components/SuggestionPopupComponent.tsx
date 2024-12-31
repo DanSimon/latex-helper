@@ -1,8 +1,8 @@
 import * as React from "react";
 import { useState, useEffect, useRef } from "react";
 import { MarkdownRenderer, MarkdownView } from "obsidian";
-import { Suggestion } from "./suggestion_popup";
-import { fillLatexHtmlBraces } from "./latex_utils";
+import { Suggestion } from "../suggestion_popup";
+import { fillLatexHtmlBraces } from "../latex_utils";
 
 interface SuggestionPopupProps {
     x: number;

@@ -2,7 +2,7 @@ import { Component } from "obsidian";
 import { ConfigManager, Pattern } from "./config";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import CategorySelector from "./CategorySelector";
+import CategorySelector from "./components/CategorySelector";
 
 export class MatchForm extends Component {
     private configManager: ConfigManager;
