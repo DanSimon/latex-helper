@@ -132,21 +132,22 @@ const MatchFormComponent = ({
     onSave,
     onDelete,
     initialData,
+    allCategories,
 }: MatchFormProps) => {
     const [pattern, setPattern] = useState("");
-    const [replacements, setReplacements] = useState<
-        { value: string; isTemplate: boolean }[]
-    >([{ value: "", isTemplate: false }]);
+    const [replacements, setReplacements] = useState<string[]>([""]);
     const [selectedCategory, setSelectedCategory] = useState("");
     const [isRegex, setIsRegex] = useState(false);
     const [isFastReplace, setIsFastReplace] = useState(false);
+    const [isNormalMode, setIsNormalMode] = useState(false);
 
     const resetForm = () => {
         setPattern("");
         setIsRegex(false);
         setIsFastReplace(false);
+        setIsNormalMode(false);
         setSelectedCategory("");
-        setReplacements([{ value: "", isTemplate: false }]);
+        setReplacements([""]);
     };
 
     useEffect(() => {
@@ -155,12 +156,8 @@ const MatchFormComponent = ({
             setIsRegex(initialData.type === "regex");
             setIsFastReplace(initialData.fastReplace || false);
             setSelectedCategory(initialData.category || "");
-            setReplacements(
-                initialData.replacements.map((r) => ({
-                    value: r.startsWith("T:") ? r.slice(2) : r,
-                    isTemplate: r.startsWith("T:"),
-                })),
-            );
+            setReplacements(initialData.replacements);
+            setIsNormalMode(initialData.normalMode || false);
         } else {
             resetForm();
         }
@@ -169,9 +166,8 @@ const MatchFormComponent = ({
     const handleSave = () => {
         const newPattern: Pattern = {
             pattern,
-            replacements: replacements.map((r) =>
-                r.isTemplate ? `T:${r.value}` : r.value,
-            ),
+            replacements: replacements,
+            normalMode: isNormalMode,
             ...(isRegex && { type: "regex" }),
             ...(isFastReplace && { fastReplace: true }),
             ...(selectedCategory && { category: selectedCategory }),
@@ -181,7 +177,7 @@ const MatchFormComponent = ({
     };
 
     const addReplacement = () => {
-        setReplacements([...replacements, { value: "", isTemplate: false }]);
+        setReplacements([...replacements, ""]);
         setIsFastReplace(false); // Disable fast replace when multiple replacements exist
     };
 
@@ -189,16 +185,8 @@ const MatchFormComponent = ({
         setReplacements(replacements.filter((_, i) => i !== index));
     };
 
-    const updateReplacement = (
-        index: number,
-        value: string,
-        isTemplate: boolean,
-    ) => {
-        setReplacements(
-            replacements.map((r, i) =>
-                i === index ? { value, isTemplate } : r,
-            ),
-        );
+    const updateReplacement = (index: number, value: string) => {
+        setReplacements(replacements.map((r, i) => (i === index ? value : r)));
     };
 
     if (!isVisible) return null;
@@ -223,7 +211,7 @@ const MatchFormComponent = ({
                 <div style={styles.formGroup}>
                     <label style={styles.label}>Category:</label>
                     <CategorySelector
-                        allCategories={[]} // This should be passed from parent
+                        allCategories={allCategories} // This should be passed from parent
                         selectedCategory={selectedCategory}
                         onSelect={setSelectedCategory}
                     />
@@ -237,6 +225,15 @@ const MatchFormComponent = ({
                             onChange={(e) => setIsRegex(e.target.checked)}
                         />
                         <span>Regex Pattern</span>
+                    </label>
+
+                    <label style={styles.checkboxLabel}>
+                        <input
+                            type="checkbox"
+                            checked={isNormalMode}
+                            onChange={(e) => setIsNormalMode(e.target.checked)}
+                        />
+                        <span>Normal Mode</span>
                     </label>
 
                     <label style={styles.checkboxLabel}>
@@ -259,32 +256,14 @@ const MatchFormComponent = ({
                             <div style={styles.replacementInput}>
                                 <input
                                     type="text"
-                                    value={replacement.value}
+                                    value={replacement}
                                     onChange={(e) =>
-                                        updateReplacement(
-                                            index,
-                                            e.target.value,
-                                            replacement.isTemplate,
-                                        )
+                                        updateReplacement(index, e.target.value)
                                     }
                                     style={styles.input}
                                     placeholder="Replacement"
                                 />
                             </div>
-                            <label style={styles.checkboxLabel}>
-                                <input
-                                    type="checkbox"
-                                    checked={replacement.isTemplate}
-                                    onChange={(e) =>
-                                        updateReplacement(
-                                            index,
-                                            replacement.value,
-                                            e.target.checked,
-                                        )
-                                    }
-                                />
-                                Template
-                            </label>
                             {replacements.length > 1 && (
                                 <button
                                     onClick={() => removeReplacement(index)}
