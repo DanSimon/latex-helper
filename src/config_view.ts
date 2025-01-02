@@ -48,7 +48,6 @@ export class ConfigView extends ItemView {
 
     async onOpen() {
         const container = this.containerEl.children[1];
-        container.empty();
 
         ReactDOM.render(
             React.createElement(ConfigViewComponent, {

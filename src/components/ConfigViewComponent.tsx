@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ItemView, MarkdownRenderer } from "obsidian";
 import { Pattern } from "../config";
 import { MatchForm } from "../match_form";
@@ -246,52 +246,45 @@ const ConfigViewComponent: React.FC<ConfigViewComponentProps> = ({
     matchForm,
 }) => {
     const [searchTerm, setSearchTerm] = useState("");
-    const [filteredCategories, setFilteredCategories] = useState<
-        Record<string, Pattern[]>
-    >({});
 
-    useEffect(() => {
-        const groupPatterns = () => {
-            const grouped = patterns.reduce(
-                (acc: Record<string, Pattern[]>, pattern) => {
-                    const category = pattern.category || "Uncategorized";
-                    if (!acc[category]) {
-                        acc[category] = [];
-                    }
-                    if (
-                        pattern.pattern
-                            .toLowerCase()
-                            .includes(searchTerm.toLowerCase()) ||
-                        pattern.replacements.some((r) =>
-                            r.toLowerCase().includes(searchTerm.toLowerCase()),
-                        )
-                    ) {
-                        acc[category].push(pattern);
-                    }
-                    return acc;
-                },
-                {},
-            );
+    const filteredCategories = (() => {
+        const grouped = patterns.reduce(
+            (acc: Record<string, Pattern[]>, pattern) => {
+                const category = pattern.category || "Uncategorized";
+                if (!acc[category]) {
+                    acc[category] = [];
+                }
+                if (
+                    pattern.pattern
+                        .toLowerCase()
+                        .includes(searchTerm.toLowerCase()) ||
+                    pattern.replacements.some((r) =>
+                        r.toLowerCase().includes(searchTerm.toLowerCase()),
+                    )
+                ) {
+                    acc[category].push(pattern);
+                }
+                return acc;
+            },
+            {},
+        );
 
-            // Sort categories but keep Uncategorized at the end
-            const sortedCategories: Record<string, Pattern[]> = {};
-            Object.keys(grouped)
-                .sort((a, b) => {
-                    if (a === "Uncategorized") return 1;
-                    if (b === "Uncategorized") return -1;
-                    return a.localeCompare(b);
-                })
-                .forEach((category) => {
-                    if (grouped[category].length > 0) {
-                        sortedCategories[category] = grouped[category];
-                    }
-                });
+        // Sort categories but keep Uncategorized at the end
+        const sortedCategories: Record<string, Pattern[]> = {};
+        Object.keys(grouped)
+            .sort((a, b) => {
+                if (a === "Uncategorized") return 1;
+                if (b === "Uncategorized") return -1;
+                return a.localeCompare(b);
+            })
+            .forEach((category) => {
+                if (grouped[category].length > 0) {
+                    sortedCategories[category] = grouped[category];
+                }
+            });
 
-            setFilteredCategories(sortedCategories);
-        };
-
-        groupPatterns();
-    }, [patterns, searchTerm]);
+        return sortedCategories;
+    })();
 
     return (
         <div style={styles.container}>

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { ItemView, MarkdownRenderer } from "obsidian";
 import FuzzySearch from "fz-search";
 import { LATEX_SYMBOLS, MathJaxSymbol } from "../mathjax_symbols";
@@ -272,15 +272,14 @@ const SymbolReferenceView: React.FC<{ view: ItemView }> = ({ view }) => {
             keys: ["searchName"],
         }),
     );
-    const [searchResults, setSearchResults] = useState<MathJaxSymbol[]>([]);
 
-    useEffect(() => {
+    const searchResults = (() => {
         if (searchTerm) {
-            setSearchResults(fuzzySearch.current.search(searchTerm));
+            return fuzzySearch.current.search(searchTerm);
         } else {
-            setSearchResults([]);
+            return [];
         }
-    }, [searchTerm]);
+    })();
     const sections = Object.keys(allSymbols).sort();
 
     return (
