@@ -176,6 +176,13 @@ const MatchFormComponent = ({
         onClose();
     };
 
+    const handleDelete = () => {
+        if (onDelete && confirm("Delete this Pattern?")) {
+            onDelete();
+            onClose();
+        }
+    };
+
     const addReplacement = () => {
         setReplacements([...replacements, ""]);
         setIsFastReplace(false); // Disable fast replace when multiple replacements exist
@@ -289,7 +296,10 @@ const MatchFormComponent = ({
                         </button>
                     </div>
                     {onDelete && (
-                        <button onClick={onDelete} style={styles.deleteButton}>
+                        <button
+                            onClick={handleDelete}
+                            style={styles.deleteButton}
+                        >
                             Delete
                         </button>
                     )}
