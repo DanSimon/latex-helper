@@ -1,10 +1,9 @@
 {
-    "id": "obsidian-word-popup",
-    "name": "Word Popup",
-    "version": "1.0.0",
+    "id": "latex-helper",
+    "name": "Latex Helper",
+    "version": "0.1.0",
     "minAppVersion": "0.15.0",
     "description": "Shows a popup when specific words are typed",
-    "author": "Your Name",
+    "author": "Dan Simon",
     "isDesktopOnly": false
 }
-

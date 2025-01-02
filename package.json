@@ -1,7 +1,7 @@
 {
-    "name": "obsidian-word-popup",
-    "version": "1.0.0",
-    "description": "Shows a popup when specific words are typed",
+    "name": "latex-helper",
+    "version": "0.1.0",
+    "description": "Obsidian plugin that provides LaTeX auto-complete, shortcuts, and other features for writing LaTeX.",
     "main": "main.js",
     "scripts": {
         "dev": "node esbuild.config.mjs",
