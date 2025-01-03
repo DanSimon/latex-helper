@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { ItemView, MarkdownRenderer } from "obsidian";
 import FuzzySearch from "fz-search";
 import { LATEX_SYMBOLS, MathJaxSymbol } from "../mathjax_symbols";
@@ -25,43 +25,61 @@ const SymbolSection: React.FC<{
     letter: string;
     symbols: MathJaxSymbol[];
     view: ItemView;
-}> = React.memo(
-    ({ letter, symbols, view }) => {
-        return (
-            <div id={`section-${letter}`} style={{ marginBottom: "2rem" }}>
-                <h2
-                    style={{
-                        fontSize: "1.5rem",
-                        fontWeight: "bold",
-                        marginBottom: "1rem",
-                    }}
-                >
-                    {letter.toUpperCase()}
-                </h2>
-                <div
-                    style={{
-                        display: "grid",
-                        gridTemplateColumns:
-                            "repeat(auto-fill, minmax(300px, 1fr))",
-                        gap: "1rem",
-                    }}
-                >
-                    {symbols.map((symbol) => (
+}> = React.memo(({ letter, symbols, view }) => {
+    const [isViewable, setIsViewable] = useState(letter == "#");
+    const containerRef = useRef(null);
+    const visibleCallback = (entries: IntersectionObserverEntry[]) => {
+        const [entry] = entries;
+        if (!isViewable && entry.isIntersecting) {
+            setIsViewable(true);
+        }
+    };
+    useEffect(() => {
+        const observer = new IntersectionObserver(visibleCallback);
+        if (containerRef.current) {
+            observer.observe(containerRef.current);
+        }
+        return () => {
+            if (containerRef.current) {
+                observer.unobserve(containerRef.current);
+            }
+        };
+    }, [containerRef]);
+    return (
+        <div
+            ref={containerRef}
+            id={`section-${letter}`}
+            style={{ marginBottom: "2rem" }}
+        >
+            <h2
+                style={{
+                    fontSize: "1.5rem",
+                    fontWeight: "bold",
+                    marginBottom: "1rem",
+                }}
+            >
+                {letter.toUpperCase()}
+            </h2>
+            <div
+                style={{
+                    display: "grid",
+                    gridTemplateColumns:
+                        "repeat(auto-fill, minmax(300px, 1fr))",
+                    gap: "1rem",
+                }}
+            >
+                {isViewable &&
+                    symbols.map((symbol) => (
                         <SymbolCard
                             key={symbol.name}
                             symbol={symbol}
                             view={view}
                         />
                     ))}
-                </div>
             </div>
-        );
-    },
-    (prevProps, nextProps) => {
-        // Custom comparison for memo
-        return prevProps.letter == nextProps.letter;
-    },
-);
+        </div>
+    );
+});
 
 const SymbolCard: React.FC<{
     symbol: MathJaxSymbol;

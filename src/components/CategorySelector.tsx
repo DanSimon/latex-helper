@@ -52,6 +52,7 @@ const CategorySelector = ({
     const [inputValue, setInputValue] = useState(selectedCategory || "");
     const [filteredCategories, setFilteredCategories] = useState(allCategories);
     const wrapperRef = useRef<HTMLDivElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -75,8 +76,13 @@ const CategorySelector = ({
         setFilteredCategories(filtered);
     }, [inputValue, allCategories]);
 
+    useEffect(() => {
+        setInputValue(selectedCategory);
+    }, [selectedCategory]);
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value);
+        onSelect(e.target.value);
         setIsOpen(true);
     };
 
@@ -96,9 +102,19 @@ const CategorySelector = ({
         >
             <input
                 type="text"
+                ref={inputRef}
                 value={inputValue}
                 onChange={handleInputChange}
                 onFocus={() => setIsOpen(true)}
+                onBlur={() => {
+                    if (
+                        inputRef.current &&
+                        inputValue &&
+                        !allCategories.contains(inputValue)
+                    ) {
+                        inputRef.current.value = inputValue + " [New Category]";
+                    }
+                }}
                 placeholder="Select or type a category"
                 style={styles.input}
             />

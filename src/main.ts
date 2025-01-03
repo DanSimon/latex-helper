@@ -2,8 +2,6 @@ import { Editor, MarkdownView, Modifier, Platform, Plugin } from "obsidian";
 
 import { ConfigManager } from "./config";
 import { CursorWord, SuggestionPopup, TextMode } from "./suggestion_popup";
-import { ConfigDialog } from "./config_dialog";
-import { SelectionButton } from "./selection_button";
 import { MatchForm } from "./match_form";
 import { CONFIG_VIEW_TYPE, ConfigView } from "./config_view";
 import { Prec } from "@codemirror/state";
@@ -14,8 +12,6 @@ import { WordPopupSettingTab } from "./settings";
 export default class WordPopupPlugin extends Plugin {
     configManager: ConfigManager;
     suggestionPopup: SuggestionPopup;
-    selectionButton: SelectionButton;
-    configDialog: ConfigDialog;
     matchForm: MatchForm;
 
     async onload() {
@@ -23,18 +19,6 @@ export default class WordPopupPlugin extends Plugin {
         await this.configManager.loadConfig();
         this.suggestionPopup = new SuggestionPopup(this.configManager);
         this.matchForm = new MatchForm(this.configManager);
-        this.configDialog = new ConfigDialog(
-            this.configManager,
-            this.matchForm,
-        );
-        this.selectionButton = new SelectionButton(
-            this.configManager,
-            this.configDialog,
-            this.matchForm,
-        );
-
-        //this.addChild(this.selectionButton);
-        this.addChild(this.configDialog);
         this.addChild(this.matchForm);
 
         // Register editor change event
@@ -108,6 +92,8 @@ export default class WordPopupPlugin extends Plugin {
             this.registerHotkey();
         });
 
+        this.registerHotkey();
+
         console.log("Plugin Loaded");
     }
 
@@ -149,6 +135,7 @@ export default class WordPopupPlugin extends Plugin {
         const { modifiers, key } = this.parseHotkey(
             this.configManager.config.settings.triggerKey,
         );
+        console.log(`register hotkey '${modifiers}' + '${key}'`);
 
         this.addCommand({
             id: "trigger-latex-suggestions",

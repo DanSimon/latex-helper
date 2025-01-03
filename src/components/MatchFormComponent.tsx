@@ -126,187 +126,218 @@ const styles = {
     },
 } as const;
 
-const MatchFormComponent = ({
-    isVisible,
-    onClose,
-    onSave,
-    onDelete,
-    initialData,
-    allCategories,
-}: MatchFormProps) => {
-    const [pattern, setPattern] = useState("");
-    const [replacements, setReplacements] = useState<string[]>([""]);
-    const [selectedCategory, setSelectedCategory] = useState("");
-    const [isRegex, setIsRegex] = useState(false);
-    const [isFastReplace, setIsFastReplace] = useState(false);
-    const [isNormalMode, setIsNormalMode] = useState(false);
+const MatchFormComponent = React.memo(
+    ({
+        isVisible,
+        onClose,
+        onSave,
+        onDelete,
+        initialData,
+        allCategories,
+    }: MatchFormProps) => {
+        const [pattern, setPattern] = useState("");
+        const [replacements, setReplacements] = useState<string[]>([""]);
+        const [selectedCategory, setSelectedCategory] = useState(
+            initialData?.category || "",
+        );
+        const [isRegex, setIsRegex] = useState(false);
+        const [isFastReplace, setIsFastReplace] = useState(false);
+        const [isNormalMode, setIsNormalMode] = useState(false);
 
-    const resetForm = () => {
-        setPattern("");
-        setIsRegex(false);
-        setIsFastReplace(false);
-        setIsNormalMode(false);
-        setSelectedCategory("");
-        setReplacements([""]);
-    };
+        //setSelectedCategory(initialData?.category || "");
 
-    useEffect(() => {
-        if (initialData) {
-            setPattern(initialData.pattern);
-            setIsRegex(initialData.type === "regex");
-            setIsFastReplace(initialData.fastReplace || false);
-            setSelectedCategory(initialData.category || "");
-            setReplacements(initialData.replacements);
-            setIsNormalMode(initialData.normalMode || false);
-        } else {
-            resetForm();
-        }
-    }, [initialData, isVisible]);
-
-    const handleSave = () => {
-        const newPattern: Pattern = {
-            pattern,
-            replacements: replacements,
-            normalMode: isNormalMode,
-            ...(isRegex && { type: "regex" }),
-            ...(isFastReplace && { fastReplace: true }),
-            ...(selectedCategory && { category: selectedCategory }),
+        const resetForm = () => {
+            setPattern("");
+            setIsRegex(false);
+            setIsFastReplace(false);
+            setIsNormalMode(false);
+            setSelectedCategory("");
+            setReplacements([""]);
         };
-        onSave(newPattern);
-        onClose();
-    };
 
-    const handleDelete = () => {
-        if (onDelete && confirm("Delete this Pattern?")) {
-            onDelete();
+        useEffect(() => {
+            if (initialData) {
+                setPattern(initialData.pattern);
+                setIsRegex(initialData.type === "regex");
+                setIsFastReplace(initialData.fastReplace || false);
+                setSelectedCategory(initialData.category || "");
+                setReplacements(initialData.replacements);
+                setIsNormalMode(initialData.normalMode || false);
+            }
+        }, [initialData]);
+
+        useEffect(() => {
+            if (!isVisible) {
+                resetForm();
+            }
+        }, [isVisible]);
+
+        const handleSave = () => {
+            const newPattern: Pattern = {
+                pattern,
+                replacements: replacements,
+                normalMode: isNormalMode,
+                ...(isRegex && { type: "regex" }),
+                ...(isFastReplace && { fastReplace: true }),
+                ...(selectedCategory && { category: selectedCategory }),
+            };
+            onSave(newPattern);
             onClose();
-        }
-    };
+        };
 
-    const addReplacement = () => {
-        setReplacements([...replacements, ""]);
-        setIsFastReplace(false); // Disable fast replace when multiple replacements exist
-    };
+        const handleDelete = () => {
+            if (onDelete && confirm("Delete this Pattern?")) {
+                onDelete();
+                onClose();
+            }
+        };
 
-    const removeReplacement = (index: number) => {
-        setReplacements(replacements.filter((_, i) => i !== index));
-    };
+        const addReplacement = () => {
+            setReplacements([...replacements, ""]);
+            setIsFastReplace(false); // Disable fast replace when multiple replacements exist
+        };
 
-    const updateReplacement = (index: number, value: string) => {
-        setReplacements(replacements.map((r, i) => (i === index ? value : r)));
-    };
+        const removeReplacement = (index: number) => {
+            setReplacements(replacements.filter((_, i) => i !== index));
+        };
 
-    if (!isVisible) return null;
+        const updateReplacement = (index: number, value: string) => {
+            setReplacements(
+                replacements.map((r, i) => (i === index ? value : r)),
+            );
+        };
 
-    return (
-        <div style={styles.modal}>
-            <div style={styles.content}>
-                <h2 style={styles.title}>
-                    {initialData ? "Edit Pattern" : "Create New Pattern"}
-                </h2>
+        if (!isVisible) return null;
 
-                <div style={styles.formGroup}>
-                    <label style={styles.label}>Pattern:</label>
-                    <input
-                        type="text"
-                        value={pattern}
-                        onChange={(e) => setPattern(e.target.value)}
-                        style={styles.input}
-                    />
-                </div>
+        return (
+            <div style={styles.modal}>
+                <div style={styles.content}>
+                    <h2 style={styles.title}>
+                        {initialData ? "Edit Pattern" : "Create New Pattern"}
+                    </h2>
 
-                <div style={styles.formGroup}>
-                    <label style={styles.label}>Category:</label>
-                    <CategorySelector
-                        allCategories={allCategories} // This should be passed from parent
-                        selectedCategory={selectedCategory}
-                        onSelect={setSelectedCategory}
-                    />
-                </div>
-
-                <div style={styles.checkboxGroup}>
-                    <label style={styles.checkboxLabel}>
+                    <div style={styles.formGroup}>
+                        <label style={styles.label}>Pattern:</label>
                         <input
-                            type="checkbox"
-                            checked={isRegex}
-                            onChange={(e) => setIsRegex(e.target.checked)}
+                            type="text"
+                            value={pattern}
+                            onChange={(e) => setPattern(e.target.value)}
+                            style={styles.input}
                         />
-                        <span>Regex Pattern</span>
-                    </label>
+                    </div>
 
-                    <label style={styles.checkboxLabel}>
-                        <input
-                            type="checkbox"
-                            checked={isNormalMode}
-                            onChange={(e) => setIsNormalMode(e.target.checked)}
+                    <div style={styles.formGroup}>
+                        <label style={styles.label}>Category:</label>
+                        <CategorySelector
+                            allCategories={allCategories} // This should be passed from parent
+                            selectedCategory={selectedCategory}
+                            onSelect={setSelectedCategory}
                         />
-                        <span>Normal Mode</span>
-                    </label>
+                    </div>
 
-                    <label style={styles.checkboxLabel}>
-                        <input
-                            type="checkbox"
-                            checked={isFastReplace}
-                            onChange={(e) => setIsFastReplace(e.target.checked)}
-                            disabled={replacements.length > 1}
-                        />
-                        <span>Fast Replace</span>
-                        {isFastReplace && (
-                            <span style={styles.fastReplaceIcon}>⚡</span>
-                        )}
-                    </label>
-                </div>
+                    <div style={styles.checkboxGroup}>
+                        <label style={styles.checkboxLabel}>
+                            <input
+                                type="checkbox"
+                                checked={isRegex}
+                                onChange={(e) => setIsRegex(e.target.checked)}
+                            />
+                            <span>Regex Pattern</span>
+                        </label>
 
-                <div style={styles.formGroup}>
-                    {replacements.map((replacement, index) => (
-                        <div key={index} style={styles.replacementItem}>
-                            <div style={styles.replacementInput}>
-                                <input
-                                    type="text"
-                                    value={replacement}
-                                    onChange={(e) =>
-                                        updateReplacement(index, e.target.value)
-                                    }
-                                    style={styles.input}
-                                    placeholder="Replacement"
-                                />
-                            </div>
-                            {replacements.length > 1 && (
-                                <button
-                                    onClick={() => removeReplacement(index)}
-                                    style={styles.removeButton}
-                                >
-                                    Remove
-                                </button>
+                        <label style={styles.checkboxLabel}>
+                            <input
+                                type="checkbox"
+                                checked={isNormalMode}
+                                onChange={(e) =>
+                                    setIsNormalMode(e.target.checked)
+                                }
+                            />
+                            <span>Normal Mode</span>
+                        </label>
+
+                        <label style={styles.checkboxLabel}>
+                            <input
+                                type="checkbox"
+                                checked={isFastReplace}
+                                onChange={(e) =>
+                                    setIsFastReplace(e.target.checked)
+                                }
+                                disabled={replacements.length > 1}
+                            />
+                            <span>Fast Replace</span>
+                            {isFastReplace && (
+                                <span style={styles.fastReplaceIcon}>⚡</span>
                             )}
-                        </div>
-                    ))}
-                    <button onClick={addReplacement} style={styles.addButton}>
-                        Add Replacement
-                    </button>
-                </div>
+                        </label>
+                    </div>
 
-                <div style={styles.buttonGroup}>
-                    <div>
-                        <button onClick={handleSave} style={styles.saveButton}>
-                            Save
-                        </button>
-                        <button onClick={onClose} style={styles.cancelButton}>
-                            Cancel
+                    <div style={styles.formGroup}>
+                        {replacements.map((replacement, index) => (
+                            <div key={index} style={styles.replacementItem}>
+                                <div style={styles.replacementInput}>
+                                    <input
+                                        type="text"
+                                        value={replacement}
+                                        onChange={(e) =>
+                                            updateReplacement(
+                                                index,
+                                                e.target.value,
+                                            )
+                                        }
+                                        style={styles.input}
+                                        placeholder="Replacement"
+                                    />
+                                </div>
+                                {replacements.length > 1 && (
+                                    <button
+                                        onClick={() => removeReplacement(index)}
+                                        style={styles.removeButton}
+                                    >
+                                        Remove
+                                    </button>
+                                )}
+                            </div>
+                        ))}
+                        <button
+                            onClick={addReplacement}
+                            style={styles.addButton}
+                        >
+                            Add Replacement
                         </button>
                     </div>
-                    {onDelete && (
-                        <button
-                            onClick={handleDelete}
-                            style={styles.deleteButton}
-                        >
-                            Delete
-                        </button>
-                    )}
+
+                    <div style={styles.buttonGroup}>
+                        <div>
+                            <button
+                                onClick={handleSave}
+                                style={styles.saveButton}
+                            >
+                                Save
+                            </button>
+                            <button
+                                onClick={onClose}
+                                style={styles.cancelButton}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                        {onDelete && (
+                            <button
+                                onClick={handleDelete}
+                                style={styles.deleteButton}
+                            >
+                                Delete
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
-        </div>
-    );
-};
+        );
+    },
+    (prev, next) =>
+        prev.initialData == next.initialData &&
+        prev.isVisible == next.isVisible,
+);
 
 export default MatchFormComponent;

@@ -81,8 +81,15 @@ const SuggestionPopupComponent = ({
             if (
                 settings.enableFastReplace &&
                 replacements[0].fastReplace &&
-                !/^[a-zA-Z0-9]$/.test(e.key) &&
-                !["Escape", "Tab", "Backspace"].includes(e.key)
+                ![
+                    "Escape",
+                    "Tab",
+                    "Backspace",
+                    "Shift",
+                    "Alt",
+                    "Control",
+                    "Meta",
+                ].includes(e.key)
             ) {
                 onSelect(0);
                 return;
