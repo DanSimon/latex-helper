@@ -42,3 +42,42 @@ export function getTrimmedWord(word: string): string {
     const res = word.substr(i);
     return res;
 }
+
+export function hasUnclosedMathSection(str: string): boolean {
+    let inMathMode = false;
+    let isDoubleDollar = false;
+
+    // Process string character by character
+    for (let i = 0; i < str.length; i++) {
+        // Handle escaped dollar signs
+        if (str[i] === "\\" && i + 1 < str.length && str[i + 1] === "$") {
+            i++; // Skip the escaped dollar sign
+            continue;
+        }
+
+        // Check for double dollar signs
+        if (str[i] === "$" && i + 1 < str.length && str[i + 1] === "$") {
+            if (!inMathMode) {
+                inMathMode = true;
+                isDoubleDollar = true;
+                i++; // Skip second dollar
+            } else if (isDoubleDollar) {
+                inMathMode = false;
+                isDoubleDollar = false;
+                i++; // Skip second dollar
+            }
+            continue;
+        }
+
+        // Handle single dollar signs
+        if (str[i] === "$") {
+            if (!inMathMode && (i == str.length - 1 || str[i + 1] != " ")) {
+                inMathMode = true;
+                isDoubleDollar = false;
+            } else if (!isDoubleDollar && (i == 0 || str[i - 1] != " ")) {
+                inMathMode = false;
+            }
+        }
+    }
+    return inMathMode;
+}

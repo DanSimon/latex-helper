@@ -1,5 +1,3 @@
-// src/__tests__/pattern_matcher.test.ts
-
 import { getTrimmedWord } from "../string_utils";
 
 describe("getTrimmedWord", () => {

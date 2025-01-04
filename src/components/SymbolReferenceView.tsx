@@ -123,13 +123,17 @@ const SymbolCard: React.FC<{
                     ref={(el) => {
                         if (el) {
                             el.empty();
-                            MarkdownRenderer.render(
-                                view.app,
-                                `$${LatexUtils.fillLatexBraces(symbol.name, fillerColor)}$`,
-                                el,
-                                "",
-                                view,
-                            );
+                            const renderText =
+                                symbol.suggestion_display ?? symbol.name;
+                            if (renderText) {
+                                MarkdownRenderer.render(
+                                    view.app,
+                                    `$${LatexUtils.fillLatexBraces(renderText, fillerColor)}$`,
+                                    el,
+                                    "",
+                                    view,
+                                );
+                            }
                         }
                     }}
                 />

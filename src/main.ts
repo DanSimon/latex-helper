@@ -8,6 +8,7 @@ import { Prec } from "@codemirror/state";
 import { latexNavigation } from "./tab_extension";
 import { SYMBOL_VIEW_TYPE, SymbolReference } from "./symbol_reference";
 import { WordPopupSettingTab } from "./settings";
+import { cursorInMathBlock, hasUnclosedMathSection } from "./string_utils";
 
 export default class WordPopupPlugin extends Plugin {
     configManager: ConfigManager;
@@ -189,47 +190,8 @@ export default class WordPopupPlugin extends Plugin {
         }
     }
 
-    hasUnclosedMathSection(str: string): boolean {
-        let inMathMode = false;
-        let isDoubleDollar = false;
-
-        // Process string character by character
-        for (let i = 0; i < str.length; i++) {
-            // Handle escaped dollar signs
-            if (str[i] === "\\" && i + 1 < str.length && str[i + 1] === "$") {
-                i++; // Skip the escaped dollar sign
-                continue;
-            }
-
-            // Check for double dollar signs
-            if (str[i] === "$" && i + 1 < str.length && str[i + 1] === "$") {
-                if (!inMathMode) {
-                    inMathMode = true;
-                    isDoubleDollar = true;
-                    i++; // Skip second dollar
-                } else if (isDoubleDollar) {
-                    inMathMode = false;
-                    isDoubleDollar = false;
-                    i++; // Skip second dollar
-                }
-                continue;
-            }
-
-            // Handle single dollar signs
-            if (str[i] === "$") {
-                if (!inMathMode) {
-                    inMathMode = true;
-                    isDoubleDollar = false;
-                } else if (!isDoubleDollar) {
-                    inMathMode = false;
-                }
-            }
-        }
-        return inMathMode;
-    }
-
     getWordUnderCursor(lineStr: string, cursorPos: number): CursorWord | null {
-        const mode = this.hasUnclosedMathSection(lineStr.slice(0, cursorPos))
+        const mode = hasUnclosedMathSection(lineStr.slice(0, cursorPos))
             ? TextMode.Math
             : TextMode.Normal;
         if (

@@ -1951,6 +1951,7 @@
         },
         {
             "name": "\\hdashline",
+            "suggestion_display" : "",
             "description": "works in many of the environments\nto create a horizontal line (\\hline), or a horizontal dashed line (\\hdashline)\n\nPutting   \\hdashline   or   \\hline   first or last encases the entire structure\n(which is different from standard $\\,\\rm\\LaTeX\\,$ behavior):\n\n\\begin{matrix}\n\\hdashline\nx_{11} & x_{12} \\\\\nx_{21} & x_{22} \\\\\nx_{31} & x_{32}\n\\end{matrix}\n\nyields\n\n$\n\\begin{matrix}\n\\hdashline\nx_{11} & x_{12} \\\\\nx_{21} & x_{22} \\\\\nx_{31} & x_{32}\n\\end{matrix}\n$\n\n\\begin{matrix}\nx_{11} & x_{12} \\\\\nx_{21} & x_{22} \\\\\nx_{31} & x_{32} \\\\\n\\hline\n\\end{matrix}\n\nyields\n\n$\n\\begin{matrix}\nx_{11} & x_{12} \\\\\nx_{21} & x_{22} \\\\\nx_{31} & x_{32} \\\\\n\\hline\n\\end{matrix}\n$\n\nPutting   \\hdashline   or   \\hline   at the beginning of any subsequent row puts a line over that row\n\n\\begin{matrix}\nx_{11} & x_{12} \\\\\nx_{21} & x_{22} \\\\\n\\hline\nx_{31} & x_{32}\n\\end{matrix}\n\nyields\n\n$\n\\begin{matrix}\nx_{11} & x_{12} \\\\\nx_{21} & x_{22} \\\\\n\\hline\nx_{31} & x_{32}\n\\end{matrix}\n$\n\nYou can combine effects, and put in struts (as desired) for additional vertical spacing:\n\n\\begin{matrix}\n\\hline\nx_{11} & x_{12} \\\\\nx_{21} & x_{22} \\strut \\\\\n\\hdashline\nx_{31} & x_{32} \\strut\n\\end{matrix}\n\nyields\n\n$\n\\begin{matrix}\n\\hline\nx_{11} & x_{12} \\\\\nx_{21} & x_{22} \\strut \\\\\n\\hdashline\nx_{31} & x_{32} \\strut\n\\end{matrix}\n$",
             "examples": [
                 "\n\\begin{matrix}\nx_{11} & x_{12} \\\\\nx_{21} & x_{22} \\\\\nx_{31} & x_{32} \\\\\n\\hline\n\\end{matrix}\n",
@@ -1972,6 +1973,7 @@
         },
         {
             "name": "\\hfil",
+            "suggestion_display" : "",
             "description": "horizontal glue; horizontal fill (added in MathJax 2.5);\ncan be used to set horizontal alignment in matrices and arrays (as in old-fashioned $\\,\\TeX\\,$ layout);\nit ‘expands’ to fill available horizontal space, pushing contents on right or left to the boundary",
             "examples": [],
             "see_also": [
@@ -2009,7 +2011,8 @@
             "snippet": ""
         },
         {
-            "name": "\\href",
+            "name": "\\href{}{}",
+            "suggestion_display" : "",
             "description": "used to make a math object into a link\n\\href{ <url> } #1\nwhere the argument (#1) is the clickable area",
             "examples": [
                 "\\href{http://www.onemathematicalcat.org}{M^{A^{T^H}}}"
@@ -2019,6 +2022,7 @@
         },
         {
             "name": "\\hskip",
+            "suggestion_display" : "",
             "description": "horizontal glue; horizontal space; horizontal skipping;\n\\hskip <dimen>",
             "examples": [],
             "see_also": [],
@@ -2033,6 +2037,7 @@
         },
         {
             "name": "\\hspace",
+            "suggestion_display" : "",
             "description": "horizontal glue; horizontal space; horizontal skipping\n\\hspace <dimen>",
             "examples": [],
             "see_also": [],
@@ -2222,6 +2227,7 @@
         },
         {
             "name": "\\kern",
+            "suggestion_display" : "",
             "description": "to get a specified amount of horizontal space;\na negative argument forces ‘backing up’, so items can overlap\n\\kern <dimen>",
             "examples": [
                 "|\\kern 2ex|\\kern 2em|\\kern 2pt|",
@@ -2373,6 +2379,7 @@
         },
         {
             "name": "\\left",
+            "suggestion_display" : "",
             "description": "used for stretchy delimiters;\nsee the Variable-Sized Delimiters Table for details",
             "examples": [
                 "\\left( \\frac12 \\right)",
@@ -2473,6 +2480,7 @@
         },
         {
             "name": "\\leqalignno",
+            "suggestion_display" : "",
             "description": "equation alignment with optionally numbered (tagged) lines;\nin $\\rm\\TeX$,  \\leqalignno  puts the tags on the left, but MathJax\ndoesn't implement this behavior;\ncurrently, tags appear in a column on the\nright separated from the equations by a fixed amount of space (so they\ndon't work like tags in the AMS math environments);\nthis may be fixed in a future version of MathJax\n\\leqalignno{ <math> & <math> & <equation tag> \\cr <repeat as needed> }\nthe first ampersand is placed where alignment is desired;\nthe second ampersand is used just before a tag;\nif there is no tag, then the final    & <equation tag>   is omitted;\na double-backslash can be used in place of the  \\cr ;\nthe final   \\\\   or   \\cr   is optional;\noutput is the same in both inline and display modes\n(except for the amount of vertical space before and after);",
             "examples": [],
             "see_also": [
@@ -2583,6 +2591,7 @@
         },
         {
             "name": "\\limits",
+            "suggestion_display" : "",
             "description": "used to set limits above/below any token of class OP;\nsee the Big Operators table for more information and examples",
             "examples": [
                 "\\int_a^b f(x)\\,dx",
@@ -2762,6 +2771,7 @@
         },
         {
             "name": "\\lower",
+            "suggestion_display" : "",
             "description": "\\lower <dimen> #1\nlowers the argument by the amount specified in <dimen>;\nin actual $\\rm\\TeX$, the argument to  \\lower  (and  \\raise ) must be an\n \\hbox ,\nbut in MathJax it can be any expression (using an \\hbox is allowed, but not required)",
             "examples": [
                 "l\\lower 2pt {owe} r"
@@ -2901,12 +2911,9 @@
         },
         {
             "name": "\\mathchoice{}",
+            "suggestion_display" : "",
             "description": "provides content that is dependent on the current style (display, text, script, or scriptscript);\ncan be used in defining a macro for general use\n\\mathchoice #1 #2 #3 #4\nwhere\n\n#1 is rendered when the  \\mathchoice  appears in display style\n#2 is rendered when the  \\mathchoice  appears in text style\n#3 is rendered when the  \\mathchoice  appears in script style\n#4 is rendered when the  \\mathchoice  appears in scriptscript style",
             "examples": [
-                "\\mathchoice{D}{T}{S}{SS}   (in scriptscript style)",
-                "\\mathchoice{D}{T}{S}{SS}   (in script style)",
-                "\\mathchoice{D}{T}{S}{SS}   (in text style)",
-                "\\mathchoice{D}{T}{S}{SS}   (in display style)"
             ],
             "see_also": [],
             "snippet": ""
@@ -3094,6 +3101,7 @@
         },
         {
             "name": "\\matrix",
+            "suggestion_display" : "",
             "description": "matrix (without any delimiters)\n\\matrix{ <math> & <math> ... \\cr <repeat as needed> }\nalignment occurs at the ampersands;\na double-backslash can be used in place of the  \\cr ;\nthe final   \\\\   or   \\cr   is optional",
             "examples": [
                 "\n\\matrix{ a & b \\cr c & d }\n"
@@ -3116,6 +3124,7 @@
         },
         {
             "name": "\\mbox",
+            "suggestion_display" : "",
             "description": "creates a box just wide enough to hold the text in its argument;\nno linebreaks are allowed in the text;\ntext appears in  \\rm \n\nclass ORD\n\n\\mbox <text argument>",
             "examples": [
                 "a + b \\mbox{ (are you paying attention?) } = c",
@@ -3178,6 +3187,7 @@
         },
         {
             "name": "\\mkern",
+            "suggestion_display" : "",
             "description": "\\mkern <dimen>\ngives horizontal space",
             "examples": [
                 "a\\mkern18pt b",
@@ -3208,6 +3218,7 @@
         },
         {
             "name": "\\moveleft",
+            "suggestion_display" : "",
             "description": "shifts boxes to the left or right\n\n\\moveleft <dimen> <box>\n\\moveright <dimen> <box>\n\nIn actual $\\rm\\TeX$, these require an  \\hbox  (or some\nbox) as an argument, and can only appear in vertical mode;\nMathJax is less picky you don't need an actual box, and MathJax\ndoesn't have a vertical mode;\nthese are not really designed as user-level macros, but instead allow existing macros to work;\nthe box takes up its original space (unlike something like\n \\llap  or  \\rlap ),\nbut its contents are shifted (without affecting its\nbounding box)",
             "examples": [
                 "\\rm t\\moveleft3pt i\\moveleft3pt g\\moveleft3pt h\\moveleft3pt t",
@@ -3234,6 +3245,7 @@
         },
         {
             "name": "\\mskip",
+            "suggestion_display" : "",
             "description": "\\mskip <dimen>\ngives horizontal space",
             "examples": [
                 "a\\mskip18mu b",
@@ -3245,6 +3257,7 @@
         },
         {
             "name": "\\mspace",
+            "suggestion_display" : "",
             "description": "\\mspace <dimen>\ngives horizontal space",
             "examples": [
                 "ab",
@@ -3352,6 +3365,7 @@
         },
         {
             "name": "\\newcommand",
+            "suggestion_display" : "",
             "description": "for defining your own commands (control sequences, macros, definitions);\n\\newcommand  must appear (within math delimiters) before it is used;\nif desired, you can use the  TeX.Macros \nproperty of the configuration to define\nmacros in the head\n\n\\newcommand\\myCommandName\n[ <optional # of arguments, from 1 to 9> ]\n{ <replacement text> }\n\nThe bracketed # of arguments is omitted when there are no arguments.\n\nExample (no arguments):\n\n\\newcommand\\myHearts\n{\\color{purple}{\\heartsuit}\\kern-2.5pt\\color{green}{\\heartsuit}}\n\n\\myHearts\\myHearts\n\nyields\n$\n\\newcommand\\myHearts\n{\\color{purple}{\\heartsuit}\\kern-2.5pt\\color{green}{\\heartsuit}}\n\n\\myHearts\\myHearts\n$\n\nA definition may take one or more arguments:\n\nExample (two arguments):\n\n\\newcommand\\myHearts[2]\n{\\color{#1}{\\heartsuit}\\kern-2.5pt\\color{#2}{\\heartsuit}}\n\n\\myHearts{red}{blue}\n\nyields:\n$\n\\newcommand\\myHearts[2]\n{\\color{#1}{\\heartsuit}\\kern-2.5pt\\color{#2}{\\heartsuit}}\n\n\\myHearts{red}{blue}\n$",
             "examples": [],
             "see_also": [
@@ -3362,6 +3376,7 @@
         },
         {
             "name": "\\newenvironment",
+            "suggestion_display" : "",
             "description": "for defining your own environments;\n\\newenvironment  must appear (within math delimiters) before it is used\n\n\\newenvironment{myEnvironmentName}\n[ <optional # of arguments, from 1 to 9> ]\n{ <replacement text for each occurrence of \\begin{myEnvironmentName}> }\n{ <replacement text for each occurrence of \\end{myEnvironmentName}> }\n\nThe bracketed # of arguments is omitted when there are no arguments.\nThere must not be a command having the same name as the environment\nfor example, to use   \\begin{myHeart}...\\end{myHeart}   there may not be a command \\myHeart.\n\nExample (no arguments):\n\n\\newenvironment{myHeartEnv}\n{\\color{purple}{\\heartsuit}\\kern-2.5pt\\color{green}{\\heartsuit}}\n{\\text{ forever}}\n\n\\begin{myHeartEnv}\n\\end{myHeartEnv}\n\nyields:\n$\n\\newenvironment{myHeartEnv}\n{\\color{purple}{\\heartsuit}\\kern-2.5pt\\color{green}{\\heartsuit}}\n{\\text{ forever}}\n\n\\begin{myHeartEnv}\n\\end{myHeartEnv}\n$\n\nAn environment may take one or more arguments:\n\nExample (two arguments):\n\n\\newenvironment{myHeartEnv}[2]\n{\\color{#1}{\\heartsuit}\\kern-2.5pt\\color{#2}{\\heartsuit}}\n{\\text{ forever}}\n\n\\begin{myHeartEnv}{red}{blue}\n\\end{myHeartEnv}\n\nyields:\n$\n\\newenvironment{myHeartEnv}[2]\n{\\color{#1}{\\heartsuit}\\kern-2.5pt\\color{#2}{\\heartsuit}}\n{\\text{ forever}}\n\n\\begin{myHeartEnv}{red}{blue}\n\\end{myHeartEnv}\n$",
             "examples": [],
             "see_also": [
@@ -3494,6 +3509,7 @@
         },
         {
             "name": "\\nolimits",
+            "suggestion_display" : "",
             "description": "used to change the default placement of limits;\nonly allowed on items of class  OP",
             "examples": [
                 "\\sum_{k=1}^n a_k",
@@ -3775,7 +3791,7 @@
             "name": "\\overbrace{}",
             "description": "puts a (stretchy) over-brace over the argument;\ncan use ‘^’ to place an optional superscript over the overbrace;\ncan use ‘_’ to place an optional subscript below the argument\n\\overbrace #1",
             "examples": [
-                "\\overbrace{x + \\cdots + x}^{n\\rm\\ times}_{\\text{(note here)}"
+                "\\overbrace{x + 3}"
             ],
             "see_also": [
                 "\\underbrace"
@@ -3836,6 +3852,7 @@
         },
         {
             "name": "\\overwithdelims",
+            "suggestion_display" : "",
             "description": "general command for making fractions;\nuses default thickness for fraction bar for current size\nspecifies left and right enclosing delimiters\n\n{ <subformula1> \\overwithdelims <delim1> <delim2> <subformula2> }\n\nCreates a fraction\nnumerator   subformula1\ndenominator   subformula2\ndelim1   is put before the fraction\ndelim2   is put after the fraction\nFor an empty delimiter, use ‘.’ in place of the delimiter.",
             "examples": [
                 "a+1 \\overwithdelims . | b+2",
@@ -3945,6 +3962,7 @@
         },
         {
             "name": "\\pmatrix",
+            "suggestion_display" : "",
             "description": "matrix enclosed in parentheses\n\nclass OPEN\n\n\\pmatrix{ <math> & <math> ... \\cr <repeat as needed> }\nalignment occurs at the ampersands;\na double-backslash can be used in place of the  \\cr ;\nthe final   \\\\   or   \\cr   is optional",
             "examples": [
                 "\nA = \\pmatrix{\na_{11} & a_{12} & \\ldots & a_{1n} \\cr\na_{21} & a_{22} & \\ldots & a_{2n} \\cr\n\\vdots & \\vdots & \\ddots & \\vdots \\cr\na_{m1} & a_{m2} & \\ldots & a_{mn} \\cr\n}\n"
@@ -4362,7 +4380,7 @@
             "snippet": ""
         },
         {
-            "name": "\\root ... \\of",
+            "name": "\\root{} \\of{}",
             "description": "\\root <index> \\of #1",
             "examples": [
                 "\\root 3 \\of x",
@@ -4404,6 +4422,7 @@
         },
         {
             "name": "\\Rule",
+            "suggestion_display" : "",
             "description": "a MathJax-specific macro giving a rule with\na specified width, height, and depth\n\n\\Rule <dimenWidth> <dimenHeight> <dimenDepth>\n\nwhere each argument is a\ndimension",
             "examples": [
                 "x\\Rule{3px}{1ex}{2ex}x",
@@ -4567,6 +4586,7 @@
         },
         {
             "name": "\\shoveleft",
+            "suggestion_display" : "",
             "description": "forces flush left or flush right typesetting in a   \\multline   or   \\multline*   environment (see examples)",
             "examples": [],
             "see_also": [],
@@ -4574,6 +4594,7 @@
         },
         {
             "name": "\\sideset",
+            "suggestion_display" : "",
             "description": "used for putting symbols at the four ‘corners’ of a large operator\n(like $\\displaystyle\\sum$ or $\\displaystyle\\prod$ )\n\n\\sideset{_#1^#2}{_#3^#4} <large operator>\n\nwhere\n\n#1 = lower left\n#2 = upper left\n#3 = lower right\n#4 = upper right",
             "examples": [
                 "\\sideset{_1^2}{_3^4}\\sum"
@@ -4627,6 +4648,7 @@
         },
         {
             "name": "\\skew{}",
+            "suggestion_display" : "",
             "description": "used to finely adjust the positioning on accents;\nparticularly useful for adjusting superaccents (accents on accents);\nusually requires trial-and-error adjustment for proper positioning\n\\skew #1 <accent>\nwhere #1 is a positive integer (the skew amount)",
             "examples": [
                 "\\skew4\\hat{\\hat A}",
@@ -4736,6 +4758,7 @@
         },
         {
             "name": "\\Space",
+            "suggestion_display" : "",
             "description": "a MathJax-specific macro giving space with\na specified width, height, and depth\n\n\\Space <dimenWidth> <dimenHeight> <dimenDepth>\n\nwhere each argument is a\ndimension\n\nCompare\n\na\\Rule{5px}{4ex}{2ex}^b_c d\nyields\n$a\\Rule{5px}{4ex}{2ex}^b_c d$\n\na\\Space{5px}{4ex}{2ex}^b_c d\nyields\n$a\\Space{5px}{4ex}{2ex}^b_c d$",
             "examples": [
                 "a\\Space{5px}{4ex}{2ex}^b_c d",
@@ -4808,7 +4831,7 @@
             "snippet": ""
         },
         {
-            "name": "\\stackrel{}",
+            "name": "\\stackrel{}{}",
             "description": "stack relations;\nyou can stack anything (not just relations) but it creates\nan item of class  REL \n(and usually the bottom is a  REL  to start with,\nbut doesn't have to be)\n\\stackrel #1 #2\nwhere #1 (in superscript style) is stacked on top of #2",
             "examples": [
                 "\\stackrel{\\rm def}{=}",
@@ -4838,7 +4861,8 @@
             "snippet": ""
         },
         {
-            "name": "\\style {}",
+            "name": "\\style{}",
+            "suggestion_display" : "",
             "description": "[HTML] non-standard;\nused to apply CSS styling to mathematics\n\\style #1 #2\nwhere\n\n#1  is a (single) CSS style declaration\n#2  is the mathematics to be styled",
             "examples": [
                 "\\frac{\\style{colorred}{x+1}}{y+2}\n",
@@ -4878,6 +4902,7 @@
         },
         {
             "name": "\\substack",
+            "suggestion_display" : "",
             "description": "use for multi-line subscripts or superscripts",
             "examples": [
                 "\n\\sum_{\n\\substack{\n1\\lt i\\lt 3 \\\\\n1\\le j\\lt 5\n}}\na_{ij}\n",
@@ -5034,7 +5059,7 @@
             "snippet": ""
         },
         {
-            "name": "\\tbinom{}",
+            "name": "\\tbinom{}{}",
             "description": "notation commonly used for binomial coefficients; in textstyle\n\\tbinom #1 #2",
             "examples": [
                 "\\tbinom{n-1}{k-1}",
@@ -5334,7 +5359,7 @@
             "snippet": ""
         },
         {
-            "name": "\\underset{}",
+            "name": "\\underset{}{}",
             "description": "\\underset #1 #2\nundersets argument #1 (in scriptstyle) under argument #2;\nthe top item is properly aligned with the surrounding text (their baselines match)",
             "examples": [
                 "\\underset{\\rm bottom}{\\rm top}",
@@ -5347,6 +5372,7 @@
         },
         {
             "name": "\\unicode",
+            "suggestion_display" : "",
             "description": "implements a  \\unicode{}  extension to $\\rm\\TeX$\nthat allows arbitrary unicode code points to be entered in mathematics;\ncan optionally specify height and depth of character (width is determined by browser);\ncan optionally specify the default font from which to take the character;\nonce a size and font are provided for a given unicode point, they need not be specified again in subsequent\n \\unicode{}  calls for that character\n\nclass ORD\n\n\\unicode[optHeight,optDepth][optFont]#1",
             "examples": [
                 "&#x263a;",
@@ -5395,6 +5421,7 @@
         },
         {
             "name": "\\uproot{}",
+            "suggestion_display" : "",
             "description": "used to fine-tune the placement of the index inside\n  \\sqrt   or   \\root   (see examples)\n\n\\sqrt[... \\uproot #1 ...]{...}\n\\root ... \\uproot #1 ... \\of {...}\n\nwhere the argument is a small integer\na positive integer moves the index up;\na negative integer moves the index down\n\nIn actual TeX,  \\uproot  is not allowed in\n \\root ,\nso this is a difference between MathJax and $\\rm\\TeX$.",
             "examples": [
                 "\\root 3 \\of x",
@@ -5727,6 +5754,7 @@
         },
         {
             "name": "\\verb",
+            "suggestion_display" : "",
             "description": "verbatim mode;\nuseful for code snippets and for displaying special characters ‘as is’ (i.e., not interpreted by MathJax).\nOnly works in display mode.\nUsually, verbatim content is typeset in a sans serif font.\n\\verb $\\diamond$ <non-interpreted material> $\\diamond$\nwhere   $\\diamond$   denotes a non-letter character that does not appear in the <non-interpreted material>.\n\nTo use   \\verb  \n\nFirst look through the material that is to be typeset ‘as is’ (verbatim).\nChoose a non-letter character that does not appear in this material.\n\nThis chosen non-letter character will mark the beginning and end of the verbatim material,\nas illustrated in the",
             "examples": [],
             "see_also": [],
@@ -5833,7 +5861,7 @@
             "snippet": ""
         },
         {
-            "name": "\\xleftarrow",
+            "name": "\\xleftarrow{}",
             "description": "stretchy arrows with mathematical overset and optional mathematical underset\n\nclass REL\n\n\\xleftarrow[optionalArgument] #1\n\\xrightarrow[optionalArgument] #1\n\nwhere the optional arguments (inside brackets, if desired) appear below the arrows (see examples).",
             "examples": [
                 "\\xrightarrow[f]{\\text{see (1)}}",
