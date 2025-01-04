@@ -99,7 +99,7 @@ const styles = {
     saveButton: {
         padding: "0.5rem 1rem",
         marginRight: "0.5rem",
-        backgroundColor: "var(--interactive-success)",
+        backgroundColor: "var(--background-modifier-success)",
         color: "var(--text-on-accent)",
         border: "none",
         borderRadius: "4px",
