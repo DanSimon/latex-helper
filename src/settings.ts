@@ -6,7 +6,10 @@ export interface UserSettings {
     autoShowSuggestions: boolean;
     triggerKey: string;
     enableFastReplace: boolean;
+    instantFastReplace: boolean;
     enableNormalMode: boolean;
+    minAlphaSuggestChars: number;
+    minSymbolSuggestChars: number;
 }
 
 export const DEFAULT_SETTINGS: UserSettings = {
@@ -14,7 +17,10 @@ export const DEFAULT_SETTINGS: UserSettings = {
     autoShowSuggestions: true,
     triggerKey: "Ctrl+Space",
     enableFastReplace: true,
+    instantFastReplace: true,
     enableNormalMode: false,
+    minAlphaSuggestChars: 2,
+    minSymbolSuggestChars: 1,
 };
 
 export class WordPopupSettingTab extends PluginSettingTab {
@@ -44,6 +50,23 @@ export class WordPopupSettingTab extends PluginSettingTab {
                     )
                     .onChange(async (value) => {
                         this.plugin.configManager.config.settings.enableFastReplace =
+                            value;
+                        await this.plugin.configManager.updateConfig();
+                    }),
+            );
+        new Setting(containerEl)
+            .setName("Instant Fast Replace")
+            .setDesc(
+                "Fast-replace shortcuts are immediately applied without showing the suggestion popup",
+            )
+            .addToggle((toggle) =>
+                toggle
+                    .setValue(
+                        this.plugin.configManager.config.settings
+                            .instantFastReplace,
+                    )
+                    .onChange(async (value) => {
+                        this.plugin.configManager.config.settings.instantFastReplace =
                             value;
                         await this.plugin.configManager.updateConfig();
                     }),
@@ -122,6 +145,19 @@ export class WordPopupSettingTab extends PluginSettingTab {
                         await this.plugin.configManager.updateConfig();
                     }),
             );
+
+        new Setting(containerEl)
+            .setName("Minimum alphanumeric characters to show auto-complete")
+            .setDesc(
+                "The minimum number of characters to type before showing the auto-complete suggestions",
+            )
+            .addSlider((slider) => {
+                slider.setLimits(1, 5, 1).onChange(async (value) => {
+                    this.plugin.configManager.config.settings.minAlphaSuggestChars =
+                        value;
+                    await this.plugin.configManager.updateConfig();
+                });
+            });
     }
 
     private normalizeKeyString(key: string): string {

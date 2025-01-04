@@ -76,6 +76,10 @@ const SuggestionPopupComponent = ({
 
         const handleKeyDown = (e: KeyboardEvent) => {
             if (!visible) return;
+            if (e.key.startsWith("Arrow")) {
+                onHide();
+                return;
+            }
 
             // Handle fast replace for non-alphanumeric keys
             if (

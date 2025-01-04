@@ -220,6 +220,7 @@
         },
         {
             "name": "\\above",
+            "suggestion_display" : "",
             "description": "general command for making fractions;\ngives control over thickness of horizontal fraction bar\n{ <subformula1> \\above <dimen> <subformula2> }\nCreates a \"fraction\":\nnumerator:   subformula1\ndenominator:   subformula2\nfraction bar has thickness:   dimen\n\nThere are separate local groups for  subformula1  and  subformula2 ;\nif these local groups are not explicit, then unexpected results may occur, as illustrated in the\nchoose discussion.",
             "examples": [
                 "a \\above 1pt b+2",
@@ -241,6 +242,7 @@
         },
         {
             "name": "\\abovewithdelims",
+            "suggestion_display" : "",
             "description": "general command for making fractions;\ngives control over thickness of horizontal fraction bar;\nspecifies left and right enclosing\ndelimiters\n\n{ <subformula1> \\abovewithdelims <delim1> <delim2> <dimen> <subformula2> }\n\nCreates a \"fraction\":\nnumerator:   subformula1\ndenominator:   subformula2\nfraction bar has thickness:   dimen\ndelim1   is put before the fraction\ndelim2   is put after the fraction\nFor an empty delimiter, use ‘.’ in place of the delimiter.\n\nThere are separate local groups for  subformula1  and  subformula2 ;\nif these local groups are not explicit, then unexpected results may occur, as illustrated in the\nchoose discussion.",
             "examples": [
                 "{a \\abovewithdelims . | 1.5pt b+2}_{a=3}",
@@ -353,6 +355,7 @@
         },
         {
             "name": "\\array",
+            "suggestion_display" : "",
             "description": "a synonym for  \\matrix \n\\array{ <math> & <math> ... \\cr <repeat as needed> }\nalignment occurs at the ampersands;\na double-backslash can be used in place of the  \\cr ;\nthe final   \\\\   or   \\cr   is optional",
             "examples": [
                 "\\array{ a & b+1 \\cr c+1 & d }"
@@ -423,6 +426,7 @@
         },
         {
             "name": "\\atopwithdelims",
+            "suggestion_display" : "",
             "description": "general command for making a fraction-like structure, but without the horizontal fraction bar;\nspecifies left and right enclosing delimiters\n\n{ <subformula1> \\atopwithdelims <delim1> <delim2> <subformula2> }\n\nCreates a fraction-like \"structure\":\n‘numerator’   subformula1\n‘denominator’   subformula2\ndelim1   is put before the structure\ndelim2   is put after the structure\nFor an empty delimiter, use ‘.’ in place of the delimiter.\n\nThere are separate local groups for  subformula1  and  subformula2 ;\nif these local groups are not explicit, then unexpected results may occur, as illustrated in the\nchoose discussion.",
             "examples": [
                 "a+1 \\atopwithdelims . | b+2",
@@ -531,6 +535,7 @@
         },
         {
             "name": "\\begin",
+            "suggestion_display" : "",
             "description": "used in  \n\\begin{xxx} ... \\end{xxx}   environments",
             "examples": [],
             "see_also": [],
@@ -574,6 +579,7 @@
         },
         {
             "name": "\\Bigg",
+            "suggestion_display" : "",
             "description": "used to obtain various-sized delimiters;\nmay be followed by any of these Variable-Sized Delimiters",
             "examples": [],
             "see_also": [],
@@ -581,6 +587,7 @@
         },
         {
             "name": "\\Biggl",
+            "suggestion_display" : "",
             "description": "Used to obtain various-sized delimiters, with a left/right/middle context;\nmay be followed by any of these Variable-Sized Delimiters.\n\nThe ‘l’ (left), ’m’ (middle), and ‘r’ (right) specifications\nmay make reading the source code more meaningful,\nespecially when there are delimiters inside delimiters.\n\nWhereas (say)  \\Bigg  produces results of class ORD, we \"have\":\n\n \\Biggl  produces results of class OPEN\n \\Biggr  produces results of class CLOSE\n \\Biggm  produces results of class REL\n\nThe spacing for these differ (but may not always be apparent, as it depends on the class of what is next to it).\nFor example,  $x\\big| y$  ($\\,x\\big| y\\,$)\nhas less space than  $x\\bigm| y$  ($\\,x\\bigm| y\\,$).\nTherefore, these commands affect typeset results in a fundamental way;\nit is best to use the form appropriate for the position of the desired delimiter.",
             "examples": [],
             "see_also": [],
@@ -664,7 +671,7 @@
             "snippet": ""
         },
         {
-            "name": "\\binom{}",
+            "name": "\\binom{}{}",
             "description": "notation commonly used for binomial coefficients\n\\binom #1 #2",
             "examples": [
                 "\\binom n k",
@@ -824,6 +831,7 @@
         },
         {
             "name": "\\buildrel",
+            "suggestion_display" : "",
             "description": "\\buildrel <subformula1> \\over #1\nThe result is of class  REL  (binary relation), so it has the\nspacing of a relation.",
             "examples": [
                 "\\buildrel \\rm def \\over {:=}",
@@ -904,6 +912,7 @@
         },
         {
             "name": "\\cases",
+            "suggestion_display" : "",
             "description": "class OPEN\nfor piecewise-defined functions\n\\cases{ <math> & <math> \\cr <repeat as needed> }\na double-backslash can be used in place of   \\cr ;\nthe final   \\\\   or   \\cr   is optional\n\nIn $\\,\\rm\\TeX\\,$, the second column is automatically in text-mode, while in MathJax it is in math-mode.\nThis behavior will be changed to be consistent with $\\,\\rm\\TeX\\,$ in a future release of MathJax.",
             "examples": [
                 "\n|x| = \n\\cases{\nx  & \\text{if } x\\ge 0\\cr\n-x & \\text{if } x\\lt 0\n}\n"
@@ -1061,7 +1070,8 @@
             "snippet": ""
         },
         {
-            "name": "\\class{}",
+            "name": "\\class{}{}",
+            "suggestion_display" : "",
             "description": "non-standard; extension is loaded automatically when used;\nused to specify a CSS class for styling mathematics\n\\class #1 #2\nwhere\n\n#1  is a CSS class name (without quotes)\n#2  is the mathematics to be styled",
             "examples": [
                 "ab\\class{smHighlightRed}{cdef}gh"
@@ -1171,6 +1181,7 @@
         },
         {
             "name": "\\cr",
+            "suggestion_display" : "",
             "description": "carriage return;\nline separator in alignment modes and environments\n\nin MathJax, these are essentially the same   \\\\,\n  \\newline",
             "examples": [],
             "see_also": [],
@@ -1190,6 +1201,7 @@
         },
         {
             "name": "\\cssId{}",
+            "suggestion_display" : "",
             "description": "non-standard;   class ORD;  \nextension is loaded automatically when used;\n\nused to set a MathML element's ID attribute, so it can be accessed dynamically\n(e.g., to add an event handler, add CSS styling, or set display status)\n\n\\cssId #1 #2\n\nwhere\n\n#1  is an ID attribute (without quotes)\n#2  is the mathematics to be identified by the ID",
             "examples": [],
             "see_also": [],
@@ -1273,7 +1285,7 @@
             "snippet": ""
         },
         {
-            "name": "\\dbinom{}",
+            "name": "\\dbinom{}{}",
             "description": "notation commonly used for binomial coefficients;\ndisplay version (in both inline and display modes)\n\\dbinom #1 #2",
             "examples": [
                 "\\dbinom{n-1}{k-1}",
@@ -1425,6 +1437,7 @@
         },
         {
             "name": "\\displaylines",
+            "suggestion_display" : "",
             "description": "to display any number of centered formulas (without any alignment)\n\\displaylines{ <math> \\cr <repeat as needed> }\na double-backslash can be used in place of the \\cr;\nthe final   \\\\   or   \\cr   is optional",
             "examples": [
                 "\n\\displaylines{\na = a\\\\\n\\text{if } a=b \\text{ then } b=a\\\\\n\\text{if } a=b \\text{ and } b=c \\text{ then } a=c\n}\n"
@@ -1565,6 +1578,7 @@
         },
         {
             "name": "\\end",
+            "suggestion_display" : "",
             "description": "used in  \n\\begin{xxx} ... \\end{xxx}   environments",
             "examples": [],
             "see_also": [],
@@ -1590,6 +1604,7 @@
         },
         {
             "name": "\\eqalign",
+            "suggestion_display" : "",
             "description": "equation alignment;\nfor aligning multi-line displays at a single place\n\\eqalign{ <math> & <math> \\cr <repeat as needed> }\nthe ampersand is placed where alignment is desired;\na double-backslash can be used in place of the  \\cr ;\nthe final   \\\\   or   \\cr   is optional;\nsupports only a single \\tag, which is vertically centered",
             "examples": [],
             "see_also": [
@@ -1601,6 +1616,7 @@
         },
         {
             "name": "\\eqalignno",
+            "suggestion_display" : "",
             "description": "equation alignment with optionally numbered (tagged) lines\n\\eqalignno{ <math> & <math> & <equation tag> \\cr <repeat as needed> }\nthe first ampersand is placed where alignment is desired;\nthe second ampersand is used just before a tag;\nif there is no tag, then the final    & <equation tag>   is omitted;\na double-backslash can be used in place of the  \\cr ;\nthe final   \\\\   or   \\cr   is optional",
             "examples": [],
             "see_also": [

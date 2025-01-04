@@ -115,9 +115,8 @@ const SymbolCard: React.FC<{
                 <span
                     style={{
                         fontSize: "1.1rem",
-                        marginLeft: "0.5rem",
+                        marginLeft: "1.0rem",
                         padding: "4px",
-                        borderLeft: "solid 1px",
                     }}
                     className="rendered-math"
                     ref={(el) => {

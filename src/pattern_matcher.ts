@@ -142,7 +142,7 @@ class RegexMatcher {
                         displayReplacement: result,
                         fastReplace: pattern.fastReplace || false,
                         normalMode: pattern.normalMode,
-                        matchedString: input,
+                        matchedString: matches[0],
                     });
                 }
                 // Update fastReplace if this pattern enables it
@@ -222,6 +222,9 @@ export class SuggestionMatcher {
         settings: UserSettings,
     ): Suggestion[] {
         const trimmedSearch = getTrimmedWord(searchString.word);
+        console.log(
+            `checking '${searchString.word}' trimmed '${trimmedSearch}'`,
+        );
         const suggestions: Suggestion[] = [];
 
         const insertSuggestion = (nxt: Suggestion) => {
@@ -295,9 +298,13 @@ export class SuggestionMatcher {
             insertSuggestions(nxt);
         }
 
+        const searchLongEnough = trimmedSearch.slice(0, 1).match(/[a-zA-Z]/)
+            ? trimmedSearch.length >= settings.minAlphaSuggestChars
+            : trimmedSearch.length >= settings.minSymbolSuggestChars;
         if (
             suggestions.length < maxResults &&
-            settings.includeFuzzySuggestions
+            settings.includeFuzzySuggestions &&
+            searchLongEnough
         ) {
             const fuzzyResults = this.fuzzy.getSuggestions(
                 trimmedSearch,

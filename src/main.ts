@@ -8,7 +8,8 @@ import { Prec } from "@codemirror/state";
 import { latexNavigation } from "./tab_extension";
 import { SYMBOL_VIEW_TYPE, SymbolReference } from "./symbol_reference";
 import { WordPopupSettingTab } from "./settings";
-import { cursorInMathBlock, hasUnclosedMathSection } from "./string_utils";
+import { hasUnclosedMathSection } from "./string_utils";
+import { getMathBlockFromView, MathBlockType } from "./editor_utils";
 
 export default class WordPopupPlugin extends Plugin {
     configManager: ConfigManager;
@@ -154,9 +155,7 @@ export default class WordPopupPlugin extends Plugin {
     }
 
     async showSuggestions(editor: Editor, view: MarkdownView) {
-        const cursor = editor.getCursor();
-        const line = editor.getLine(cursor.line);
-        const wordUnderCursor = this.getWordUnderCursor(line, cursor.ch);
+        const wordUnderCursor = this.getWordUnderCursor(editor);
         if (!wordUnderCursor) {
             this.suggestionPopup.hide();
             return;
@@ -176,7 +175,7 @@ export default class WordPopupPlugin extends Plugin {
         if (suggestions.length > 0) {
             // https://forum.obsidian.md/t/is-there-a-way-to-get-the-pixel-position-from-the-cursor-position-in-the-editor/69506
             //@ts-ignore
-            const coords = editor.coordsAtPos(cursor);
+            const coords = editor.coordsAtPos(editor.getCursor());
             if (!coords) return;
             this.suggestionPopup.show(
                 coords.right,
@@ -190,10 +189,18 @@ export default class WordPopupPlugin extends Plugin {
         }
     }
 
-    getWordUnderCursor(lineStr: string, cursorPos: number): CursorWord | null {
-        const mode = hasUnclosedMathSection(lineStr.slice(0, cursorPos))
-            ? TextMode.Math
-            : TextMode.Normal;
+    getWordUnderCursor(editor: Editor): CursorWord | null {
+        const cursor = editor.getCursor();
+        const cursorPos = cursor.ch;
+        const lineStr = editor.getLine(cursor.line);
+        console.log(`'${lineStr}' : ${cursorPos}`);
+        //@ts-ignore - Using internal CM6 view
+        const blockInfo = getMathBlockFromView(editor.cm);
+        const mode =
+            blockInfo.type != MathBlockType.None ||
+            hasUnclosedMathSection(lineStr.slice(0, cursorPos))
+                ? TextMode.Math
+                : TextMode.Normal;
         if (
             !this.configManager.config.settings.enableNormalMode &&
             mode == TextMode.Normal
@@ -211,7 +218,8 @@ export default class WordPopupPlugin extends Plugin {
             }
         }
         if (i <= 0) {
-            return { mode: mode, word: lineStr };
+            //return { mode: mode, word: lineStr };
+            i = 0;
         }
         const res = lineStr.substr(i, cursorPos - i);
         return { mode: mode, word: res };

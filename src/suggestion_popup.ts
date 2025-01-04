@@ -45,6 +45,14 @@ export class SuggestionPopup {
     ): void {
         this.currentMatch = match;
         this.currentReplacements = replacements;
+        if (
+            this.configManager.config.settings.instantFastReplace &&
+            replacements.length > 0 &&
+            replacements[0].fastReplace
+        ) {
+            this.handleSelect(0);
+            return;
+        }
         this.view = view;
         this.visible = true;
         this.render(x, y);
