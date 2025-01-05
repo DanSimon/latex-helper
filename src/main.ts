@@ -193,7 +193,6 @@ export default class WordPopupPlugin extends Plugin {
         const cursor = editor.getCursor();
         const cursorPos = cursor.ch;
         const lineStr = editor.getLine(cursor.line);
-        console.log(`'${lineStr}' : ${cursorPos}`);
         //@ts-ignore - Using internal CM6 view
         const blockInfo = getMathBlockFromView(editor.cm);
         const mode =

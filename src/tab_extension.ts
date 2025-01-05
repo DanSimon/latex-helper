@@ -2,79 +2,50 @@ import { EditorView, KeyBinding, keymap } from "@codemirror/view";
 import { Extension } from "@codemirror/state";
 import { SuggestionPopup } from "./suggestion_popup";
 
-function getLatexCommandAtCursor(
-    view: EditorView,
-): { text: string; from: number; to: number } | null {
-    const doc = view.state.doc;
-    const pos = view.state.selection.main.head;
-    const line = doc.lineAt(pos);
-    const lineText = line.text;
-
-    // Find start of command (backslash preceded by space or $ or start of line)
-    let startIdx = pos - line.from;
-    while (startIdx > 0 && !/[\s$]/.test(lineText[startIdx - 1])) {
-        startIdx--;
+function nextTab(text: string, cursorPos: number): number | null {
+    let depth = 0;
+    let i = 0;
+    let closePos = null;
+    while (i < text.length) {
+        if (text[i] == "{") {
+            if (i >= cursorPos) {
+                return i + 1;
+            }
+            depth += 1;
+        } else if (text[i] == "}") {
+            depth -= 1;
+            if (i >= cursorPos) {
+                closePos = i + 1;
+            }
+        } else if (text[i] == "\\" && depth == 0 && i >= cursorPos) {
+            return closePos;
+        }
+        i += 1;
     }
-
-    // Find end of command (space or $ or end of line)
-    let endIdx = pos - line.from;
-    while (endIdx < lineText.length && !/[\s$]/.test(lineText[endIdx])) {
-        endIdx++;
-    }
-
-    const command = lineText.slice(startIdx, endIdx);
-    if (command.match(/\\[a-zA-Z]+(\{[^}]*\})+/)) {
-        return {
-            text: command,
-            from: line.from + startIdx,
-            to: line.from + endIdx,
-        };
-    }
-
-    return null;
+    return closePos;
 }
 
-function findNextBracePosition(
-    command: string,
-    currentOffset: number,
-): number | null {
-    // Use positive lookahead to avoid consuming the closing brace in the match
-    const braceMatches = [
-        ...command.matchAll(/\{(?:[^{}]*|(?:\{[^{}]*\})*)*\}/g),
-    ];
-
-    // Find which pair of braces we're currently in or just after
-    let currentPairIndex = -1;
-    for (let i = 0; i < braceMatches.length; i++) {
-        const match = braceMatches[i];
-        if (!match.index) continue;
-
-        const braceStart = match.index;
-        const braceEnd = braceStart + match[0].length;
-
-        if (currentOffset >= braceStart && currentOffset <= braceEnd) {
-            currentPairIndex = i;
-            break;
+function prevTab(text: string, cursorPos: number): number | null {
+    let depth = 0;
+    let i = text.length - 1;
+    let openPos = null;
+    while (i >= 0) {
+        if (text[i] == "}") {
+            if (i < cursorPos) {
+                return i;
+            }
+            depth -= 1;
+        } else if (text[i] == "{") {
+            depth += 1;
+            if (i < cursorPos) {
+                openPos = i;
+            }
+        } else if (text[i] == "\\" && depth == 0 && i < cursorPos) {
+            return i;
         }
+        i -= 1;
     }
-
-    // If we found the current pair and there's a next pair, return its position
-    if (currentPairIndex >= 0 && currentPairIndex < braceMatches.length - 1) {
-        const nextMatch = braceMatches[currentPairIndex + 1];
-        return nextMatch.index! + 1; // +1 to get inside the brace
-    }
-
-    // If we're in or after the last pair, return position after the command
-    if (currentPairIndex >= 0) {
-        return command.length;
-    }
-
-    // If we're not in any pair, return the first pair
-    if (braceMatches.length > 0) {
-        return braceMatches[0].index! + 1;
-    }
-
-    return null;
+    return openPos;
 }
 
 export function latexNavigation(popup: SuggestionPopup): Extension {
@@ -85,26 +56,45 @@ export function latexNavigation(popup: SuggestionPopup): Extension {
                 if (popup.isVisible()) {
                     return true;
                 }
-                const command = getLatexCommandAtCursor(view);
-                if (command) {
-                    const pos = view.state.selection.main.head;
-                    const relativeOffset = pos - command.from;
-                    const nextPosition = findNextBracePosition(
-                        command.text,
-                        relativeOffset,
-                    );
-
-                    if (nextPosition !== null) {
-                        const newPos = command.from + nextPosition;
-                        view.dispatch({
-                            selection: { anchor: newPos, head: newPos },
-                        });
-                        return true; // Prevent other handlers
-                    }
+                const doc = view.state.doc;
+                const pos = view.state.selection.main.head;
+                const line = doc.lineAt(pos);
+                const lineText = line.text;
+                const movePos = nextTab(lineText, pos - line.from);
+                if (movePos) {
+                    const newPos = movePos + line.from;
+                    view.dispatch({
+                        selection: { anchor: newPos, head: newPos },
+                    });
+                    return true; // Prevent other handlers
                 }
+
                 return false; // Let other handlers process the tab
             },
         },
+        {
+            key: "Shift-Tab",
+            run: (view: EditorView): boolean => {
+                if (popup.isVisible()) {
+                    return true;
+                }
+                const doc = view.state.doc;
+                const pos = view.state.selection.main.head;
+                const line = doc.lineAt(pos);
+                const lineText = line.text;
+                const movePos = prevTab(lineText, pos - line.from);
+                if (movePos) {
+                    const newPos = movePos + line.from;
+                    view.dispatch({
+                        selection: { anchor: newPos, head: newPos },
+                    });
+                    return true; // Prevent other handlers
+                }
+
+                return false; // Let other handlers process the tab
+            },
+        },
+
         {
             key: "Enter",
             run: (_view: EditorView): boolean => {

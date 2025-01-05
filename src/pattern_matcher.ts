@@ -5,6 +5,7 @@ import { CursorWord, Suggestion, TextMode } from "./suggestion_popup";
 import { UserSettings } from "./settings";
 import { fillLatexBraces } from "./latex_utils";
 import { getTrimmedWord } from "./string_utils";
+import { debug } from "./debug_utils";
 
 // Interface for lookup results
 interface SuggestionResult {
@@ -222,10 +223,10 @@ export class SuggestionMatcher {
         settings: UserSettings,
     ): Suggestion[] {
         const trimmedSearch = getTrimmedWord(searchString.word);
-        console.log(
-            `checking '${searchString.word}' trimmed '${trimmedSearch}'`,
-        );
         const suggestions: Suggestion[] = [];
+        debug(
+            `${searchString.mode} mode search: '${searchString.word}', trimmed '${trimmedSearch}'`,
+        );
 
         const insertSuggestion = (nxt: Suggestion) => {
             if (
@@ -298,7 +299,9 @@ export class SuggestionMatcher {
             insertSuggestions(nxt);
         }
 
-        const searchLongEnough = trimmedSearch.slice(0, 1).match(/[a-zA-Z]/)
+        const searchLongEnough = trimmedSearch
+            .slice(0, 2)
+            .match(/^[a-zA-Z]|^\\[a-zA-Z]/)
             ? trimmedSearch.length >= settings.minAlphaSuggestChars
             : trimmedSearch.length >= settings.minSymbolSuggestChars;
         if (

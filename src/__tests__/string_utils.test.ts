@@ -52,6 +52,7 @@ describe("getTrimmedWord", () => {
     });
 
     test("handles edge cases with spaces and symbols", () => {
+        expect(getTrimmedWord("$\\alpha")).toBe("\\alpha");
         expect(getTrimmedWord(" \\alpha = \\beta")).toBe("\\beta");
         expect(getTrimmedWord("$\\alpha$ \\beta")).toBe("\\beta");
     });
