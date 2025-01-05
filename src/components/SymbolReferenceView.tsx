@@ -23,34 +23,13 @@ const groupSymbols = (symbols: MathJaxSymbol[]) => {
 
 const SymbolSection: React.FC<{
     letter: string;
+    rendered: boolean;
     symbols: MathJaxSymbol[];
     view: ItemView;
-}> = React.memo(({ letter, symbols, view }) => {
-    const [isViewable, setIsViewable] = useState(letter == "#");
-    const containerRef = useRef(null);
-    const visibleCallback = (entries: IntersectionObserverEntry[]) => {
-        const [entry] = entries;
-        if (!isViewable && entry.isIntersecting) {
-            setIsViewable(true);
-        }
-    };
-    useEffect(() => {
-        const observer = new IntersectionObserver(visibleCallback);
-        if (containerRef.current) {
-            observer.observe(containerRef.current);
-        }
-        return () => {
-            if (containerRef.current) {
-                observer.unobserve(containerRef.current);
-            }
-        };
-    }, [containerRef]);
+}> = React.memo(({ letter, rendered, symbols, view }) => {
+    //console.log(`render ${letter}: ${rendered}`);
     return (
-        <div
-            ref={containerRef}
-            id={`section-${letter}`}
-            style={{ marginBottom: "2rem" }}
-        >
+        <div id={`section-${letter}`} style={{ marginBottom: "2rem" }}>
             <h2
                 style={{
                     fontSize: "1.5rem",
@@ -60,15 +39,8 @@ const SymbolSection: React.FC<{
             >
                 {letter.toUpperCase()}
             </h2>
-            <div
-                style={{
-                    display: "grid",
-                    gridTemplateColumns:
-                        "repeat(auto-fill, minmax(300px, 1fr))",
-                    gap: "1rem",
-                }}
-            >
-                {isViewable &&
+            <div>
+                {rendered &&
                     symbols.map((symbol) => (
                         <SymbolCard
                             key={symbol.name}
@@ -95,6 +67,7 @@ const SymbolCard: React.FC<{
                 padding: "1rem",
                 border: "1px solid var(--background-modifier-border)",
                 borderRadius: "4px",
+                marginBottom: "1rem",
             }}
         >
             <div style={{ marginBottom: "0.5rem" }}>
@@ -195,7 +168,7 @@ const TableOfContents: React.FC<{ sections: string[] }> = ({ sections }) => {
             style={{
                 position: "sticky",
                 top: 0,
-                padding: "1rem",
+                padding: "1.0rem",
                 borderRight: "1px solid var(--background-modifier-border)",
                 backgroundColor: "var(--background-primary)",
                 height: "100%",
@@ -209,7 +182,7 @@ const TableOfContents: React.FC<{ sections: string[] }> = ({ sections }) => {
                         href={`#section-${section}`}
                         style={{
                             display: "block",
-                            padding: "0.25rem 0",
+                            padding: "0.25rem",
                             color: "var(--text-normal)",
                             textDecoration: "none",
                         }}
@@ -240,6 +213,7 @@ const Header: React.FC<{
                 backgroundColor: "var(--background-primary)",
                 display: "flex",
                 alignItems: "center",
+                overflowX: "clip",
                 gap: "1rem",
             }}
         >
@@ -287,6 +261,9 @@ const SymbolReferenceView: React.FC<{ view: ItemView }> = ({ view }) => {
     const [allSymbols, _] = useState<{ [key: string]: MathJaxSymbol[] }>(
         groupSymbols(LATEX_SYMBOLS),
     );
+    const [unrenderedSections, setUnrenderedSections] = useState(
+        Object.keys(allSymbols).sort(),
+    );
     const fuzzySearch = useRef(
         new FuzzySearch({
             source: LATEX_SYMBOLS,
@@ -302,6 +279,19 @@ const SymbolReferenceView: React.FC<{ view: ItemView }> = ({ view }) => {
         }
     })();
     const sections = Object.keys(allSymbols).sort();
+    const popSection = () => {
+        if (unrenderedSections.length > 0) {
+            setUnrenderedSections((u) => {
+                return u.filter((v) => v != u[0]);
+            });
+        }
+    };
+
+    useEffect(() => {
+        if (searchTerm == "" && unrenderedSections.length > 0) {
+            setTimeout(popSection, 50);
+        }
+    }, [unrenderedSections]);
 
     return (
         <div
@@ -320,7 +310,13 @@ const SymbolReferenceView: React.FC<{ view: ItemView }> = ({ view }) => {
           }
         `}
             </style>
-            <Header searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+            <Header
+                searchTerm={searchTerm}
+                onSearchChange={(t) => {
+                    setSearchTerm(t);
+                    setUnrenderedSections(sections);
+                }}
+            />
             <div
                 style={{
                     display: "flex",
@@ -338,6 +334,7 @@ const SymbolReferenceView: React.FC<{ view: ItemView }> = ({ view }) => {
                         flexGrow: 1,
                         padding: "1rem",
                         overflowY: "auto",
+                        overflowX: "clip",
                         height: "100%",
                     }}
                 >
@@ -348,6 +345,7 @@ const SymbolReferenceView: React.FC<{ view: ItemView }> = ({ view }) => {
                         }}
                     >
                         <SymbolSection
+                            rendered={true}
                             key="search-results"
                             letter={searchTerm}
                             symbols={searchResults}
@@ -363,6 +361,7 @@ const SymbolReferenceView: React.FC<{ view: ItemView }> = ({ view }) => {
                     >
                         {sections.map((section) => (
                             <SymbolSection
+                                rendered={!unrenderedSections.contains(section)}
                                 key={section}
                                 letter={section}
                                 symbols={allSymbols[section]}
