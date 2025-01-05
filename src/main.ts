@@ -107,7 +107,7 @@ export default class WordPopupPlugin extends Plugin {
         modifiers: Modifier[];
         key: string;
     } {
-        const parts = hotkeyStr.split("+").map((p) => p.trim());
+        const parts = hotkeyStr.split("+"); //.map((p) => p.trim());
         const key = parts[parts.length - 1].toLowerCase();
 
         const modifiers: Modifier[] = parts.slice(0, -1).map((mod) => {

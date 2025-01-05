@@ -89,6 +89,10 @@ export class SuggestionPopup {
             this.currentMatch.mode == TextMode.Normal
                 ? `$${suggestion.replacement}$`
                 : suggestion.replacement;
+
+        console.log(
+            `replacement: '${suggestion.matchedString}' -> '${replacement}'`,
+        );
         const start = this.view.editor.offsetToPos(
             this.view.editor.posToOffset(this.view.editor.getCursor()) -
                 suggestion.matchedString.length,

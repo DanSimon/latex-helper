@@ -41,6 +41,7 @@ export class MatchForm extends Component {
         // Add new pattern
         this.configManager.config.patterns.push(pattern);
         this.configManager.updateConfig();
+        this.hide();
     };
 
     private handleDelete = () => {

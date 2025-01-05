@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { Pattern } from "../config";
 import CategorySelector from "./CategorySelector";
+import ReplacementsList from "./ReplacementListComponent";
 
 interface MatchFormProps {
     isVisible: boolean;
@@ -12,6 +13,7 @@ interface MatchFormProps {
     allCategories: string[];
 }
 
+// Styles object from original component...
 const styles = {
     modal: {
         position: "fixed",
@@ -124,6 +126,55 @@ const styles = {
         color: "#22c55e",
         marginLeft: "4px",
     },
+    testInput: {
+        width: "100%",
+        padding: "0.5rem",
+        border: "1px solid var(--background-modifier-border)",
+        borderRadius: "4px",
+        backgroundColor: "var(--background-primary)",
+        color: "var(--text-normal)",
+        marginBottom: "1rem",
+    },
+    previewText: {
+        color: "var(--text-accent)",
+        fontSize: "0.9rem",
+        marginLeft: "1rem",
+    },
+    noMatchText: {
+        color: "var(--text-muted)",
+        fontSize: "0.9rem",
+        marginLeft: "1rem",
+        fontStyle: "italic",
+    },
+    testSection: {
+        marginBottom: "1rem",
+        padding: "1rem",
+        backgroundColor: "var(--background-secondary)",
+        borderRadius: "4px",
+    },
+    matchGroup: {
+        display: "flex",
+        gap: "0.5rem",
+        alignItems: "center",
+        marginBottom: "0.5rem",
+        padding: "0.5rem",
+        backgroundColor: "var(--background-primary)",
+        borderRadius: "4px",
+    },
+    matchLabel: {
+        color: "var(--text-muted)",
+        fontSize: "0.9rem",
+        minWidth: "80px",
+    },
+    matchValue: {
+        color: "var(--text-normal)",
+        fontFamily: "monospace",
+    },
+    errorText: {
+        color: "var(--text-error)",
+        fontSize: "0.9rem",
+        marginTop: "0.5rem",
+    },
 } as const;
 
 const MatchFormComponent = React.memo(
@@ -143,17 +194,11 @@ const MatchFormComponent = React.memo(
         const [isRegex, setIsRegex] = useState(false);
         const [isFastReplace, setIsFastReplace] = useState(false);
         const [isNormalMode, setIsNormalMode] = useState(false);
+        const [testInput, setTestInput] = useState("");
+        const [regexError, setRegexError] = useState<string | null>(null);
 
-        //setSelectedCategory(initialData?.category || "");
-
-        const resetForm = () => {
-            setPattern("");
-            setIsRegex(false);
-            setIsFastReplace(false);
-            setIsNormalMode(false);
-            setSelectedCategory("");
-            setReplacements([""]);
-        };
+        // State for regex matches
+        const [matches, setMatches] = useState<RegExpMatchArray | null>(null);
 
         useEffect(() => {
             if (initialData) {
@@ -172,41 +217,37 @@ const MatchFormComponent = React.memo(
             }
         }, [isVisible]);
 
-        const handleSave = () => {
-            const newPattern: Pattern = {
-                pattern,
-                replacements: replacements,
-                normalMode: isNormalMode,
-                ...(isRegex && { type: "regex" }),
-                ...(isFastReplace && { fastReplace: true }),
-                ...(selectedCategory && { category: selectedCategory }),
-            };
-            onSave(newPattern);
-            onClose();
+        const resetForm = () => {
+            setPattern("");
+            setIsRegex(false);
+            setIsFastReplace(false);
+            setIsNormalMode(false);
+            setSelectedCategory("");
+            setReplacements([""]);
+            setTestInput("");
+            setRegexError(null);
+            setMatches(null);
         };
 
-        const handleDelete = () => {
-            if (onDelete && confirm("Delete this Pattern?")) {
-                onDelete();
-                onClose();
+        // Test the regex pattern against the test input
+        useEffect(() => {
+            if (isRegex && pattern && testInput) {
+                try {
+                    const regex = new RegExp(pattern);
+                    const matches = testInput.match(regex);
+                    setMatches(matches);
+                    setRegexError(null);
+                } catch (error) {
+                    setRegexError(error.message);
+                    setMatches(null);
+                }
+            } else {
+                setMatches(null);
+                setRegexError(null);
             }
-        };
+        }, [isRegex, pattern, testInput]);
 
-        const addReplacement = () => {
-            setReplacements([...replacements, ""]);
-            setIsFastReplace(false); // Disable fast replace when multiple replacements exist
-        };
-
-        const removeReplacement = (index: number) => {
-            setReplacements(replacements.filter((_, i) => i !== index));
-        };
-
-        const updateReplacement = (index: number, value: string) => {
-            setReplacements(
-                replacements.map((r, i) => (i === index ? value : r)),
-            );
-        };
-
+        // Component render...
         if (!isVisible) return null;
 
         return (
@@ -226,15 +267,17 @@ const MatchFormComponent = React.memo(
                         />
                     </div>
 
+                    {/* Category selector */}
                     <div style={styles.formGroup}>
                         <label style={styles.label}>Category:</label>
                         <CategorySelector
-                            allCategories={allCategories} // This should be passed from parent
+                            allCategories={allCategories}
                             selectedCategory={selectedCategory}
                             onSelect={setSelectedCategory}
                         />
                     </div>
 
+                    {/* Checkbox options */}
                     <div style={styles.checkboxGroup}>
                         <label style={styles.checkboxLabel}>
                             <input
@@ -272,45 +315,78 @@ const MatchFormComponent = React.memo(
                         </label>
                     </div>
 
-                    <div style={styles.formGroup}>
-                        {replacements.map((replacement, index) => (
-                            <div key={index} style={styles.replacementItem}>
-                                <div style={styles.replacementInput}>
-                                    <input
-                                        type="text"
-                                        value={replacement}
-                                        onChange={(e) =>
-                                            updateReplacement(
-                                                index,
-                                                e.target.value,
-                                            )
-                                        }
-                                        style={styles.input}
-                                        placeholder="Replacement"
-                                    />
-                                </div>
-                                {replacements.length > 1 && (
-                                    <button
-                                        onClick={() => removeReplacement(index)}
-                                        style={styles.removeButton}
-                                    >
-                                        Remove
-                                    </button>
-                                )}
-                            </div>
-                        ))}
-                        <button
-                            onClick={addReplacement}
-                            style={styles.addButton}
-                        >
-                            Add Replacement
-                        </button>
-                    </div>
+                    {/* Regex test section */}
+                    {isRegex && (
+                        <div style={styles.testSection}>
+                            <label style={styles.label}>
+                                Test your regex pattern:
+                            </label>
+                            <input
+                                type="text"
+                                value={testInput}
+                                onChange={(e) => setTestInput(e.target.value)}
+                                placeholder="Enter test text..."
+                                style={styles.testInput}
+                            />
 
+                            {regexError && (
+                                <div style={styles.errorText}>
+                                    Error: {regexError}
+                                </div>
+                            )}
+
+                            {matches && matches.length > 0 && (
+                                <div>
+                                    {matches.map((match, idx) => (
+                                        <div
+                                            key={idx}
+                                            style={styles.matchGroup}
+                                        >
+                                            <span style={styles.matchLabel}>
+                                                {idx === 0
+                                                    ? "Full match:"
+                                                    : `Group ${idx}:`}
+                                            </span>
+                                            <span style={styles.matchValue}>
+                                                {match}
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Replacements section */}
+                    <ReplacementsList
+                        replacements={replacements}
+                        onReplacementsChange={setReplacements}
+                        isRegex={isRegex}
+                        matches={matches}
+                        onFastReplaceChange={(enabled) =>
+                            setIsFastReplace(enabled)
+                        }
+                    />
+
+                    {/* Action buttons */}
                     <div style={styles.buttonGroup}>
                         <div>
                             <button
-                                onClick={handleSave}
+                                onClick={() => {
+                                    const newPattern: Pattern = {
+                                        pattern,
+                                        replacements,
+                                        normalMode: isNormalMode,
+                                        ...(isRegex && { type: "regex" }),
+                                        ...(isFastReplace && {
+                                            fastReplace: true,
+                                        }),
+                                        ...(selectedCategory && {
+                                            category: selectedCategory,
+                                        }),
+                                    };
+                                    onSave(newPattern);
+                                }}
                                 style={styles.saveButton}
                             >
                                 Save
@@ -324,7 +400,12 @@ const MatchFormComponent = React.memo(
                         </div>
                         {onDelete && (
                             <button
-                                onClick={handleDelete}
+                                onClick={() => {
+                                    if (confirm("Delete this Pattern?")) {
+                                        onDelete();
+                                        onClose();
+                                    }
+                                }}
                                 style={styles.deleteButton}
                             >
                                 Delete
@@ -335,9 +416,6 @@ const MatchFormComponent = React.memo(
             </div>
         );
     },
-    (prev, next) =>
-        prev.initialData == next.initialData &&
-        prev.isVisible == next.isVisible,
 );
 
 export default MatchFormComponent;
