@@ -29,28 +29,29 @@ const styles = {
     },
     content: {
         backgroundColor: "var(--background-primary)",
+        border: "1px solid var(--background-modifier-border)",
         maxWidth: "800px",
         width: "100%",
         margin: "1rem",
-        padding: "1.5rem",
+        padding: "0.75rem",
         borderRadius: "4px",
         boxShadow: "0 2px 10px rgba(0, 0, 0, 0.2)",
     },
     title: {
         fontSize: "1.25rem",
         fontWeight: 600,
-        marginBottom: "1rem",
+        marginBottom: "0.75rem",
     },
     formGroup: {
-        marginBottom: "1rem",
+        marginBottom: "0.75rem",
     },
     label: {
         display: "block",
-        marginBottom: "0.5rem",
+        marginBottom: "0.25rem",
     },
     input: {
         width: "100%",
-        padding: "0.5rem",
+        padding: "0.25rem",
         border: "1px solid var(--background-modifier-border)",
         borderRadius: "4px",
         backgroundColor: "var(--background-primary)",
@@ -66,33 +67,8 @@ const styles = {
         alignItems: "center",
         gap: "0.5rem",
     },
-    replacementItem: {
-        display: "flex",
-        gap: "1rem",
-        alignItems: "center",
-        padding: "0.5rem",
-        border: "1px solid var(--background-modifier-border)",
-        borderRadius: "4px",
-        marginBottom: "0.5rem",
-    },
-    replacementInput: {
-        flex: 1,
-    },
-    removeButton: {
-        padding: "0.5rem",
-        color: "var(--text-error)",
-        backgroundColor: "transparent",
-        border: "none",
-        cursor: "pointer",
-    },
-    addButton: {
-        width: "100%",
-        padding: "0.5rem",
-        backgroundColor: "var(--background-secondary)",
-        border: "1px solid var(--background-modifier-border)",
-        borderRadius: "4px",
-        cursor: "pointer",
-        marginBottom: "1rem",
+    categoryLabel: {
+        display: "inline",
     },
     buttonGroup: {
         display: "flex",
@@ -147,16 +123,14 @@ const styles = {
         fontStyle: "italic",
     },
     testSection: {
-        marginBottom: "1rem",
-        padding: "1rem",
+        marginBottom: "0.25rem",
+        padding: "0.25rem",
         backgroundColor: "var(--background-secondary)",
         borderRadius: "4px",
     },
     matchGroup: {
         display: "flex",
         gap: "0.5rem",
-        alignItems: "center",
-        marginBottom: "0.5rem",
         padding: "0.5rem",
         backgroundColor: "var(--background-primary)",
         borderRadius: "4px",
@@ -167,7 +141,7 @@ const styles = {
         minWidth: "80px",
     },
     matchValue: {
-        color: "var(--text-normal)",
+        color: "var(--text-accent)",
         fontFamily: "monospace",
     },
     errorText: {
@@ -267,16 +241,6 @@ const MatchFormComponent = React.memo(
                         />
                     </div>
 
-                    {/* Category selector */}
-                    <div style={styles.formGroup}>
-                        <label style={styles.label}>Category:</label>
-                        <CategorySelector
-                            allCategories={allCategories}
-                            selectedCategory={selectedCategory}
-                            onSelect={setSelectedCategory}
-                        />
-                    </div>
-
                     {/* Checkbox options */}
                     <div style={styles.checkboxGroup}>
                         <label style={styles.checkboxLabel}>
@@ -315,6 +279,23 @@ const MatchFormComponent = React.memo(
                         </label>
                     </div>
 
+                    {/* Category selector */}
+                    <div
+                        style={{
+                            display: "flex",
+                            marginBottom: "0.5rem",
+                            alignItems: "center",
+                            gap: "0.25rem",
+                        }}
+                    >
+                        <label style={{ display: "flex" }}>Category:</label>
+                        <CategorySelector
+                            allCategories={allCategories}
+                            selectedCategory={selectedCategory}
+                            onSelect={setSelectedCategory}
+                        />
+                    </div>
+
                     {/* Regex test section */}
                     {isRegex && (
                         <div style={styles.testSection}>
@@ -335,8 +316,16 @@ const MatchFormComponent = React.memo(
                                 </div>
                             )}
 
+                            {(!matches || matches.length == 0) && (
+                                <div style={styles.matchGroup}>
+                                    <span style={styles.matchLabel}>
+                                        No Match
+                                    </span>
+                                </div>
+                            )}
+
                             {matches && matches.length > 0 && (
-                                <div>
+                                <div style={{ display: "flex" }}>
                                     {matches.map((match, idx) => (
                                         <div
                                             key={idx}

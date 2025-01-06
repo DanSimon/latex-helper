@@ -50,6 +50,7 @@ const styles = {
     },
     input: {
         width: "100%",
+        maxWidth: "20rem",
         padding: "0.5rem",
         border: "1px solid var(--background-modifier-border)",
         borderRadius: "4px",
@@ -184,13 +185,12 @@ const ReplacementsList: React.FC<ReplacementsListProps> = React.memo(
                                 style={styles.input}
                                 placeholder="Replacement"
                             />
-                            {isRegex && matches && matches.length > 0 && (
-                                <div style={styles.previewText}>
-                                    Preview:{" "}
-                                    {generatePreview(replacement, matches)}
-                                </div>
-                            )}
                         </div>
+                        {isRegex && matches && matches.length > 0 && (
+                            <div style={styles.previewText}>
+                                Preview: {generatePreview(replacement, matches)}
+                            </div>
+                        )}
                         {replacements.length > 1 && (
                             <button
                                 onClick={() => removeReplacement(index)}

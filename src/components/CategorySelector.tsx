@@ -53,6 +53,7 @@ const CategorySelector = ({
     const [filteredCategories, setFilteredCategories] = useState(allCategories);
     const wrapperRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -97,6 +98,7 @@ const CategorySelector = ({
             style={{
                 position: "relative",
                 width: "100%",
+                maxWidth: "10.0rem",
             }}
             ref={wrapperRef}
         >
@@ -106,20 +108,28 @@ const CategorySelector = ({
                 value={inputValue}
                 onChange={handleInputChange}
                 onFocus={() => setIsOpen(true)}
-                onBlur={() => {
+                onBlur={(
+                    event: React.FocusEvent<HTMLInputElement, HTMLElement>,
+                ) => {
                     if (
-                        inputRef.current &&
-                        inputValue &&
-                        !allCategories.contains(inputValue)
+                        dropdownRef.current &&
+                        !dropdownRef.current.contains(event.relatedTarget)
                     ) {
-                        inputRef.current.value = inputValue + " [New Category]";
+                        console.log(event.relatedTarget);
+                        setIsOpen(false);
                     }
                 }}
                 placeholder="Select or type a category"
                 style={styles.input}
             />
+            {inputValue && !allCategories.contains(inputValue) && (
+                <span style={{ color: "var(--text-accent)", display: "flex" }}>
+                    New Category
+                </span>
+            )}
             {isOpen && (
                 <div
+                    ref={dropdownRef}
                     style={{
                         position: "absolute",
                         width: "100%",
@@ -133,8 +143,9 @@ const CategorySelector = ({
                         zIndex: 50,
                     }}
                 >
-                    {filteredCategories.map((category, index) => (
+                    {allCategories.map((category, index) => (
                         <div
+                            tabIndex={-1}
                             key={index}
                             style={styles.option}
                             onMouseEnter={(
