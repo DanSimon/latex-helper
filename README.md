@@ -9,19 +9,23 @@ An Obsidian plugin to make writing LaTeX easier.
 
 Real-time LaTeX suggestions as you type
 
-
 https://github.com/user-attachments/assets/a2858eb8-f1d3-437f-8b0b-e43c800e03a2
 
-
+Make your own shortcuts
 
 https://github.com/user-attachments/assets/f6e9b5c4-3332-4944-abf8-926f158d9921
 
+Easy-to-use interface for managing shortcuts, no config file editing required
 
+![Shortcut Screenshot](https://github.com/user-attachments/assets/ec06d8b8-b7a8-4389-9265-6c4b814ab09e)
+
+Built-in comprehensive LaTeX symbol reference
+
+![Reference Screenshot](https://github.com/user-attachments/assets/964d77ad-f805-4caa-aecb-5dc7dfd14c36)
+
+Some other features:
 - Fuzzy search support for symbol matching
-- Set custom shortcuts for commonly used commands
-- Easy-to-use interface, no config file editing required
 - Intelligent cursor placement inside brackets and parentheses
-- Built-in comprehensive LaTeX symbol reference
 
 ## Installation
 
