@@ -3,11 +3,11 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { ConfigManager } from "./config";
 import { MatchForm } from "./match_form";
-import ConfigViewComponent from "./components/ConfigViewComponent";
+import RibbonViewComponent from "./components/RibbonViewComponent";
 
-export const CONFIG_VIEW_TYPE = "config-reference-view";
+export const RIBBON_VIEW_TYPE = "unified-latex-view";
 
-export class ConfigView extends ItemView {
+export class RibbonView extends ItemView {
     private configManager: ConfigManager;
     private matchForm: MatchForm;
     private root: Element | null = null;
@@ -23,18 +23,17 @@ export class ConfigView extends ItemView {
     }
 
     getViewType(): string {
-        return CONFIG_VIEW_TYPE;
+        return RIBBON_VIEW_TYPE;
     }
 
     getDisplayText(): string {
-        return "LaTeX Shortcuts Reference";
+        return "LaTeX Helper";
     }
 
     async onload() {
         super.onload();
         // Subscribe to config changes
         this.configManager.onChange.subscribe(() => {
-            // Force a re-render when config changes
             this.renderComponent();
         });
     }
@@ -57,9 +56,9 @@ export class ConfigView extends ItemView {
         if (!this.root) return;
 
         ReactDOM.render(
-            React.createElement(ConfigViewComponent, {
-                patterns: this.configManager.config.patterns,
+            React.createElement(RibbonViewComponent, {
                 view: this,
+                configManager: this.configManager,
                 matchForm: this.matchForm,
             }),
             this.root,
@@ -67,10 +66,7 @@ export class ConfigView extends ItemView {
     }
 
     async onOpen() {
-        // Store reference to the container
         this.root = this.containerEl.children[1];
-
-        // Initial render
         this.renderComponent();
     }
 }

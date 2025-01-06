@@ -3,13 +3,12 @@ import { Editor, MarkdownView, Modifier, Platform, Plugin } from "obsidian";
 import { ConfigManager } from "./config";
 import { CursorWord, SuggestionPopup, TextMode } from "./suggestion_popup";
 import { MatchForm } from "./match_form";
-import { CONFIG_VIEW_TYPE, ConfigView } from "./config_view";
 import { Prec } from "@codemirror/state";
 import { latexNavigation } from "./tab_extension";
-import { SYMBOL_VIEW_TYPE, SymbolReference } from "./symbol_reference";
 import { WordPopupSettingTab } from "./settings";
 import { hasUnclosedMathSection } from "./string_utils";
 import { getMathBlockFromView, MathBlockType } from "./editor_utils";
+import { RIBBON_VIEW_TYPE, RibbonView } from "./ribbon_view";
 
 export default class WordPopupPlugin extends Plugin {
     configManager: ConfigManager;
@@ -42,22 +41,22 @@ export default class WordPopupPlugin extends Plugin {
         );
 
         this.registerView(
-            CONFIG_VIEW_TYPE,
-            (leaf) => new ConfigView(leaf, this.configManager, this.matchForm),
+            RIBBON_VIEW_TYPE,
+            (leaf) => new RibbonView(leaf, this.configManager, this.matchForm),
         );
 
         // Add a ribbon icon to activate the view
-        this.addRibbonIcon("sigma", "Open LaTeX Reference", async () => {
+        this.addRibbonIcon("sigma", "LaTeX-Helper", async () => {
             const { workspace } = this.app;
 
             // If the view is already open, show it
-            let leaf = workspace.getLeavesOfType(CONFIG_VIEW_TYPE)[0];
+            let leaf = workspace.getLeavesOfType(RIBBON_VIEW_TYPE)[0];
 
             if (!leaf) {
                 // If it's not open, create a new leaf and show the view
                 leaf = workspace.getRightLeaf(false)!;
                 await leaf.setViewState({
-                    type: CONFIG_VIEW_TYPE,
+                    type: RIBBON_VIEW_TYPE,
                     active: true,
                 });
             }
@@ -65,29 +64,6 @@ export default class WordPopupPlugin extends Plugin {
             workspace.revealLeaf(leaf);
         });
 
-        this.registerView(
-            SYMBOL_VIEW_TYPE,
-            (leaf) => new SymbolReference(leaf),
-        );
-
-        // Add a ribbon icon to activate the view
-        this.addRibbonIcon("sigma", "Open LaTeX Symbol Reference", async () => {
-            const { workspace } = this.app;
-
-            // If the view is already open, show it
-            let leaf = workspace.getLeavesOfType(SYMBOL_VIEW_TYPE)[0];
-
-            if (!leaf) {
-                // If it's not open, create a new leaf and show the view
-                leaf = workspace.getRightLeaf(false)!;
-                await leaf.setViewState({
-                    type: SYMBOL_VIEW_TYPE,
-                    active: true,
-                });
-            }
-
-            workspace.revealLeaf(leaf);
-        });
         this.addSettingTab(new WordPopupSettingTab(this.app, this));
 
         this.configManager.onChange.subscribe(() => {
