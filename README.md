@@ -2,14 +2,15 @@
 
 An Obsidian plugin to make writing LaTeX easier.
 
-**This plugin is in early development.  Use at your own risk**
+### ⚠️This plugin is in early development.  Use at your own risk
 
 
 ## Features
 
 Real-time LaTeX suggestions as you type
 
-https://github.com/user-attachments/assets/a2858eb8-f1d3-437f-8b0b-e43c800e03a2
+![ezgif-7-dc5cdb25ed](https://github.com/user-attachments/assets/1cfbc556-d74b-4934-97a6-56369e816685)
+
 
 Make your own shortcuts
 
@@ -29,10 +30,13 @@ Some other features:
 
 ## Installation
 
-This plugin is not yet a published community plugin.  You can either:
+This plugin is not yet a published community plugin, nor are there any releases or compiled artifacts.  To install you must:
 
 1. Manually clone this repo to `<your_vault>/.obsidian/plugins` folder
-2. Install the [BRAT plugin](https://github.com/TfTHacker/obsidian42-brat)
+2. Have `npm` installed
+3. Run `npm build`
+
+The next time you load your vault, the plugin should show up under community plugins.
 
 ## Usage
 
@@ -70,6 +74,8 @@ This reference is based on [this](https://onemathematicalcat.org//MathJaxDocumen
 
 * **Latex-Suite** - This plugin can work alongside Latex-Suite if you already have a bunch of shortcuts setup and don't want to migrate them, or continue using its other features.  In that case I'd recommend not defining any fast-replace shortcuts, otherwise you may get odd results if the two plugins start trying to replace text at the same time.
 
+I have not really tested this extensively with any other plugins.  If you do see an issue, just file a github issue.
+
 
 ## Contributing
 
@@ -78,12 +84,6 @@ Contributions are welcome! Please read our contributing guidelines before submit
 ## License
 
 MIT License - see LICENSE file for details
-
-## Acknowledgments
-
-- Built with Obsidian Plugin API
-- Uses MathJax for LaTeX rendering
-- Inspired by LaTeX editors and snippets managers
 
 ## Support
 
