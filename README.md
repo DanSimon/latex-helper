@@ -56,12 +56,12 @@ The next time you load your vault, the plugin should show up under community plu
 Shortcuts can be marked as "fast-replace" (a lightning icon will appear).  When a fast-replace shortcut is the first auto-complete suggestion, typing any character will apply it (as opposed to requiring hitting `Enter`).  `Tab` and `Esc` will function as usual.
 
 ### Shortcut Management
-Clicking the () ribbon icon will open the shortcut manager, allowing you to create new shortcuts or edit/delete existing shortcuts.
+Clicking the LaTeX Helper ribbon icon (Σ) will open the shortcut manager, allowing you to create new shortcuts or edit/delete existing shortcuts.
 
 ### LaTeX Reference
-Clicking the () ribbon icon will open a reference view of all MathJax (and hence Obsidian) supported LaTeX commands.  
+The shortcut manager has a tab for LaTeX reference, which has entries for all commands supported in Obsidian.  
 
-This reference is based on [this](https://onemathematicalcat.org//MathJaxDocumentation/TeXSyntax.htm), although significant modifications have been made.
+This reference is based on Dr. Carol Burns [MathJax Reference](https://onemathematicalcat.org//MathJaxDocumentation/TeXSyntax.htm), although significant modifications have been made.
 
 ## Configuration
 
