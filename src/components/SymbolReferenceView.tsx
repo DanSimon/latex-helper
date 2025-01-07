@@ -168,14 +168,12 @@ const TableOfContents: React.FC<{ sections: string[] }> = ({ sections }) => {
             style={{
                 position: "sticky",
                 top: 0,
-                padding: "1.0rem",
                 borderRight: "1px solid var(--background-modifier-border)",
                 backgroundColor: "var(--background-primary)",
-                height: "100%",
                 overflowY: "auto",
             }}
         >
-            <nav>
+            <div>
                 {sections.map((section) => (
                     <a
                         key={section}
@@ -196,7 +194,7 @@ const TableOfContents: React.FC<{ sections: string[] }> = ({ sections }) => {
                         {section === "#" ? "#" : section.toUpperCase()}
                     </a>
                 ))}
-            </nav>
+            </div>
         </div>
     );
 };
@@ -331,8 +329,8 @@ const SymbolReferenceView: React.FC<{ view: ItemView }> = ({ view }) => {
                 )}
                 <div
                     style={{
-                        flexGrow: 1,
-                        padding: "1rem",
+                        flex: 1,
+                        padding: "0.5rem",
                         overflowY: "auto",
                         overflowX: "clip",
                         height: "100%",
