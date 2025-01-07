@@ -4,6 +4,7 @@ import { ItemView, MarkdownRenderer } from "obsidian";
 import FuzzySearch from "fz-search";
 import { LATEX_SYMBOLS, MathJaxSymbol } from "../mathjax_symbols";
 import * as LatexUtils from "../latex_utils";
+import { ConfigManager } from "../config";
 
 // Group symbols by their first character
 const groupSymbols = (symbols: MathJaxSymbol[]) => {
@@ -26,7 +27,8 @@ const SymbolSection: React.FC<{
     rendered: boolean;
     symbols: MathJaxSymbol[];
     view: ItemView;
-}> = React.memo(({ letter, rendered, symbols, view }) => {
+    configManager: ConfigManager;
+}> = React.memo(({ letter, rendered, symbols, view, configManager }) => {
     //console.log(`render ${letter}: ${rendered}`);
     return (
         <div id={`section-${letter}`} style={{ marginBottom: "2rem" }}>
@@ -46,6 +48,7 @@ const SymbolSection: React.FC<{
                             key={symbol.name}
                             symbol={symbol}
                             view={view}
+                            configManager={configManager}
                         />
                     ))}
             </div>
@@ -56,10 +59,16 @@ const SymbolSection: React.FC<{
 const SymbolCard: React.FC<{
     symbol: MathJaxSymbol;
     view: ItemView;
-}> = React.memo(({ symbol, view }) => {
+    configManager: ConfigManager;
+}> = React.memo(({ symbol, view, configManager }) => {
     const fillerColor = getComputedStyle(view.containerEl)
         .getPropertyValue("--text-accent")
         .trim();
+
+    const symbolConfig = {
+        ...symbol.suggestionConfig,
+        ...configManager.config.symbolOverrides[symbol.name],
+    };
     return (
         <div
             key={symbol.name}
@@ -109,6 +118,7 @@ const SymbolCard: React.FC<{
                         }
                     }}
                 />
+                <span>config</span>
             </div>
             <p
                 style={{
@@ -254,7 +264,10 @@ const Header: React.FC<{
     );
 };
 
-const SymbolReferenceView: React.FC<{ view: ItemView }> = ({ view }) => {
+const SymbolReferenceView: React.FC<{
+    configManager: ConfigManager;
+    view: ItemView;
+}> = ({ configManager, view }) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [allSymbols, _] = useState<{ [key: string]: MathJaxSymbol[] }>(
         groupSymbols(LATEX_SYMBOLS),
@@ -348,6 +361,7 @@ const SymbolReferenceView: React.FC<{ view: ItemView }> = ({ view }) => {
                             letter={searchTerm}
                             symbols={searchResults}
                             view={view}
+                            configManager={configManager}
                         />
                     </div>
 
@@ -364,6 +378,7 @@ const SymbolReferenceView: React.FC<{ view: ItemView }> = ({ view }) => {
                                 letter={section}
                                 symbols={allSymbols[section]}
                                 view={view}
+                                configManager={configManager}
                             />
                         ))}
                     </div>

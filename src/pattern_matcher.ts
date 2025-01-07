@@ -8,6 +8,7 @@ import { getTrimmedWord } from "./string_utils";
 import { debug } from "./debug_utils";
 
 // Interface for lookup results
+// TODO: this is no longer needed
 interface SuggestionResult {
     suggestions: Suggestion[];
     fastReplace: boolean;
@@ -160,7 +161,9 @@ class RegexMatcher {
 
 class FuzzyMatcher {
     private search: FuzzySearch = new FuzzySearch<MathJaxSymbol>({
-        source: LATEX_SYMBOLS,
+        source: LATEX_SYMBOLS.filter(
+            (sym) => sym.suggestionConfig.suggestionEnabled,
+        ),
         keys: ["searchName"],
         token_query_min_length: 1,
         token_field_min_length: 1,

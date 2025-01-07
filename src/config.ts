@@ -3,6 +3,7 @@ import { Plugin } from "obsidian";
 import { SuggestionMatcher } from "./pattern_matcher";
 import { EventEmitter } from "./events";
 import { UserSettings, DEFAULT_SETTINGS } from "./settings";
+import { SuggestionConfig } from "./mathjax_symbols";
 
 export interface Pattern {
     type?: "regex";
@@ -17,10 +18,12 @@ export interface MathConfig {
     renderMath: boolean;
     patterns: Pattern[];
     settings: UserSettings;
+    symbolOverrides: Record<string, SuggestionConfig>;
 }
 
 const DEFAULT_CONFIG: MathConfig = {
     renderMath: false,
+    symbolOverrides: {},
     patterns: [
         // Logical operators
         { pattern: "or", replacements: ["\\lor"], fastReplace: true },

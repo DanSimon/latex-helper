@@ -85,6 +85,9 @@
                 "\\{x\\,|\\,x\\in\\Bbb Z\\}",
                 "|x|"
             ],
+            "suggestionConfig": {
+                "suggestionEnabled": false
+            },
             "see_also": ["\\lvert", "\\rvert", "\\vert"]
         },
         {
@@ -101,25 +104,37 @@
             "name": "( )",
             "description": "parentheses;\nnon-stretchy when used alone; stretchy when used with   \\left   or   \\right\n\n( is class OPEN;\n) is class CLOSE",
             "examples": ["(\\frac ab,c)", "\\left(\\frac ab,c\\right)"],
+            "suggestionConfig": {
+                "suggestionEnabled": false
+            },
             "see_also": []
         },
         {
             "name": ".",
             "description": "period; decimal point\n\nclass PUNCT\n\nIn some math environments (but not all):\n\nWith numbers on either side, there is no surrounding \"space\":\n\n3.14\nyields\n$3.14$\n\nWith non-numeric characters, there is a slight amount of space on right:\na.b\nyields\n$a.b$\n\nTo suppress this space, enclose the ‘.’ in braces:\na{.}b\nyields\n$a{.}b$",
             "examples": [],
+            "suggestionConfig": {
+                "suggestionEnabled": false
+            },
             "see_also": []
         },
         {
             "name": "/",
             "description": "forward slash;\ncan be used to denote division\n\nclass ORD",
             "examples": ["a/b"],
+            "suggestionConfig": {
+                "suggestionEnabled": false
+            },
             "see_also": []
         },
         {
             "name": "+",
             "description": "plus symbol;\ne.g., used for addition\n\nclass BIN",
             "examples": ["a+b"],
-            "see_also": []
+            "see_also": [],
+            "suggestionConfig": {
+                "suggestionEnabled": false
+            }
         },
         {
             "name": "-",
@@ -131,7 +146,10 @@
                 "-a",
                 "\\text{\"first\": } {-}a\\star b"
             ],
-            "see_also": []
+            "see_also": [],
+            "suggestionConfig": {
+                "suggestionEnabled": false
+            }
         },
         {
             "name": "[ ]",
@@ -143,12 +161,18 @@
             "name": "=",
             "description": "equal; equals\n\nclass REL",
             "examples": [],
+            "suggestionConfig": {
+                "suggestionEnabled": false
+            },
             "see_also": ["\\ne", "\\neq"]
         },
         {
             "name": "'",
             "description": "prime symbol\n\nclass ORD",
             "examples": ["f(x) = x^2,\\ \nf'(x) = 2x,\\ \nf''(x) = 2"],
+            "suggestionConfig": {
+                "suggestionEnabled": false
+            },
             "see_also": ["\\prime"]
         },
         {
