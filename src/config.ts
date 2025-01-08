@@ -215,12 +215,12 @@ export class ConfigManager {
             DEFAULT_CONFIG,
             await this.plugin.loadData(),
         );
-        this.matcher = new SuggestionMatcher(this.config.patterns);
+        this.matcher = new SuggestionMatcher(this.config);
     }
 
     async updateConfig() {
         await this.saveConfig(this.config);
-        this.matcher = new SuggestionMatcher(this.config.patterns);
+        this.matcher = new SuggestionMatcher(this.config);
         this.onChange.emit();
     }
 

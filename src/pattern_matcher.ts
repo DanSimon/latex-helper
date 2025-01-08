@@ -1,6 +1,10 @@
-import { Pattern } from "./config";
+import { MathConfig, Pattern } from "./config";
 import FuzzySearch from "fz-search";
-import { LATEX_SYMBOLS, MathJaxSymbol } from "./mathjax_symbols";
+import {
+    LATEX_SYMBOLS,
+    MathJaxSymbol,
+    SuggestionConfig,
+} from "./mathjax_symbols";
 import { CursorWord, Suggestion, TextMode } from "./suggestion_popup";
 import { UserSettings } from "./settings";
 import { fillLatexBraces } from "./latex_utils";
@@ -160,16 +164,20 @@ class RegexMatcher {
 }
 
 class FuzzyMatcher {
-    private search: FuzzySearch = new FuzzySearch<MathJaxSymbol>({
-        source: LATEX_SYMBOLS.filter(
-            (sym) => sym.suggestionConfig.suggestionEnabled,
-        ),
-        keys: ["searchName"],
-        token_query_min_length: 1,
-        token_field_min_length: 1,
-    });
+    private search: FuzzySearch;
 
-    constructor() {}
+    constructor(overrides: Record<string, SuggestionConfig>) {
+        this.search = new FuzzySearch<MathJaxSymbol>({
+            source: LATEX_SYMBOLS.filter((sym) =>
+                overrides[sym.name] === undefined
+                    ? sym.suggestionConfig.suggestionEnabled
+                    : overrides[sym.name].suggestionEnabled,
+            ),
+            keys: ["searchName"],
+            token_query_min_length: 1,
+            token_field_min_length: 1,
+        });
+    }
 
     getSuggestions(input: string, fillerColor: string): SuggestionResult {
         return {
@@ -193,15 +201,16 @@ class FuzzyMatcher {
 export class SuggestionMatcher {
     private trie: Trie;
     private regexes: RegexMatcher;
-    private fuzzy: FuzzyMatcher = new FuzzyMatcher();
+    private fuzzy: FuzzyMatcher;
 
     /**
      * Constructs a SuggestionMatcher.
      * @param patterns - Array of pattern objects.
      */
-    constructor(patterns: Pattern[]) {
-        this.trie = new Trie(patterns);
-        this.regexes = new RegexMatcher(patterns);
+    constructor(config: MathConfig) {
+        this.trie = new Trie(config.patterns);
+        this.regexes = new RegexMatcher(config.patterns);
+        this.fuzzy = new FuzzyMatcher(config.symbolOverrides);
     }
 
     /**

@@ -106,7 +106,10 @@ const UnifiedLatexView: React.FC<UnifiedLatexViewProps> = ({
                         matchForm={matchForm}
                     />
                 ) : (
-                    <SymbolReferenceView view={view} />
+                    <SymbolReferenceView
+                        view={view}
+                        configManager={configManager}
+                    />
                 )}
             </div>
         </div>

@@ -5,6 +5,7 @@ import FuzzySearch from "fz-search";
 import { LATEX_SYMBOLS, MathJaxSymbol } from "../mathjax_symbols";
 import * as LatexUtils from "../latex_utils";
 import { ConfigManager } from "../config";
+import SymbolConfigPanel from "./SymbolConfigPanel";
 
 // Group symbols by their first character
 const groupSymbols = (symbols: MathJaxSymbol[]) => {
@@ -60,7 +61,7 @@ const SymbolCard: React.FC<{
     symbol: MathJaxSymbol;
     view: ItemView;
     configManager: ConfigManager;
-}> = React.memo(({ symbol, view, configManager }) => {
+}> = ({ symbol, view, configManager }) => {
     const fillerColor = getComputedStyle(view.containerEl)
         .getPropertyValue("--text-accent")
         .trim();
@@ -73,6 +74,7 @@ const SymbolCard: React.FC<{
         <div
             key={symbol.name}
             style={{
+                position: "relative",
                 padding: "1rem",
                 border: "1px solid var(--background-modifier-border)",
                 borderRadius: "4px",
@@ -118,7 +120,11 @@ const SymbolCard: React.FC<{
                         }
                     }}
                 />
-                <span>config</span>
+                <SymbolConfigPanel
+                    symbolName={symbol.name}
+                    defaultConfig={symbol.suggestionConfig}
+                    configManager={configManager}
+                />
             </div>
             <p
                 style={{
@@ -170,7 +176,7 @@ const SymbolCard: React.FC<{
             )}
         </div>
     );
-});
+};
 
 const TableOfContents: React.FC<{ sections: string[] }> = ({ sections }) => {
     return (
