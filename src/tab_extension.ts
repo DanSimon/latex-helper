@@ -1,6 +1,7 @@
 import { EditorView, KeyBinding, keymap } from "@codemirror/view";
 import { Extension } from "@codemirror/state";
 import { SuggestionPopup } from "./suggestion_popup";
+import { UserSettings } from "./settings";
 
 function nextTab(text: string, cursorPos: number): number | null {
     let depth = 0;
@@ -48,13 +49,19 @@ function prevTab(text: string, cursorPos: number): number | null {
     return openPos;
 }
 
-export function latexNavigation(popup: SuggestionPopup): Extension {
+export function latexNavigation(
+    popup: SuggestionPopup,
+    settings: UserSettings,
+): Extension {
     const latexNavigationKeymap: KeyBinding[] = [
         {
             key: "Tab",
             run: (view: EditorView): boolean => {
                 if (popup.isVisible()) {
                     return true;
+                }
+                if (!settings.enableSmartTab) {
+                    return false;
                 }
                 const doc = view.state.doc;
                 const pos = view.state.selection.main.head;
@@ -77,6 +84,9 @@ export function latexNavigation(popup: SuggestionPopup): Extension {
             run: (view: EditorView): boolean => {
                 if (popup.isVisible()) {
                     return true;
+                }
+                if (!settings.enableSmartTab) {
+                    return false;
                 }
                 const doc = view.state.doc;
                 const pos = view.state.selection.main.head;

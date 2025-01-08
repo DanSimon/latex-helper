@@ -59,7 +59,7 @@ Shortcuts can be marked as "fast-replace" (a lightning icon will appear).  When 
 Clicking the LaTeX Helper ribbon icon (Σ) will open the shortcut manager, allowing you to create new shortcuts or edit/delete existing shortcuts.
 
 ### LaTeX Reference
-The shortcut manager has a tab for LaTeX reference, which has entries for all commands supported in Obsidian.  
+The shortcut manager has a tab for LaTeX reference, which has entries for all commands supported in Obsidian.
 
 This reference is based on Dr. Carol Burns [MathJax Reference](https://onemathematicalcat.org//MathJaxDocumentation/TeXSyntax.htm), although significant modifications have been made.
 
@@ -72,7 +72,9 @@ This reference is based on Dr. Carol Burns [MathJax Reference](https://onemathem
 
 ### Using with Other Plugins
 
-* **Latex-Suite** - This plugin can work alongside Latex-Suite if you already have a bunch of shortcuts setup and don't want to migrate them, or continue using its other features.  In that case I'd recommend not defining any fast-replace shortcuts, otherwise you may get odd results if the two plugins start trying to replace text at the same time.
+* **Latex-Suite** - This plugin can work alongside Latex-Suite if you already have a bunch of shortcuts setup and don't want to migrate them, or continue using its other features.
+  - Make sure you don't have both Latex-suite's "tab out" setting and this plugin's "smart tab" setting enabled.
+  - Be careful defining fast-replace shortcuts, otherwise you may get odd results if the two plugins start trying to replace text at the same time.
 
 I have not really tested this extensively with any other plugins.  If you do see an issue, just file a github issue.
 

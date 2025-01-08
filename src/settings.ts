@@ -10,6 +10,7 @@ export interface UserSettings {
     enableNormalMode: boolean;
     minAlphaSuggestChars: number;
     minSymbolSuggestChars: number;
+    enableSmartTab: boolean;
 }
 
 export const DEFAULT_SETTINGS: UserSettings = {
@@ -21,6 +22,7 @@ export const DEFAULT_SETTINGS: UserSettings = {
     enableNormalMode: false,
     minAlphaSuggestChars: 2,
     minSymbolSuggestChars: 1,
+    enableSmartTab: true,
 };
 
 export class WordPopupSettingTab extends PluginSettingTab {
@@ -141,6 +143,23 @@ export class WordPopupSettingTab extends PluginSettingTab {
                     )
                     .onChange(async (value) => {
                         this.plugin.configManager.config.settings.enableNormalMode =
+                            value;
+                        await this.plugin.configManager.updateConfig();
+                    }),
+            );
+        new Setting(containerEl)
+            .setName("Enable Smart Tab")
+            .setDesc(
+                "Hitting [Tab] while in LaTeX command braces will jump to the next set of braces or the end of the command",
+            )
+            .addToggle((toggle) =>
+                toggle
+                    .setValue(
+                        this.plugin.configManager.config.settings
+                            .enableSmartTab,
+                    )
+                    .onChange(async (value) => {
+                        this.plugin.configManager.config.settings.enableSmartTab =
                             value;
                         await this.plugin.configManager.updateConfig();
                     }),
