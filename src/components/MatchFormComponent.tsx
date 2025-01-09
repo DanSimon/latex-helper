@@ -117,7 +117,7 @@ const MatchFormComponent: React.FC<MatchFormProps> = ({
     const handleDelete = () => {
         if (!initialData) return;
 
-        if (confirm("Delete this Pattern?")) {
+        if (confirm("Delete this Shortcut?")) {
             const patternIndex = configManager.config.patterns.findIndex(
                 (p) => p.pattern === initialData.pattern,
             );
@@ -136,7 +136,7 @@ const MatchFormComponent: React.FC<MatchFormProps> = ({
         <div style={styles.modal}>
             <div style={styles.content}>
                 <h2 style={styles.title}>
-                    {initialData ? "Edit Pattern" : "Create New Pattern"}
+                    {initialData ? "Edit Shortcut" : "Create New Shortcut"}
                 </h2>
 
                 <div style={styles.formGroup}>
