@@ -1,4 +1,6 @@
+import { MarkdownView, MarkdownRenderer } from "obsidian";
 import * as React from "react";
+import { fillLatexBraces } from "../latex_utils";
 
 interface ReplacementsListProps {
     replacements: string[];
@@ -6,6 +8,7 @@ interface ReplacementsListProps {
     isRegex: boolean;
     matches: RegExpMatchArray | null;
     onFastReplaceChange?: (enabled: boolean) => void;
+    view: MarkdownView;
 }
 
 // Add drag handle icon component
@@ -99,7 +102,11 @@ const ReplacementsList: React.FC<ReplacementsListProps> = React.memo(
         isRegex,
         matches,
         onFastReplaceChange,
+        view,
     }) => {
+        const fillerColor = getComputedStyle(view.containerEl)
+            .getPropertyValue("--text-accent")
+            .trim();
         const addReplacement = () => {
             const newReplacements = [...replacements, ""];
             onReplacementsChange(newReplacements);
@@ -186,11 +193,36 @@ const ReplacementsList: React.FC<ReplacementsListProps> = React.memo(
                                 placeholder="Replacement"
                             />
                         </div>
-                        {isRegex && matches && matches.length > 0 && (
-                            <div style={styles.previewText}>
-                                Preview: {generatePreview(replacement, matches)}
-                            </div>
-                        )}
+                        {(() => {
+                            if (isRegex && matches && matches.length > 0) {
+                                return (
+                                    <div style={styles.previewText}>
+                                        Preview:{" "}
+                                        {generatePreview(replacement, matches)}
+                                    </div>
+                                );
+                            } else if (replacement.length > 0) {
+                                return (
+                                    <div
+                                        ref={(el) => {
+                                            if (el) {
+                                                el.empty();
+                                                MarkdownRenderer.render(
+                                                    view.app,
+                                                    `$${fillLatexBraces(replacement, fillerColor)}$`,
+                                                    el,
+                                                    "",
+                                                    view,
+                                                );
+                                            }
+                                        }}
+                                        style={styles.previewText}
+                                    ></div>
+                                );
+                            } else {
+                                return null;
+                            }
+                        })()}
                         {replacements.length > 1 && (
                             <button
                                 onClick={() => removeReplacement(index)}

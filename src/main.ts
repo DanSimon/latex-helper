@@ -28,7 +28,9 @@ export default class WordPopupPlugin extends Plugin {
                 "editor-change",
                 (editor: Editor, view: MarkdownView) => {
                     if (
-                        this.configManager.config.settings.autoShowSuggestions
+                        this.configManager.config.settings
+                            .autoShowSuggestions ||
+                        this.suggestionPopup.isVisible()
                     ) {
                         this.showSuggestions(editor, view);
                     }

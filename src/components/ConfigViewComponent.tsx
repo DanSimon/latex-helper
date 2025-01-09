@@ -162,7 +162,7 @@ function PatternRow({
                                 ...styles.editButton,
                                 visibility: isHovered ? "visible" : "hidden",
                             }}
-                            title="Edit pattern"
+                            title="Edit shortcut"
                         >
                             ✏️
                         </button>
@@ -306,17 +306,7 @@ const ConfigViewComponent: React.FC<ConfigViewComponentProps> = ({
                         }}
                         onClick={() => matchForm.show()}
                     >
-                        New Pattern
-                    </button>
-                    <button
-                        style={styles.button}
-                        onClick={() =>
-                            view.app.workspace.detachLeavesOfType(
-                                "config-reference-view",
-                            )
-                        }
-                    >
-                        ✕
+                        New Shortcut
                     </button>
                 </div>
             </div>
@@ -324,7 +314,7 @@ const ConfigViewComponent: React.FC<ConfigViewComponentProps> = ({
             <div style={styles.searchContainer}>
                 <input
                     type="text"
-                    placeholder="Search patterns..."
+                    placeholder="Search shortcuts..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     style={styles.searchInput}

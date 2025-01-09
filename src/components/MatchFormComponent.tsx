@@ -1,3 +1,4 @@
+import { MarkdownView } from "obsidian";
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { Pattern } from "../config";
@@ -11,6 +12,7 @@ interface MatchFormProps {
     onDelete?: () => void;
     initialData?: Pattern;
     allCategories: string[];
+    view: MarkdownView;
 }
 
 // Styles object from original component...
@@ -159,6 +161,7 @@ const MatchFormComponent = React.memo(
         onDelete,
         initialData,
         allCategories,
+        view,
     }: MatchFormProps) => {
         const [pattern, setPattern] = useState("");
         const [replacements, setReplacements] = useState<string[]>([""]);
@@ -228,7 +231,7 @@ const MatchFormComponent = React.memo(
             <div style={styles.modal}>
                 <div style={styles.content}>
                     <h2 style={styles.title}>
-                        {initialData ? "Edit Pattern" : "Create New Pattern"}
+                        {initialData ? "Edit Shortcut" : "Create New Shortcut"}
                     </h2>
 
                     <div style={styles.formGroup}>
@@ -355,6 +358,7 @@ const MatchFormComponent = React.memo(
                         onFastReplaceChange={(enabled) =>
                             setIsFastReplace(enabled)
                         }
+                        view={view}
                     />
 
                     {/* Action buttons */}

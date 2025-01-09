@@ -1,4 +1,4 @@
-import { Component } from "obsidian";
+import { Component, MarkdownView } from "obsidian";
 import { ConfigManager, Pattern } from "./config";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
@@ -9,8 +9,9 @@ export class MatchForm extends Component {
     private matchData: Pattern | null = null;
     private element: HTMLDivElement;
     private isVisible: boolean = false;
+    private view: MarkdownView;
 
-    constructor(configManager: ConfigManager) {
+    constructor(configManager: ConfigManager, view: MarkdownView) {
         super();
         this.configManager = configManager;
     }
@@ -74,6 +75,7 @@ export class MatchForm extends Component {
                 onDelete: this.matchData ? this.handleDelete : undefined,
                 initialData: this.matchData || undefined,
                 allCategories: allCategories,
+                view: this.view,
             }),
             this.element,
         );
