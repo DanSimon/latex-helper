@@ -23,7 +23,7 @@ describe("getTrimmedWord", () => {
         expect(getTrimmedWord("\\alpha")).toBe("\\alpha");
     });
 
-    // LaTeX command patterns
+    // LaTeX command shortcuts
     test("handles LaTeX commands with braces", () => {
         expect(getTrimmedWord("\\frac{1}{2}")).toBe("}");
     });

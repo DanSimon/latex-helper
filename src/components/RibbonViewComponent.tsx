@@ -98,7 +98,7 @@ const UnifiedLatexView: React.FC<UnifiedLatexViewProps> = ({
             <div style={styles.content}>
                 {activeTab === "shortcuts" ? (
                     <ConfigViewComponent
-                        patterns={configManager.config.patterns}
+                        shortcuts={configManager.config.shortcuts}
                         view={view}
                         configManager={configManager}
                     />

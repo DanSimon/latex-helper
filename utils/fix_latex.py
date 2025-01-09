@@ -13,10 +13,10 @@ def add_brackets(cmd):
 
     max_arg = 0
     for i in range(1, 10):
-        pattern = rf"{re.escape(stripped_name)}\s*#{i}"
-        if re.search(pattern, description):
+        shortcut = rf"{re.escape(stripped_name)}\s*#{i}"
+        if re.search(shortcut, description):
             max_arg = i
-            print(f"found {i} in {pattern}")
+            print(f"found {i} in {shortcut}")
 
     if max_arg > 0:
         cmd["name"] = name + "{}" * max_arg

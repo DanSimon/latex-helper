@@ -1,4 +1,4 @@
-import { MathConfig, Pattern } from "./config";
+import { MathConfig, Shortcut } from "./config";
 import FuzzySearch from "fz-search";
 import {
     LATEX_SYMBOLS,
@@ -20,11 +20,11 @@ interface SuggestionResult {
 
 class TrieNode {
     children: { [key: string]: TrieNode };
-    patterns: Pattern[];
+    shortcuts: Shortcut[];
 
     constructor() {
         this.children = {};
-        this.patterns = [];
+        this.shortcuts = [];
     }
 }
 
@@ -33,38 +33,38 @@ class Trie {
 
     /**
      * Constructs an immutable Trie.
-     * @param patterns - Array of pattern objects.
+     * @param shortcuts - Array of shortcut objects.
      */
-    constructor(patterns: Pattern[]) {
+    constructor(shortcuts: Shortcut[]) {
         this.root = new TrieNode();
-        for (const pattern of patterns) {
-            if (!pattern.type || pattern.type !== "regex") {
-                this.insert(pattern);
+        for (const shortcut of shortcuts) {
+            if (!shortcut.type || shortcut.type !== "regex") {
+                this.insert(shortcut);
             }
         }
     }
 
     /**
-     * Inserts a pattern into the trie.
-     * @param pattern - The pattern object to insert.
+     * Inserts a shortcut into the trie.
+     * @param shortcut - The shortcut object to insert.
      */
-    private insert(pattern: Pattern): void {
+    private insert(shortcut: Shortcut): void {
         let node = this.root;
-        for (const char of pattern.pattern) {
+        for (const char of shortcut.pattern) {
             if (!node.children[char]) {
                 node.children[char] = new TrieNode();
             }
             node = node.children[char];
         }
-        node.patterns.push(pattern);
+        node.shortcuts.push(shortcut);
     }
 
     /**
-     * Looks up a string in the trie, returning all matching patterns.
+     * Looks up a string in the trie, returning all matching shortcuts.
      * @param query - The string to look up.
-     * @returns An array of matching patterns.
+     * @returns An array of matching shortcuts.
      */
-    lookup(query: string): Pattern[] {
+    lookup(query: string): Shortcut[] {
         let node = this.root;
         for (const char of query) {
             if (!node.children[char]) {
@@ -72,15 +72,15 @@ class Trie {
             }
             node = node.children[char];
         }
-        return node.patterns;
+        return node.shortcuts;
     }
 
     /**
-     * Returns all patterns that start with the given query string.
+     * Returns all shortcuts that start with the given query string.
      * @param query - The query string.
-     * @returns An array of matching patterns.
+     * @returns An array of matching shortcuts.
      */
-    typeAhead(query: string): Pattern[] {
+    typeAhead(query: string): Shortcut[] {
         let node = this.root;
         // First, traverse to the node representing the query prefix
         for (const char of query) {
@@ -90,12 +90,12 @@ class Trie {
             node = node.children[char];
         }
 
-        // Then collect all patterns in this subtree
-        return this.collectPatternsInSubtree(node);
+        // Then collect all shortcuts in this subtree
+        return this.collectShortcutsInSubtree(node);
     }
 
-    private collectPatternsInSubtree(startNode: TrieNode): Pattern[] {
-        const patterns: Pattern[] = [];
+    private collectShortcutsInSubtree(startNode: TrieNode): Shortcut[] {
+        const shortcuts: Shortcut[] = [];
         const queue = [startNode];
         const visited = new Set<TrieNode>();
 
@@ -107,26 +107,26 @@ class Trie {
             }
             visited.add(node);
 
-            patterns.push(...node.patterns);
+            shortcuts.push(...node.shortcuts);
 
             for (const child of Object.values(node.children)) {
                 queue.push(child);
             }
         }
 
-        return patterns;
+        return shortcuts;
     }
 }
 
 class RegexMatcher {
-    private patterns: { regex: RegExp; pattern: Pattern }[];
+    private shortcuts: { regex: RegExp; shortcut: Shortcut }[];
 
-    constructor(patterns: Pattern[]) {
-        this.patterns = patterns
+    constructor(shortcuts: Shortcut[]) {
+        this.shortcuts = shortcuts
             .filter((p) => p.type === "regex")
             .map((p) => ({
                 regex: new RegExp(p.pattern),
-                pattern: p,
+                shortcut: p,
             }));
     }
 
@@ -134,11 +134,11 @@ class RegexMatcher {
         const suggestions: Suggestion[] = [];
         let fastReplace = false;
 
-        for (const { regex, pattern } of this.patterns) {
+        for (const { regex, shortcut } of this.shortcuts) {
             const matches = input.match(regex);
 
             if (matches) {
-                for (const replacement of pattern.replacements) {
+                for (const replacement of shortcut.replacements) {
                     let result = replacement;
                     for (let i = 1; i < matches.length; i++) {
                         result = result.replace(`$${i}`, matches[i] || "");
@@ -146,16 +146,16 @@ class RegexMatcher {
                     suggestions.push({
                         replacement: result,
                         displayReplacement: result,
-                        fastReplace: pattern.fastReplace || false,
-                        normalMode: pattern.normalMode,
+                        fastReplace: shortcut.fastReplace || false,
+                        normalMode: shortcut.normalMode,
                         matchedString: matches[0],
                     });
                 }
-                // Update fastReplace if this pattern enables it
+                // Update fastReplace if this shortcut enables it
                 fastReplace =
                     fastReplace ||
-                    (!!pattern.fastReplace &&
-                        pattern.replacements.length === 1);
+                    (!!shortcut.fastReplace &&
+                        shortcut.replacements.length === 1);
             }
         }
 
@@ -205,20 +205,20 @@ export class SuggestionMatcher {
 
     /**
      * Constructs a SuggestionMatcher.
-     * @param patterns - Array of pattern objects.
+     * @param shortcuts - Array of shortcut objects.
      */
     constructor(config: MathConfig) {
-        this.trie = new Trie(config.patterns);
-        this.regexes = new RegexMatcher(config.patterns);
+        this.trie = new Trie(config.shortcuts);
+        this.regexes = new RegexMatcher(config.shortcuts);
         this.fuzzy = new FuzzyMatcher(config.symbolOverrides);
     }
 
     /**
-     * Returns all matching patterns for a search string.
+     * Returns all matching shortcuts for a search string.
      * @param searchString - The string to look up.
-     * @returns An array of matching patterns.
+     * @returns An array of matching shortcuts.
      */
-    getMatchingPatterns(searchString: string): Pattern[] {
+    getMatchingShortcuts(searchString: string): Shortcut[] {
         return this.trie.lookup(searchString);
     }
 
@@ -285,12 +285,12 @@ export class SuggestionMatcher {
             const queue: Suggestion[] = [];
             const nxt = () => {
                 if (queue.length == 0) {
-                    const pattern = exactMatches.shift();
-                    if (!pattern) {
+                    const shortcut = exactMatches.shift();
+                    if (!shortcut) {
                         return null;
                     }
                     queue.push(
-                        ...pattern.replacements
+                        ...shortcut.replacements
                             .slice(0, maxResults)
                             .map((r: string) => {
                                 return {
@@ -300,8 +300,8 @@ export class SuggestionMatcher {
                                         r,
                                         fillerColor,
                                     ),
-                                    fastReplace: pattern.fastReplace || false,
-                                    normalMode: pattern.normalMode,
+                                    fastReplace: shortcut.fastReplace || false,
+                                    normalMode: shortcut.normalMode,
                                 };
                             }),
                     );

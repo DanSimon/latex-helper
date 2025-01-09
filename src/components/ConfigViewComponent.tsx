@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import { ItemView, MarkdownRenderer } from "obsidian";
-import { ConfigManager, Pattern } from "../config";
+import { ConfigManager, Shortcut } from "../config";
 import { fillLatexBraces } from "../latex_utils";
 import MatchFormComponent from "./MatchFormComponent";
 
@@ -46,7 +46,7 @@ const styles = {
         borderRadius: "4px",
         backgroundColor: "var(--background-primary)",
     },
-    patternsContainer: {
+    shortcutsContainer: {
         flex: 1,
         overflow: "auto",
         padding: "1rem",
@@ -100,13 +100,13 @@ const styles = {
     },
 };
 
-function PatternRow({
-    pattern,
+function ShortcutRow({
+    shortcut,
     replacementIndex,
     view,
     onEdit,
 }: {
-    pattern: Pattern;
+    shortcut: Shortcut;
     replacementIndex: number;
     view: ItemView;
     onEdit: () => void;
@@ -125,7 +125,7 @@ function PatternRow({
             <td style={styles.td}>
                 {replacementIndex == 0 && (
                     <div>
-                        {pattern.fastReplace && (
+                        {shortcut.fastReplace && (
                             <span
                                 style={styles.fastReplaceIcon}
                                 title="Fast Replace Enabled"
@@ -133,15 +133,15 @@ function PatternRow({
                                 ⚡
                             </span>
                         )}
-                        {pattern.type === "regex" && (
+                        {shortcut.type === "regex" && (
                             <span
                                 style={styles.regexIcon}
-                                title="Regex Pattern"
+                                title="Regex Shortcut"
                             >
                                 R
                             </span>
                         )}
-                        {pattern.normalMode && (
+                        {shortcut.normalMode && (
                             <span
                                 style={styles.normalModeIcon}
                                 title="Normal Mode"
@@ -149,7 +149,7 @@ function PatternRow({
                                 N
                             </span>
                         )}
-                        <code>{pattern.pattern}</code>
+                        <code>{shortcut.pattern}</code>
                         <button
                             onClick={onEdit}
                             style={{
@@ -172,7 +172,7 @@ function PatternRow({
                             el.empty();
                             MarkdownRenderer.render(
                                 view.app,
-                                `$${fillLatexBraces(pattern.replacements[replacementIndex], fillerColor)}$`,
+                                `$${fillLatexBraces(shortcut.replacements[replacementIndex], fillerColor)}$`,
                                 el,
                                 "",
                                 view,
@@ -183,7 +183,7 @@ function PatternRow({
             </td>
             <td style={styles.td}>
                 <div key={replacementIndex}>
-                    <code>{pattern.replacements[replacementIndex]}</code>
+                    <code>{shortcut.replacements[replacementIndex]}</code>
                 </div>
             </td>
         </tr>
@@ -192,14 +192,14 @@ function PatternRow({
 
 function CategorySection({
     category,
-    patterns,
+    shortcuts,
     view,
     showMatchForm,
 }: {
     category: string;
-    patterns: Pattern[];
+    shortcuts: Shortcut[];
     view: ItemView;
-    showMatchForm: (pattern: Pattern) => void;
+    showMatchForm: (shortcut: Shortcut) => void;
 }) {
     return (
         <div style={styles.categorySection}>
@@ -207,24 +207,24 @@ function CategorySection({
             <table style={styles.table}>
                 <thead>
                     <tr>
-                        <th style={styles.th}>Pattern</th>
+                        <th style={styles.th}>Shortcut</th>
                         <th style={styles.th}>Preview</th>
                         <th style={styles.th}>LaTeX</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {patterns
+                    {shortcuts
                         .sort((a, b) => a.pattern.localeCompare(b.pattern))
-                        .flatMap((pattern) =>
+                        .flatMap((shortcut) =>
                             Array.from(
-                                Array(pattern.replacements.length).keys(),
+                                Array(shortcut.replacements.length).keys(),
                             ).map((idx) => (
-                                <PatternRow
-                                    key={`${pattern.pattern}-${idx}`}
+                                <ShortcutRow
+                                    key={`${shortcut.pattern}-${idx}`}
                                     replacementIndex={idx}
-                                    pattern={pattern}
+                                    shortcut={shortcut}
                                     view={view}
-                                    onEdit={() => showMatchForm(pattern)}
+                                    onEdit={() => showMatchForm(shortcut)}
                                 />
                             )),
                         )}
@@ -235,41 +235,41 @@ function CategorySection({
 }
 
 interface ConfigViewComponentProps {
-    patterns: Pattern[];
+    shortcuts: Shortcut[];
     view: ItemView;
     configManager: ConfigManager;
 }
 
 const ConfigViewComponent: React.FC<ConfigViewComponentProps> = ({
-    patterns,
+    shortcuts,
     view,
     configManager,
 }) => {
     const [searchTerm, setSearchTerm] = useState("");
-    const [matchFormData, setMatchFormData] = useState<Pattern | null>(null);
+    const [matchFormData, setMatchFormData] = useState<Shortcut | null>(null);
     const [matchFormVisible, setMatchFormVisible] = useState(false);
 
-    const showMatchForm = (pattern: Pattern | null) => {
-        setMatchFormData(pattern);
+    const showMatchForm = (shortcut: Shortcut | null) => {
+        setMatchFormData(shortcut);
         setMatchFormVisible(true);
     };
 
     const filteredCategories = (() => {
-        const grouped = patterns.reduce(
-            (acc: Record<string, Pattern[]>, pattern) => {
-                const category = pattern.category || "Uncategorized";
+        const grouped = shortcuts.reduce(
+            (acc: Record<string, Shortcut[]>, shortcut) => {
+                const category = shortcut.category || "Uncategorized";
                 if (!acc[category]) {
                     acc[category] = [];
                 }
                 if (
-                    pattern.pattern
+                    shortcut.pattern
                         .toLowerCase()
                         .includes(searchTerm.toLowerCase()) ||
-                    pattern.replacements.some((r) =>
+                    shortcut.replacements.some((r) =>
                         r.toLowerCase().includes(searchTerm.toLowerCase()),
                     )
                 ) {
-                    acc[category].push(pattern);
+                    acc[category].push(shortcut);
                 }
                 return acc;
             },
@@ -277,7 +277,7 @@ const ConfigViewComponent: React.FC<ConfigViewComponentProps> = ({
         );
 
         // Sort categories but keep Uncategorized at the end
-        const sortedCategories: Record<string, Pattern[]> = {};
+        const sortedCategories: Record<string, Shortcut[]> = {};
         Object.keys(grouped)
             .sort((a, b) => {
                 if (a === "Uncategorized") return 1;
@@ -339,13 +339,13 @@ const ConfigViewComponent: React.FC<ConfigViewComponentProps> = ({
                 />
             </div>
 
-            <div style={styles.patternsContainer}>
+            <div style={styles.shortcutsContainer}>
                 {Object.entries(filteredCategories).map(
-                    ([category, categoryPatterns]) => (
+                    ([category, categoryShortcuts]) => (
                         <CategorySection
                             key={category}
                             category={category}
-                            patterns={categoryPatterns}
+                            shortcuts={categoryShortcuts}
                             view={view}
                             showMatchForm={showMatchForm}
                         />

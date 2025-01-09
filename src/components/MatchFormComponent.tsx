@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import * as ReactDOM from "react-dom";
-import { ConfigManager, Pattern } from "../config";
+import { ConfigManager, Shortcut } from "../config";
 import CategorySelector from "./CategorySelector";
 import ReplacementsList from "./ReplacementListComponent";
 import { ItemView } from "obsidian";
@@ -10,7 +10,7 @@ interface MatchFormProps {
     configManager: ConfigManager;
     isVisible: boolean;
     onClose: () => void;
-    initialData: Pattern | null;
+    initialData: Shortcut | null;
     view: ItemView;
 }
 
@@ -35,7 +35,7 @@ const MatchFormComponent: React.FC<MatchFormProps> = ({
     // Get all categories for the selector
     const allCategories = Array.from(
         new Set(
-            configManager.config.patterns.flatMap((p) =>
+            configManager.config.shortcuts.flatMap((p) =>
                 p.category ? [p.category] : [],
             ),
         ),
@@ -70,7 +70,7 @@ const MatchFormComponent: React.FC<MatchFormProps> = ({
         setMatches(null);
     };
 
-    // Test regex patterns
+    // Test regex shortcuts
     useEffect(() => {
         if (isRegex && pattern && testInput) {
             try {
@@ -90,17 +90,17 @@ const MatchFormComponent: React.FC<MatchFormProps> = ({
 
     const handleSave = () => {
         if (initialData) {
-            // Remove old pattern if editing
-            const oldPatternIndex = configManager.config.patterns.findIndex(
+            // Remove old shortcut if editing
+            const oldShortcutIndex = configManager.config.shortcuts.findIndex(
                 (p) => p.pattern === initialData.pattern,
             );
-            if (oldPatternIndex !== -1) {
-                configManager.config.patterns.splice(oldPatternIndex, 1);
+            if (oldShortcutIndex !== -1) {
+                configManager.config.shortcuts.splice(oldShortcutIndex, 1);
             }
         }
 
-        // Add new pattern
-        const newPattern: Pattern = {
+        // Add new shortcut
+        const newShortcut: Shortcut = {
             pattern,
             replacements,
             normalMode: isNormalMode,
@@ -109,7 +109,7 @@ const MatchFormComponent: React.FC<MatchFormProps> = ({
             ...(selectedCategory && { category: selectedCategory }),
         };
 
-        configManager.config.patterns.push(newPattern);
+        configManager.config.shortcuts.push(newShortcut);
         configManager.updateConfig();
         onClose();
     };
@@ -118,12 +118,12 @@ const MatchFormComponent: React.FC<MatchFormProps> = ({
         if (!initialData) return;
 
         if (confirm("Delete this Shortcut?")) {
-            const patternIndex = configManager.config.patterns.findIndex(
+            const shortcutIndex = configManager.config.shortcuts.findIndex(
                 (p) => p.pattern === initialData.pattern,
             );
 
-            if (patternIndex !== -1) {
-                configManager.config.patterns.splice(patternIndex, 1);
+            if (shortcutIndex !== -1) {
+                configManager.config.shortcuts.splice(shortcutIndex, 1);
                 configManager.updateConfig();
             }
             onClose();
@@ -197,7 +197,7 @@ const MatchFormComponent: React.FC<MatchFormProps> = ({
                 {isRegex && (
                     <div style={styles.testSection}>
                         <label style={styles.label}>
-                            Test your regex pattern:
+                            Test your regex shortcut:
                         </label>
                         <input
                             type="text"

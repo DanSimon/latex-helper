@@ -82,7 +82,7 @@ const styles = {
     },
 } as const;
 
-// Helper function to generate preview for a replacement pattern
+// Helper function to generate preview for a replacement shortcut
 const generatePreview = (
     replacement: string,
     matchGroups: RegExpMatchArray,

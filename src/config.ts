@@ -5,7 +5,7 @@ import { EventEmitter } from "./events";
 import { UserSettings, DEFAULT_SETTINGS } from "./settings";
 import { SuggestionConfig } from "./mathjax_symbols";
 
-export interface Pattern {
+export interface Shortcut {
     type?: "regex";
     pattern: string;
     replacements: string[];
@@ -15,14 +15,14 @@ export interface Pattern {
 }
 
 export interface MathConfig {
-    patterns: Pattern[];
+    shortcuts: Shortcut[];
     settings: UserSettings;
     symbolOverrides: Record<string, SuggestionConfig>;
 }
 
 const DEFAULT_CONFIG: MathConfig = {
     symbolOverrides: {},
-    patterns: [],
+    shortcuts: [],
     settings: DEFAULT_SETTINGS,
 };
 

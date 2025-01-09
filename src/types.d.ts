@@ -58,6 +58,6 @@ declare module "fz-search" {
 
     export default class FuzzySearch<T = any> {
         constructor(options: FuzzySearchOptions<T>);
-        search(pattern: string): T[];
+        search(shortcut: string): T[];
     }
 }
