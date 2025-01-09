@@ -2,24 +2,17 @@ import { ItemView, WorkspaceLeaf } from "obsidian";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { ConfigManager } from "./config";
-import { MatchForm } from "./match_form";
 import RibbonViewComponent from "./components/RibbonViewComponent";
 
 export const RIBBON_VIEW_TYPE = "unified-latex-view";
 
 export class RibbonView extends ItemView {
     private configManager: ConfigManager;
-    private matchForm: MatchForm;
     private root: Element | null = null;
 
-    constructor(
-        leaf: WorkspaceLeaf,
-        configManager: ConfigManager,
-        matchForm: MatchForm,
-    ) {
+    constructor(leaf: WorkspaceLeaf, configManager: ConfigManager) {
         super(leaf);
         this.configManager = configManager;
-        this.matchForm = matchForm;
     }
 
     getViewType(): string {
@@ -59,7 +52,6 @@ export class RibbonView extends ItemView {
             React.createElement(RibbonViewComponent, {
                 view: this,
                 configManager: this.configManager,
-                matchForm: this.matchForm,
             }),
             this.root,
         );

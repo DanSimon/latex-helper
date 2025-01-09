@@ -1,15 +1,9 @@
 import * as React from "react";
 import { useState } from "react";
 import { ItemView, MarkdownRenderer } from "obsidian";
-import { Pattern } from "../config";
-import { MatchForm } from "../match_form";
+import { ConfigManager, Pattern } from "../config";
 import { fillLatexBraces } from "../latex_utils";
-
-interface ConfigViewComponentProps {
-    patterns: Pattern[];
-    view: ItemView;
-    matchForm: MatchForm;
-}
+import MatchFormComponent from "./MatchFormComponent";
 
 const styles = {
     container: {
@@ -200,12 +194,12 @@ function CategorySection({
     category,
     patterns,
     view,
-    matchForm,
+    showMatchForm,
 }: {
     category: string;
     patterns: Pattern[];
     view: ItemView;
-    matchForm: MatchForm;
+    showMatchForm: (pattern: Pattern) => void;
 }) {
     return (
         <div style={styles.categorySection}>
@@ -230,7 +224,7 @@ function CategorySection({
                                     replacementIndex={idx}
                                     pattern={pattern}
                                     view={view}
-                                    onEdit={() => matchForm.show(pattern)}
+                                    onEdit={() => showMatchForm(pattern)}
                                 />
                             )),
                         )}
@@ -240,12 +234,25 @@ function CategorySection({
     );
 }
 
+interface ConfigViewComponentProps {
+    patterns: Pattern[];
+    view: ItemView;
+    configManager: ConfigManager;
+}
+
 const ConfigViewComponent: React.FC<ConfigViewComponentProps> = ({
     patterns,
     view,
-    matchForm,
+    configManager,
 }) => {
     const [searchTerm, setSearchTerm] = useState("");
+    const [matchFormData, setMatchFormData] = useState<Pattern | null>(null);
+    const [matchFormVisible, setMatchFormVisible] = useState(false);
+
+    const showMatchForm = (pattern: Pattern | null) => {
+        setMatchFormData(pattern);
+        setMatchFormVisible(true);
+    };
 
     const filteredCategories = (() => {
         const grouped = patterns.reduce(
@@ -296,6 +303,17 @@ const ConfigViewComponent: React.FC<ConfigViewComponentProps> = ({
         }
       `}</style>
 
+            <MatchFormComponent
+                configManager={configManager}
+                isVisible={matchFormVisible}
+                initialData={matchFormData}
+                onClose={() => {
+                    setMatchFormVisible(false);
+                    setMatchFormData(null);
+                }}
+                view={view}
+            />
+
             <div style={styles.header}>
                 <h2 style={styles.title}>LaTeX Shortcuts Reference</h2>
                 <div style={styles.buttonGroup}>
@@ -304,7 +322,7 @@ const ConfigViewComponent: React.FC<ConfigViewComponentProps> = ({
                             ...styles.button,
                             border: "1px solid var(--background-modifier-success)",
                         }}
-                        onClick={() => matchForm.show()}
+                        onClick={() => showMatchForm(null)}
                     >
                         New Shortcut
                     </button>
@@ -329,7 +347,7 @@ const ConfigViewComponent: React.FC<ConfigViewComponentProps> = ({
                             category={category}
                             patterns={categoryPatterns}
                             view={view}
-                            matchForm={matchForm}
+                            showMatchForm={showMatchForm}
                         />
                     ),
                 )}

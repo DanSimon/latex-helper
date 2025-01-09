@@ -1,19 +1,273 @@
-import { MarkdownView } from "obsidian";
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { Pattern } from "../config";
+import * as ReactDOM from "react-dom";
+import { ConfigManager, Pattern } from "../config";
 import CategorySelector from "./CategorySelector";
 import ReplacementsList from "./ReplacementListComponent";
+import { ItemView } from "obsidian";
 
 interface MatchFormProps {
+    configManager: ConfigManager;
     isVisible: boolean;
     onClose: () => void;
-    onSave: (pattern: Pattern) => void;
-    onDelete?: () => void;
-    initialData?: Pattern;
-    allCategories: string[];
-    view: MarkdownView;
+    initialData: Pattern | null;
+    view: ItemView;
 }
+
+const MatchFormComponent: React.FC<MatchFormProps> = ({
+    configManager,
+    isVisible,
+    onClose,
+    initialData,
+    view,
+}) => {
+    // Form field states
+    const [pattern, setPattern] = useState("");
+    const [replacements, setReplacements] = useState<string[]>([""]);
+    const [selectedCategory, setSelectedCategory] = useState("");
+    const [isRegex, setIsRegex] = useState(false);
+    const [isFastReplace, setIsFastReplace] = useState(false);
+    const [isNormalMode, setIsNormalMode] = useState(false);
+    const [testInput, setTestInput] = useState("");
+    const [regexError, setRegexError] = useState<string | null>(null);
+    const [matches, setMatches] = useState<RegExpMatchArray | null>(null);
+
+    // Get all categories for the selector
+    const allCategories = Array.from(
+        new Set(
+            configManager.config.patterns.flatMap((p) =>
+                p.category ? [p.category] : [],
+            ),
+        ),
+    ).sort();
+
+    // Reset form when opened with new data
+    useEffect(() => {
+        if (isVisible) {
+            if (initialData) {
+                setPattern(initialData.pattern);
+                setIsRegex(initialData.type === "regex");
+                setIsFastReplace(initialData.fastReplace || false);
+                setSelectedCategory(initialData.category || "");
+                setReplacements(initialData.replacements);
+                setIsNormalMode(initialData.normalMode || false);
+            } else {
+                resetForm();
+            }
+        }
+    }, [isVisible, initialData]);
+
+    // Reset form state
+    const resetForm = () => {
+        setPattern("");
+        setIsRegex(false);
+        setIsFastReplace(false);
+        setIsNormalMode(false);
+        setSelectedCategory("");
+        setReplacements([""]);
+        setTestInput("");
+        setRegexError(null);
+        setMatches(null);
+    };
+
+    // Test regex patterns
+    useEffect(() => {
+        if (isRegex && pattern && testInput) {
+            try {
+                const regex = new RegExp(pattern);
+                const matches = testInput.match(regex);
+                setMatches(matches);
+                setRegexError(null);
+            } catch (error) {
+                setRegexError(error.message);
+                setMatches(null);
+            }
+        } else {
+            setMatches(null);
+            setRegexError(null);
+        }
+    }, [isRegex, pattern, testInput]);
+
+    const handleSave = () => {
+        if (initialData) {
+            // Remove old pattern if editing
+            const oldPatternIndex = configManager.config.patterns.findIndex(
+                (p) => p.pattern === initialData.pattern,
+            );
+            if (oldPatternIndex !== -1) {
+                configManager.config.patterns.splice(oldPatternIndex, 1);
+            }
+        }
+
+        // Add new pattern
+        const newPattern: Pattern = {
+            pattern,
+            replacements,
+            normalMode: isNormalMode,
+            ...(isRegex && { type: "regex" }),
+            ...(isFastReplace && { fastReplace: true }),
+            ...(selectedCategory && { category: selectedCategory }),
+        };
+
+        configManager.config.patterns.push(newPattern);
+        configManager.updateConfig();
+        onClose();
+    };
+
+    const handleDelete = () => {
+        if (!initialData) return;
+
+        if (confirm("Delete this Pattern?")) {
+            const patternIndex = configManager.config.patterns.findIndex(
+                (p) => p.pattern === initialData.pattern,
+            );
+
+            if (patternIndex !== -1) {
+                configManager.config.patterns.splice(patternIndex, 1);
+                configManager.updateConfig();
+            }
+            onClose();
+        }
+    };
+
+    if (!isVisible) return null;
+
+    const html = (
+        <div style={styles.modal}>
+            <div style={styles.content}>
+                <h2 style={styles.title}>
+                    {initialData ? "Edit Pattern" : "Create New Pattern"}
+                </h2>
+
+                <div style={styles.formGroup}>
+                    <label style={styles.label}>Pattern:</label>
+                    <input
+                        type="text"
+                        value={pattern}
+                        onChange={(e) => setPattern(e.target.value)}
+                        style={styles.input}
+                    />
+                </div>
+
+                {/* Checkbox options */}
+                <div style={styles.checkboxGroup}>
+                    <label style={styles.checkboxLabel}>
+                        <input
+                            type="checkbox"
+                            checked={isRegex}
+                            onChange={(e) => setIsRegex(e.target.checked)}
+                        />
+                        <span>Regex Pattern</span>
+                    </label>
+
+                    <label style={styles.checkboxLabel}>
+                        <input
+                            type="checkbox"
+                            checked={isNormalMode}
+                            onChange={(e) => setIsNormalMode(e.target.checked)}
+                        />
+                        <span>Normal Mode</span>
+                    </label>
+
+                    <label style={styles.checkboxLabel}>
+                        <input
+                            type="checkbox"
+                            checked={isFastReplace}
+                            onChange={(e) => setIsFastReplace(e.target.checked)}
+                            disabled={replacements.length > 1}
+                        />
+                        <span>Fast Replace</span>
+                        {isFastReplace && (
+                            <span style={styles.fastReplaceIcon}>⚡</span>
+                        )}
+                    </label>
+                </div>
+
+                {/* Category selector */}
+                <div style={styles.categoryContainer}>
+                    <label style={styles.label}>Category:</label>
+                    <CategorySelector
+                        allCategories={allCategories}
+                        selectedCategory={selectedCategory}
+                        onSelect={setSelectedCategory}
+                    />
+                </div>
+
+                {/* Regex test section */}
+                {isRegex && (
+                    <div style={styles.testSection}>
+                        <label style={styles.label}>
+                            Test your regex pattern:
+                        </label>
+                        <input
+                            type="text"
+                            value={testInput}
+                            onChange={(e) => setTestInput(e.target.value)}
+                            placeholder="Enter test text..."
+                            style={styles.testInput}
+                        />
+
+                        {regexError && (
+                            <div style={styles.errorText}>
+                                Error: {regexError}
+                            </div>
+                        )}
+
+                        {matches && matches.length > 0 && (
+                            <div style={styles.matchResults}>
+                                {matches.map((match, idx) => (
+                                    <div key={idx} style={styles.matchGroup}>
+                                        <span style={styles.matchLabel}>
+                                            {idx === 0
+                                                ? "Full match:"
+                                                : `Group ${idx}:`}
+                                        </span>
+                                        <span style={styles.matchValue}>
+                                            {match}
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                )}
+
+                {/* Replacements section */}
+                <ReplacementsList
+                    replacements={replacements}
+                    onReplacementsChange={setReplacements}
+                    isRegex={isRegex}
+                    matches={matches}
+                    onFastReplaceChange={(enabled) => setIsFastReplace(enabled)}
+                    view={view}
+                />
+
+                {/* Action buttons */}
+                <div style={styles.buttonGroup}>
+                    <div>
+                        <button onClick={handleSave} style={styles.saveButton}>
+                            Save
+                        </button>
+                        <button onClick={onClose} style={styles.cancelButton}>
+                            Cancel
+                        </button>
+                    </div>
+                    {initialData && (
+                        <button
+                            onClick={handleDelete}
+                            style={styles.deleteButton}
+                        >
+                            Delete
+                        </button>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+    return ReactDOM.createPortal(html, document.body);
+};
+
+// Styles remain the same...
 
 // Styles object from original component...
 const styles = {
@@ -68,6 +322,12 @@ const styles = {
         display: "flex",
         alignItems: "center",
         gap: "0.5rem",
+    },
+    categoryContainer: {
+        display: "flex",
+        marginBottom: "0.5rem",
+        alignItems: "center",
+        gap: "0.25rem",
     },
     categoryLabel: {
         display: "inline",
@@ -130,6 +390,7 @@ const styles = {
         backgroundColor: "var(--background-secondary)",
         borderRadius: "4px",
     },
+    matchResults: { display: "flex" },
     matchGroup: {
         display: "flex",
         gap: "0.5rem",
@@ -152,263 +413,5 @@ const styles = {
         marginTop: "0.5rem",
     },
 } as const;
-
-const MatchFormComponent = React.memo(
-    ({
-        isVisible,
-        onClose,
-        onSave,
-        onDelete,
-        initialData,
-        allCategories,
-        view,
-    }: MatchFormProps) => {
-        const [pattern, setPattern] = useState("");
-        const [replacements, setReplacements] = useState<string[]>([""]);
-        const [selectedCategory, setSelectedCategory] = useState(
-            initialData?.category || "",
-        );
-        const [isRegex, setIsRegex] = useState(false);
-        const [isFastReplace, setIsFastReplace] = useState(false);
-        const [isNormalMode, setIsNormalMode] = useState(false);
-        const [testInput, setTestInput] = useState("");
-        const [regexError, setRegexError] = useState<string | null>(null);
-
-        // State for regex matches
-        const [matches, setMatches] = useState<RegExpMatchArray | null>(null);
-
-        useEffect(() => {
-            if (initialData) {
-                setPattern(initialData.pattern);
-                setIsRegex(initialData.type === "regex");
-                setIsFastReplace(initialData.fastReplace || false);
-                setSelectedCategory(initialData.category || "");
-                setReplacements(initialData.replacements);
-                setIsNormalMode(initialData.normalMode || false);
-            }
-        }, [initialData]);
-
-        useEffect(() => {
-            if (!isVisible) {
-                resetForm();
-            }
-        }, [isVisible]);
-
-        const resetForm = () => {
-            setPattern("");
-            setIsRegex(false);
-            setIsFastReplace(false);
-            setIsNormalMode(false);
-            setSelectedCategory("");
-            setReplacements([""]);
-            setTestInput("");
-            setRegexError(null);
-            setMatches(null);
-        };
-
-        // Test the regex pattern against the test input
-        useEffect(() => {
-            if (isRegex && pattern && testInput) {
-                try {
-                    const regex = new RegExp(pattern);
-                    const matches = testInput.match(regex);
-                    setMatches(matches);
-                    setRegexError(null);
-                } catch (error) {
-                    setRegexError(error.message);
-                    setMatches(null);
-                }
-            } else {
-                setMatches(null);
-                setRegexError(null);
-            }
-        }, [isRegex, pattern, testInput]);
-
-        // Component render...
-        if (!isVisible) return null;
-
-        return (
-            <div style={styles.modal}>
-                <div style={styles.content}>
-                    <h2 style={styles.title}>
-                        {initialData ? "Edit Shortcut" : "Create New Shortcut"}
-                    </h2>
-
-                    <div style={styles.formGroup}>
-                        <label style={styles.label}>Pattern:</label>
-                        <input
-                            type="text"
-                            value={pattern}
-                            onChange={(e) => setPattern(e.target.value)}
-                            style={styles.input}
-                        />
-                    </div>
-
-                    {/* Checkbox options */}
-                    <div style={styles.checkboxGroup}>
-                        <label style={styles.checkboxLabel}>
-                            <input
-                                type="checkbox"
-                                checked={isRegex}
-                                onChange={(e) => setIsRegex(e.target.checked)}
-                            />
-                            <span>Regex Pattern</span>
-                        </label>
-
-                        <label style={styles.checkboxLabel}>
-                            <input
-                                type="checkbox"
-                                checked={isNormalMode}
-                                onChange={(e) =>
-                                    setIsNormalMode(e.target.checked)
-                                }
-                            />
-                            <span>Normal Mode</span>
-                        </label>
-
-                        <label style={styles.checkboxLabel}>
-                            <input
-                                type="checkbox"
-                                checked={isFastReplace}
-                                onChange={(e) =>
-                                    setIsFastReplace(e.target.checked)
-                                }
-                                disabled={replacements.length > 1}
-                            />
-                            <span>Fast Replace</span>
-                            {isFastReplace && (
-                                <span style={styles.fastReplaceIcon}>⚡</span>
-                            )}
-                        </label>
-                    </div>
-
-                    {/* Category selector */}
-                    <div
-                        style={{
-                            display: "flex",
-                            marginBottom: "0.5rem",
-                            alignItems: "center",
-                            gap: "0.25rem",
-                        }}
-                    >
-                        <label style={{ display: "flex" }}>Category:</label>
-                        <CategorySelector
-                            allCategories={allCategories}
-                            selectedCategory={selectedCategory}
-                            onSelect={setSelectedCategory}
-                        />
-                    </div>
-
-                    {/* Regex test section */}
-                    {isRegex && (
-                        <div style={styles.testSection}>
-                            <label style={styles.label}>
-                                Test your regex pattern:
-                            </label>
-                            <input
-                                type="text"
-                                value={testInput}
-                                onChange={(e) => setTestInput(e.target.value)}
-                                placeholder="Enter test text..."
-                                style={styles.testInput}
-                            />
-
-                            {regexError && (
-                                <div style={styles.errorText}>
-                                    Error: {regexError}
-                                </div>
-                            )}
-
-                            {(!matches || matches.length == 0) && (
-                                <div style={styles.matchGroup}>
-                                    <span style={styles.matchLabel}>
-                                        No Match
-                                    </span>
-                                </div>
-                            )}
-
-                            {matches && matches.length > 0 && (
-                                <div style={{ display: "flex" }}>
-                                    {matches.map((match, idx) => (
-                                        <div
-                                            key={idx}
-                                            style={styles.matchGroup}
-                                        >
-                                            <span style={styles.matchLabel}>
-                                                {idx === 0
-                                                    ? "Full match:"
-                                                    : `Group ${idx}:`}
-                                            </span>
-                                            <span style={styles.matchValue}>
-                                                {match}
-                                            </span>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    )}
-
-                    {/* Replacements section */}
-                    <ReplacementsList
-                        replacements={replacements}
-                        onReplacementsChange={setReplacements}
-                        isRegex={isRegex}
-                        matches={matches}
-                        onFastReplaceChange={(enabled) =>
-                            setIsFastReplace(enabled)
-                        }
-                        view={view}
-                    />
-
-                    {/* Action buttons */}
-                    <div style={styles.buttonGroup}>
-                        <div>
-                            <button
-                                onClick={() => {
-                                    const newPattern: Pattern = {
-                                        pattern,
-                                        replacements,
-                                        normalMode: isNormalMode,
-                                        ...(isRegex && { type: "regex" }),
-                                        ...(isFastReplace && {
-                                            fastReplace: true,
-                                        }),
-                                        ...(selectedCategory && {
-                                            category: selectedCategory,
-                                        }),
-                                    };
-                                    onSave(newPattern);
-                                }}
-                                style={styles.saveButton}
-                            >
-                                Save
-                            </button>
-                            <button
-                                onClick={onClose}
-                                style={styles.cancelButton}
-                            >
-                                Cancel
-                            </button>
-                        </div>
-                        {onDelete && (
-                            <button
-                                onClick={() => {
-                                    if (confirm("Delete this Pattern?")) {
-                                        onDelete();
-                                        onClose();
-                                    }
-                                }}
-                                style={styles.deleteButton}
-                            >
-                                Delete
-                            </button>
-                        )}
-                    </div>
-                </div>
-            </div>
-        );
-    },
-);
 
 export default MatchFormComponent;

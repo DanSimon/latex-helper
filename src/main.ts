@@ -2,7 +2,6 @@ import { Editor, MarkdownView, Modifier, Platform, Plugin } from "obsidian";
 
 import { ConfigManager } from "./config";
 import { CursorWord, SuggestionPopup, TextMode } from "./suggestion_popup";
-import { MatchForm } from "./match_form";
 import { Prec } from "@codemirror/state";
 import { latexNavigation } from "./tab_extension";
 import { WordPopupSettingTab } from "./settings";
@@ -13,14 +12,11 @@ import { RIBBON_VIEW_TYPE, RibbonView } from "./ribbon_view";
 export default class WordPopupPlugin extends Plugin {
     configManager: ConfigManager;
     suggestionPopup: SuggestionPopup;
-    matchForm: MatchForm;
 
     async onload() {
         this.configManager = new ConfigManager(this);
         await this.configManager.loadConfig();
         this.suggestionPopup = new SuggestionPopup(this.configManager);
-        this.matchForm = new MatchForm(this.configManager);
-        this.addChild(this.matchForm);
 
         // Register editor change event
         this.registerEvent(
@@ -49,7 +45,7 @@ export default class WordPopupPlugin extends Plugin {
 
         this.registerView(
             RIBBON_VIEW_TYPE,
-            (leaf) => new RibbonView(leaf, this.configManager, this.matchForm),
+            (leaf) => new RibbonView(leaf, this.configManager),
         );
 
         // Add a ribbon icon to activate the view

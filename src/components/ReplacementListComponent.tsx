@@ -1,6 +1,7 @@
-import { MarkdownView, MarkdownRenderer } from "obsidian";
+import { ItemView, MarkdownRenderer } from "obsidian";
 import * as React from "react";
-import { fillLatexBraces } from "../latex_utils";
+import { fillLatexBraces, fillLatexHtmlBraces } from "../latex_utils";
+import LatexDisplay from "./LatexDisplay";
 
 interface ReplacementsListProps {
     replacements: string[];
@@ -8,7 +9,7 @@ interface ReplacementsListProps {
     isRegex: boolean;
     matches: RegExpMatchArray | null;
     onFastReplaceChange?: (enabled: boolean) => void;
-    view: MarkdownView;
+    view: ItemView;
 }
 
 // Add drag handle icon component
@@ -77,10 +78,7 @@ const styles = {
         marginBottom: "1rem",
     },
     previewText: {
-        color: "var(--text-accent)",
-        fontSize: "0.9rem",
-        marginLeft: "1rem",
-        marginTop: "0.25rem",
+        marginRight: "2rem",
     },
 } as const;
 
@@ -194,34 +192,52 @@ const ReplacementsList: React.FC<ReplacementsListProps> = React.memo(
                             />
                         </div>
                         {(() => {
-                            if (isRegex && matches && matches.length > 0) {
-                                return (
-                                    <div style={styles.previewText}>
-                                        Preview:{" "}
-                                        {generatePreview(replacement, matches)}
-                                    </div>
-                                );
-                            } else if (replacement.length > 0) {
-                                return (
+                            const preview = (() => {
+                                if (isRegex && matches && matches.length > 0) {
+                                    return generatePreview(
+                                        replacement,
+                                        matches,
+                                    );
+                                } else {
+                                    return replacement;
+                                }
+                            })();
+                            return (
+                                <div
+                                    style={{
+                                        display: "flex",
+                                    }}
+                                >
+                                    {preview && (
+                                        <div
+                                            className="rendered-math"
+                                            ref={(el) => {
+                                                if (el) {
+                                                    el.empty();
+                                                    MarkdownRenderer.render(
+                                                        view.app,
+                                                        `$${preview}$`,
+                                                        el,
+                                                        "",
+                                                        view,
+                                                    );
+                                                }
+                                            }}
+                                            style={styles.previewText}
+                                        ></div>
+                                    )}
                                     <div
-                                        ref={(el) => {
-                                            if (el) {
-                                                el.empty();
-                                                MarkdownRenderer.render(
-                                                    view.app,
-                                                    `$${fillLatexBraces(replacement, fillerColor)}$`,
-                                                    el,
-                                                    "",
-                                                    view,
-                                                );
-                                            }
+                                        style={{
+                                            color: "var(--text-muted)",
                                         }}
-                                        style={styles.previewText}
-                                    ></div>
-                                );
-                            } else {
-                                return null;
-                            }
+                                    >
+                                        <LatexDisplay
+                                            command={preview}
+                                            color={fillerColor}
+                                        />
+                                    </div>
+                                </div>
+                            );
                         })()}
                         {replacements.length > 1 && (
                             <button

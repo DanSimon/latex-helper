@@ -3,13 +3,11 @@ import { useState } from "react";
 import { ItemView } from "obsidian";
 import ConfigViewComponent from "./ConfigViewComponent";
 import SymbolReferenceView from "./SymbolReferenceView";
-import { MatchForm } from "../match_form";
 import { ConfigManager } from "../config";
 
 interface UnifiedLatexViewProps {
     view: ItemView;
     configManager: ConfigManager;
-    matchForm: MatchForm;
 }
 
 const styles = {
@@ -75,7 +73,6 @@ const TabButton: React.FC<{
 const UnifiedLatexView: React.FC<UnifiedLatexViewProps> = ({
     view,
     configManager,
-    matchForm,
 }) => {
     const [activeTab, setActiveTab] = useState<"shortcuts" | "reference">(
         "shortcuts",
@@ -103,7 +100,7 @@ const UnifiedLatexView: React.FC<UnifiedLatexViewProps> = ({
                     <ConfigViewComponent
                         patterns={configManager.config.patterns}
                         view={view}
-                        matchForm={matchForm}
+                        configManager={configManager}
                     />
                 ) : (
                     <SymbolReferenceView
