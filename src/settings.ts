@@ -39,6 +39,8 @@ export class WordPopupSettingTab extends PluginSettingTab {
 
         containerEl.createEl("h2", { text: "LaTeX Word Popup Settings" });
 
+        // Fast Replace Settings
+        containerEl.createEl("h3", { text: "Fast Replace Settings" });
         new Setting(containerEl)
             .setName("Enable Fast Replace Shortcuts")
             .setDesc(
@@ -73,6 +75,9 @@ export class WordPopupSettingTab extends PluginSettingTab {
                         await this.plugin.configManager.updateConfig();
                     }),
             );
+
+        // Suggestion Behavior
+        containerEl.createEl("h3", { text: "Suggestion Behavior" });
         new Setting(containerEl)
             .setName("Include Fuzzy Search Results")
             .setDesc(
@@ -110,6 +115,33 @@ export class WordPopupSettingTab extends PluginSettingTab {
             );
 
         new Setting(containerEl)
+            .setName("Minimum characters for suggestions")
+            .setDesc(
+                "The minimum number of characters to type before showing auto-complete suggestions",
+            )
+            .addDropdown((dropdown) =>
+                dropdown
+                    .addOptions(
+                        Object.fromEntries(
+                            Array.from({ length: 10 }, (_, i) => [
+                                i + 1,
+                                (i + 1).toString(),
+                            ]),
+                        ),
+                    )
+                    .setValue(
+                        this.plugin.configManager.config.settings.minAlphaSuggestChars.toString(),
+                    )
+                    .onChange(async (value) => {
+                        this.plugin.configManager.config.settings.minAlphaSuggestChars =
+                            parseInt(value);
+                        await this.plugin.configManager.updateConfig();
+                    }),
+            );
+
+        // Navigation and Input Mode
+        containerEl.createEl("h3", { text: "Navigation and Input Mode" });
+        new Setting(containerEl)
             .setName("Trigger Key")
             .setDesc(
                 'Hotkey to trigger suggestions (e.g., "Ctrl+Space", "Cmd+E")',
@@ -133,7 +165,7 @@ export class WordPopupSettingTab extends PluginSettingTab {
         new Setting(containerEl)
             .setName("Enable Shortcuts in Normal Mode")
             .setDesc(
-                "Enable shortcuts while typing in normal mode (not inside '$' or '$$' tags).  Applied shortcuts will automatically be wrapped in '$' tags",
+                "Enable shortcuts while typing in normal mode (not inside '$' or '$$' tags). Applied shortcuts will automatically be wrapped in '$' tags",
             )
             .addToggle((toggle) =>
                 toggle
@@ -147,6 +179,7 @@ export class WordPopupSettingTab extends PluginSettingTab {
                         await this.plugin.configManager.updateConfig();
                     }),
             );
+
         new Setting(containerEl)
             .setName("Enable Smart Tab")
             .setDesc(
@@ -164,19 +197,6 @@ export class WordPopupSettingTab extends PluginSettingTab {
                         await this.plugin.configManager.updateConfig();
                     }),
             );
-
-        new Setting(containerEl)
-            .setName("Minimum alphanumeric characters to show auto-complete")
-            .setDesc(
-                "The minimum number of characters to type before showing the auto-complete suggestions",
-            )
-            .addSlider((slider) => {
-                slider.setLimits(1, 5, 1).onChange(async (value) => {
-                    this.plugin.configManager.config.settings.minAlphaSuggestChars =
-                        value;
-                    await this.plugin.configManager.updateConfig();
-                });
-            });
     }
 
     private normalizeKeyString(key: string): string {
