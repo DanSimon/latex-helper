@@ -22,6 +22,8 @@ export interface CursorWord {
     mode: TextMode;
 }
 
+export type ExecuteReplace = (removeChars: number, replacement: string) => void;
+
 export class SuggestionPopup {
     private container: HTMLDivElement;
     private currentMatch: CursorWord | null = null;
@@ -29,6 +31,7 @@ export class SuggestionPopup {
     private view: MarkdownView | null = null;
     private visible: boolean = false;
     private configManager: ConfigManager;
+    private executeReplace: ExecuteReplace | null;
 
     constructor(configManager: ConfigManager) {
         this.container = document.createElement("div");
@@ -42,19 +45,13 @@ export class SuggestionPopup {
         match: CursorWord,
         replacements: Suggestion[],
         view: MarkdownView,
+        executeReplace: ExecuteReplace,
     ): void {
         this.currentMatch = match;
         this.currentReplacements = replacements;
-        if (
-            this.configManager.config.settings.instantFastReplace &&
-            replacements.length > 0 &&
-            replacements[0].fastReplace
-        ) {
-            this.handleSelect(0);
-            return;
-        }
         this.view = view;
         this.visible = true;
+        this.executeReplace = executeReplace;
         this.render(x, y);
     }
 
@@ -69,19 +66,13 @@ export class SuggestionPopup {
         return this.visible;
     }
 
-    private findFirstBracePair(text: string): number | null {
-        const matches = text.match(/\\[a-zA-Z]+(\{\})+/);
-        if (!matches) return null;
-
-        const command = matches[0];
-        const bracketIndex = command.indexOf("{}");
-        if (bracketIndex === -1) return null;
-
-        return bracketIndex + matches.index! + 1;
-    }
-
     private handleSelect = (index: number) => {
-        if (!this.currentReplacements || !this.view || !this.currentMatch)
+        if (
+            !this.currentReplacements ||
+            !this.view ||
+            !this.currentMatch ||
+            !this.executeReplace
+        )
             return;
 
         const suggestion = this.currentReplacements[index];
@@ -90,23 +81,7 @@ export class SuggestionPopup {
                 ? `$${suggestion.replacement}$`
                 : suggestion.replacement;
 
-        const start = this.view.editor.offsetToPos(
-            this.view.editor.posToOffset(this.view.editor.getCursor()) -
-                suggestion.matchedString.length,
-        );
-        const end = this.view.editor.getCursor();
-
-        const view = this.view;
-        view.editor.replaceRange(replacement, start, end);
-
-        // Find cursor position if there are braces
-        const cursorOffset = this.findFirstBracePair(replacement);
-        if (cursorOffset !== null) {
-            const newCursorPos = view.editor.offsetToPos(
-                view.editor.posToOffset(start) + cursorOffset,
-            );
-            view.editor.setCursor(newCursorPos);
-        }
+        this.executeReplace(suggestion.matchedString.length, replacement);
 
         this.hide();
     };

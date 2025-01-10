@@ -5,7 +5,7 @@ import { CursorWord, SuggestionPopup, TextMode } from "./suggestion_popup";
 import { Prec } from "@codemirror/state";
 import { latexNavigation } from "./tab_extension";
 import { WordPopupSettingTab } from "./settings";
-import { hasUnclosedMathSection } from "./string_utils";
+import { findFirstBracePair, hasUnclosedMathSection } from "./string_utils";
 import { getMathBlockFromView, MathBlockType } from "./editor_utils";
 import { RIBBON_VIEW_TYPE, RibbonView } from "./ribbon_view";
 
@@ -23,13 +23,7 @@ export default class WordPopupPlugin extends Plugin {
             this.app.workspace.on(
                 "editor-change",
                 (editor: Editor, view: MarkdownView) => {
-                    if (
-                        this.configManager.config.settings
-                            .autoShowSuggestions ||
-                        this.suggestionPopup.isVisible()
-                    ) {
-                        this.showSuggestions(editor, view);
-                    }
+                    this.showSuggestions(editor, view, false);
                 },
             ),
         );
@@ -128,12 +122,16 @@ export default class WordPopupPlugin extends Plugin {
                 },
             ],
             editorCallback: (editor: Editor, view: MarkdownView) => {
-                this.showSuggestions(editor, view);
+                this.showSuggestions(editor, view, true);
             },
         });
     }
 
-    async showSuggestions(editor: Editor, view: MarkdownView) {
+    async showSuggestions(
+        editor: Editor,
+        view: MarkdownView,
+        isManual: boolean,
+    ) {
         const wordUnderCursor = this.getWordUnderCursor(editor);
         if (!wordUnderCursor) {
             this.suggestionPopup.hide();
@@ -144,6 +142,24 @@ export default class WordPopupPlugin extends Plugin {
             .getPropertyValue("--text-accent")
             .trim();
 
+        const executeReplacement = (numChars: number, replacement: string) => {
+            const start = view.editor.offsetToPos(
+                view.editor.posToOffset(view.editor.getCursor()) - numChars,
+            );
+            const end = view.editor.getCursor();
+
+            view.editor.replaceRange(replacement, start, end);
+
+            // Find cursor position if there are braces
+            const cursorOffset = findFirstBracePair(replacement);
+            if (cursorOffset !== null) {
+                const newCursorPos = view.editor.offsetToPos(
+                    view.editor.posToOffset(start) + cursorOffset,
+                );
+                view.editor.setCursor(newCursorPos);
+            }
+        };
+
         const suggestions = this.configManager.matcher.getSuggestions(
             wordUnderCursor,
             fillerColor,
@@ -151,7 +167,25 @@ export default class WordPopupPlugin extends Plugin {
             this.configManager.config.settings,
         );
 
-        if (suggestions.length > 0) {
+        if (
+            this.configManager.config.settings.instantFastReplace &&
+            suggestions.length > 0 &&
+            suggestions[0].fastReplace
+        ) {
+            const s = suggestions[0];
+            const finalReplacement =
+                wordUnderCursor.mode == TextMode.Normal
+                    ? `$${s.replacement}$`
+                    : s.replacement;
+            executeReplacement(s.matchedString.length, finalReplacement);
+            return;
+        }
+
+        if (
+            (isManual ||
+                this.configManager.config.settings.autoShowSuggestions) &&
+            suggestions.length > 0
+        ) {
             // https://forum.obsidian.md/t/is-there-a-way-to-get-the-pixel-position-from-the-cursor-position-in-the-editor/69506
             //@ts-ignore
             const coords = editor.coordsAtPos(editor.getCursor());
@@ -162,6 +196,7 @@ export default class WordPopupPlugin extends Plugin {
                 wordUnderCursor,
                 suggestions,
                 view,
+                executeReplacement,
             );
         } else {
             this.suggestionPopup.hide();

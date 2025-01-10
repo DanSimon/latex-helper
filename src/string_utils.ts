@@ -81,3 +81,14 @@ export function hasUnclosedMathSection(str: string): boolean {
     }
     return inMathMode;
 }
+
+export function findFirstBracePair(text: string): number | null {
+    const matches = text.match(/\\[a-zA-Z]+(\{\})+/);
+    if (!matches) return null;
+
+    const command = matches[0];
+    const bracketIndex = command.indexOf("{}");
+    if (bracketIndex === -1) return null;
+
+    return bracketIndex + matches.index! + 1;
+}
