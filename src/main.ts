@@ -8,6 +8,7 @@ import { WordPopupSettingTab } from "./settings";
 import { findFirstBracePair, hasUnclosedMathSection } from "./string_utils";
 import { getMathBlockFromView, MathBlockType } from "./editor_utils";
 import { RIBBON_VIEW_TYPE, RibbonView } from "./ribbon_view";
+import { debug } from "./debug_utils";
 
 export default class WordPopupPlugin extends Plugin {
     configManager: ConfigManager;
@@ -69,7 +70,7 @@ export default class WordPopupPlugin extends Plugin {
 
         this.registerHotkey();
 
-        console.log("Plugin Loaded");
+        debug("Plugin Loaded");
     }
 
     onunload() {
@@ -110,7 +111,6 @@ export default class WordPopupPlugin extends Plugin {
         const { modifiers, key } = this.parseHotkey(
             this.configManager.config.settings.triggerKey,
         );
-        console.log(`register hotkey '${modifiers}' + '${key}'`);
 
         this.addCommand({
             id: "trigger-latex-suggestions",
