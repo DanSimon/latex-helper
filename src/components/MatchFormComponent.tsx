@@ -14,13 +14,13 @@ interface MatchFormProps {
     view: ItemView;
 }
 
-const MatchFormComponent: React.FC<MatchFormProps> = ({
+const MatchFormComponent = ({
     configManager,
     isVisible,
     onClose,
     initialData,
     view,
-}) => {
+}: MatchFormProps) => {
     // Form field states
     const [pattern, setPattern] = useState("");
     const [replacements, setReplacements] = useState<string[]>([""]);

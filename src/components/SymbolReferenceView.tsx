@@ -23,45 +23,57 @@ const groupSymbols = (symbols: MathJaxSymbol[]) => {
     }, {});
 };
 
-const SymbolSection: React.FC<{
+interface SymbolSectionProps {
     letter: string;
     rendered: boolean;
     symbols: MathJaxSymbol[];
     view: ItemView;
     configManager: ConfigManager;
-}> = React.memo(({ letter, rendered, symbols, view, configManager }) => {
-    //console.log(`render ${letter}: ${rendered}`);
-    return (
-        <div id={`section-${letter}`} style={{ marginBottom: "2rem" }}>
-            <h2
-                style={{
-                    fontSize: "1.5rem",
-                    fontWeight: "bold",
-                    marginBottom: "1rem",
-                }}
-            >
-                {letter.toUpperCase()}
-            </h2>
-            <div>
-                {rendered &&
-                    symbols.map((symbol) => (
-                        <SymbolCard
-                            key={symbol.name}
-                            symbol={symbol}
-                            view={view}
-                            configManager={configManager}
-                        />
-                    ))}
-            </div>
-        </div>
-    );
-});
+}
 
-const SymbolCard: React.FC<{
+const SymbolSection = React.memo(
+    ({
+        letter,
+        rendered,
+        symbols,
+        view,
+        configManager,
+    }: SymbolSectionProps) => {
+        //console.log(`render ${letter}: ${rendered}`);
+        return (
+            <div id={`section-${letter}`} style={{ marginBottom: "2rem" }}>
+                <h2
+                    style={{
+                        fontSize: "1.5rem",
+                        fontWeight: "bold",
+                        marginBottom: "1rem",
+                    }}
+                >
+                    {letter.toUpperCase()}
+                </h2>
+                <div>
+                    {rendered &&
+                        symbols.map((symbol) => (
+                            <SymbolCard
+                                key={symbol.name}
+                                symbol={symbol}
+                                view={view}
+                                configManager={configManager}
+                            />
+                        ))}
+                </div>
+            </div>
+        );
+    },
+);
+
+interface SymbolCardProps {
     symbol: MathJaxSymbol;
     view: ItemView;
     configManager: ConfigManager;
-}> = ({ symbol, view, configManager }) => {
+}
+
+const SymbolCard = ({ symbol, view, configManager }: SymbolCardProps) => {
     const fillerColor = getComputedStyle(view.containerEl)
         .getPropertyValue("--text-accent")
         .trim();
@@ -178,7 +190,7 @@ const SymbolCard: React.FC<{
     );
 };
 
-const TableOfContents: React.FC<{ sections: string[] }> = ({ sections }) => {
+const TableOfContents = ({ sections }: { sections: string[] }) => {
     return (
         <div
             style={{
@@ -215,10 +227,13 @@ const TableOfContents: React.FC<{ sections: string[] }> = ({ sections }) => {
     );
 };
 
-const Header: React.FC<{
+const Header = ({
+    searchTerm,
+    onSearchChange,
+}: {
     searchTerm: string;
     onSearchChange: (value: string) => void;
-}> = ({ searchTerm, onSearchChange }) => {
+}) => {
     return (
         <div
             style={{
@@ -270,10 +285,13 @@ const Header: React.FC<{
     );
 };
 
-const SymbolReferenceView: React.FC<{
+const SymbolReferenceView = ({
+    configManager,
+    view,
+}: {
     configManager: ConfigManager;
     view: ItemView;
-}> = ({ configManager, view }) => {
+}) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [allSymbols, _] = useState<{ [key: string]: MathJaxSymbol[] }>(
         groupSymbols(LATEX_SYMBOLS),

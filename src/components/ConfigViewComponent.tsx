@@ -240,11 +240,11 @@ interface ConfigViewComponentProps {
     configManager: ConfigManager;
 }
 
-const ConfigViewComponent: React.FC<ConfigViewComponentProps> = ({
+const ConfigViewComponent = ({
     shortcuts,
     view,
     configManager,
-}) => {
+}: ConfigViewComponentProps) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [matchFormData, setMatchFormData] = useState<Shortcut | null>(null);
     const [matchFormVisible, setMatchFormVisible] = useState(false);

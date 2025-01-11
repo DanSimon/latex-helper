@@ -93,7 +93,7 @@ const generatePreview = (
     );
 };
 
-const ReplacementsList: React.FC<ReplacementsListProps> = React.memo(
+const ReplacementsList = React.memo(
     ({
         replacements,
         onReplacementsChange,
@@ -101,7 +101,7 @@ const ReplacementsList: React.FC<ReplacementsListProps> = React.memo(
         matches,
         onFastReplaceChange,
         view,
-    }) => {
+    }: ReplacementsListProps) => {
         const fillerColor = getComputedStyle(view.containerEl)
             .getPropertyValue("--text-accent")
             .trim();

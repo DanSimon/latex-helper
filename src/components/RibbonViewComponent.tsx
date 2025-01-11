@@ -43,11 +43,13 @@ const styles = {
     },
 } as const;
 
-const TabButton: React.FC<{
+interface TabButtonProps {
     active: boolean;
     onClick: () => void;
     children: React.ReactNode;
-}> = ({ active, onClick, children }) => (
+}
+
+const TabButton = ({ active, onClick, children }: TabButtonProps) => (
     <button
         onClick={onClick}
         style={{
