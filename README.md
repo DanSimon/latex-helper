@@ -19,7 +19,8 @@ Make your own shortcuts
 
 Easy-to-use interface for managing shortcuts, no config file editing required
 
-![Shortcut Screenshot](https://github.com/user-attachments/assets/ec06d8b8-b7a8-4389-9265-6c4b814ab09e)
+![shortcut editor](https://github.com/user-attachments/assets/c07a30d7-ca0f-4efb-8491-4f4c4433aaa3)
+
 
 Built-in comprehensive LaTeX symbol reference
 
@@ -97,10 +98,6 @@ These are all available in the LaTeX Helper settings page once the plugin is ins
 
 I have not really tested this extensively with any other plugins.  If you do see an issue, just file a github issue.
 
-
-## Contributing
-
-Contributions are welcome! Please read our contributing guidelines before submitting pull requests.
 
 ## License
 
