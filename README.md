@@ -63,14 +63,31 @@ Clicking the LaTeX Helper ribbon icon (Σ) will open the shortcut manager, allow
 ### LaTeX Reference
 The shortcut manager has a tab for LaTeX reference, which has entries for all commands supported in Obsidian.
 
-This reference is based on Dr. Carol Burns [MathJax Reference](https://onemathematicalcat.org//MathJaxDocumentation/TeXSyntax.htm), although significant modifications have been made.
+The reference data comes from the [Better MathJax Plugin](https://github.com/greasycat/BetterMathjax) which itself is taken from Dr. Carol Burns' [MathJax Reference](https://onemathematicalcat.org//MathJaxDocumentation/TeXSyntax.htm), although significant modifications have been made.
 
 ## Configuration
 
 ### Plugin Settings
-- `Include Fuzzy Search`: Enable/disable fuzzy matching for suggestions
-- `Auto-show Suggestions`: Toggle automatic suggestion popup
-- `Trigger Key`: Customize the shortcut to manually trigger suggestions
+
+These are all available in the LaTeX Helper settings page once the plugin is installed and activated:
+
+- **Enable Fast Replace Shortcuts**: When enabled, shortcuts marked as Fast Replace are bumped to the top of suggestions and are auto-applied when any key besides Esc is typed.
+
+- **Instant Fast Replace**: When enabled, fast-replace shortcuts are immediately applied without showing the suggestion popup.
+
+- **Include Fuzzy Search Results**: Include fuzzy search suggestions when no exact matches are found.
+
+- **Auto-show Suggestions**: When enabled, suggestions appear automatically while typing. If disabled, suggestions will only appear when using the trigger key.
+
+- **Trigger Key**: Customize the keyboard shortcut to manually trigger suggestions (e.g., "Ctrl+Space", "Cmd+E").
+
+- **Enable Shortcuts in Normal Mode**: Allow shortcuts while typing in normal mode (outside of math blocks). Applied shortcuts will automatically be wrapped in '$' tags.
+
+- **Enable Smart Tab**: When enabled, pressing [Tab] while in LaTeX command braces will jump to the next set of braces or the end of the command.
+
+- **Minimum Alphanumeric Characters**: Set the minimum number of characters required before showing auto-complete suggestions for alphabetic input (1-5 characters).
+
+- **Minimum Symbol Characters**: Set the minimum number of characters required before showing auto-complete suggestions for symbol input (default: 1).
 
 ### Using with Other Plugins
 
