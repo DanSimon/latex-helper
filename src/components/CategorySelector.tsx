@@ -122,7 +122,7 @@ const CategorySelector = ({
                 placeholder="Select or type a category"
                 style={styles.input}
             />
-            {inputValue && !allCategories.contains(inputValue) && (
+            {inputValue && !allCategories.includes(inputValue) && (
                 <span style={{ color: "var(--text-accent)", display: "flex" }}>
                     New Category
                 </span>
