@@ -1,12 +1,13 @@
 {
     "name": "latex-helper",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "Obsidian plugin that provides LaTeX auto-complete, shortcuts, and other features for writing LaTeX.",
     "main": "main.js",
     "scripts": {
         "dev": "node esbuild.config.mjs",
         "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
-        "test": "/usr/bin/jest"
+        "test": "jest",
+        "version": "node version-bump.mjs && git add manifest.json versions.json"
     },
     "keywords": [],
     "author": "",
