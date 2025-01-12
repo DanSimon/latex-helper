@@ -1,6 +1,6 @@
 import { MarkdownView } from "obsidian";
 import * as React from "react";
-import * as ReactDOM from "react-dom";
+import * as ReactDOM from "react-dom/client";
 import SuggestionPopupComponent from "./components/SuggestionPopupComponent";
 import { ConfigManager } from "./config";
 
@@ -32,10 +32,12 @@ export class SuggestionPopup {
     private visible: boolean = false;
     private configManager: ConfigManager;
     private executeReplace: ExecuteReplace | null;
+    private root: ReactDOM.Root;
 
     constructor(configManager: ConfigManager) {
         this.container = document.createElement("div");
         document.body.appendChild(this.container);
+        this.root = ReactDOM.createRoot(this.container);
         this.configManager = configManager;
     }
 
@@ -88,7 +90,7 @@ export class SuggestionPopup {
 
     private render(x: number, y: number) {
         // Always render the component, letting it handle its own visibility
-        ReactDOM.render(
+        this.root.render(
             React.createElement(SuggestionPopupComponent, {
                 x,
                 y,
@@ -104,13 +106,12 @@ export class SuggestionPopup {
                     !!this.view,
                 settings: this.configManager.config.settings,
             }),
-            this.container,
         );
     }
 
     destroy(): void {
         if (this.container && this.container.parentNode) {
-            ReactDOM.unmountComponentAtNode(this.container);
+            this.root.unmount();
             this.container.parentNode.removeChild(this.container);
         }
     }
