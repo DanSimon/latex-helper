@@ -44,7 +44,7 @@ export class SuggestionPopup {
     show(
         x: number,
         y: number,
-        match: CursorWord,
+        match: CursorWord | null,
         replacements: Suggestion[],
         view: MarkdownView,
         executeReplace: ExecuteReplace,
