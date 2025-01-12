@@ -31,3 +31,16 @@ jobs:
 
       - name: Run tests
         run: npm test
+
+      - name: Check version consistency
+        run: |
+          MANIFEST_VERSION=$(jq -r '.version' manifest.json)
+          PACKAGE_VERSION=$(jq -r '.version' package.json)
+
+          if [ "$MANIFEST_VERSION" != "$PACKAGE_VERSION" ]; then
+            echo "Version mismatch:"
+            echo "manifest.json version: $MANIFEST_VERSION"
+            echo "package.json version: $PACKAGE_VERSION"
+            exit 1
+          fi
+          echo "Versions match: $MANIFEST_VERSION"
