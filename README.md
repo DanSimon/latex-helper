@@ -2,6 +2,14 @@
 
 An Obsidian plugin to make writing LaTeX easier.
 
+[![Release](https://img.shields.io/github/v/release/dansimon/latex-helper?style=flat&sort=semver)](https://github.com/dansimon/latex-helper/releases/latest)
+[![Release Date](https://img.shields.io/github/release-date/dansimon/latex-helper)](https://github.com/dansimon/latex-helper/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/dansimon/latex-helper/total)](https://github.com/dansimon/latex-helper/releases)
+[![License](https://img.shields.io/github/license/dansimon/latex-helper)](https://github.com/dansimon/latex-helper/blob/master/LICENSE)
+
+[![Tests](https://github.com/dansimon/latex-helper/workflows/Code%20Quality%20%26%20Tests/badge.svg)](https://github.com/dansimon/latex-helper/actions/workflows/verify.yml)
+[![Security](https://github.com/dansimon/latex-helper/workflows/Security/badge.svg)](https://github.com/dansimon/latex-helper/actions/workflows/security.yml)
+
 ### ⚠️This plugin is in early development.  Use at your own risk
 
 
