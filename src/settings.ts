@@ -4,7 +4,6 @@ import WordPopupPlugin from "./main";
 export interface UserSettings {
     includeFuzzySuggestions: boolean;
     autoShowSuggestions: boolean;
-    triggerKey: string;
     enableFastReplace: boolean;
     instantFastReplace: boolean;
     enableNormalMode: boolean;
@@ -16,7 +15,6 @@ export interface UserSettings {
 export const DEFAULT_SETTINGS: UserSettings = {
     includeFuzzySuggestions: true,
     autoShowSuggestions: true,
-    triggerKey: "Ctrl+Space",
     enableFastReplace: true,
     instantFastReplace: true,
     enableNormalMode: false,
@@ -36,8 +34,6 @@ export class WordPopupSettingTab extends PluginSettingTab {
     display(): void {
         const { containerEl } = this;
         containerEl.empty();
-
-        containerEl.createEl("h2", { text: "LaTeX Word Popup Settings" });
 
         // Fast Replace Settings
         containerEl.createEl("h3", { text: "Fast Replace Settings" });
@@ -135,29 +131,6 @@ export class WordPopupSettingTab extends PluginSettingTab {
                     .onChange(async (value) => {
                         this.plugin.configManager.config.settings.minAlphaSuggestChars =
                             parseInt(value);
-                        await this.plugin.configManager.updateConfig();
-                    }),
-            );
-
-        // Navigation and Input Mode
-        containerEl.createEl("h3", { text: "Navigation and Input Mode" });
-        new Setting(containerEl)
-            .setName("Trigger Key")
-            .setDesc(
-                'Hotkey to trigger suggestions (e.g., "Ctrl+Space", "Cmd+E")',
-            )
-            .addText((text) =>
-                text
-                    .setPlaceholder("Ctrl+Space")
-                    .setValue(
-                        this.plugin.configManager.config.settings.triggerKey,
-                    )
-                    .onChange(async (value) => {
-                        // Normalize the key format
-                        const normalizedKey = this.normalizeKeyString(value);
-                        this.plugin.configManager.config.settings.triggerKey =
-                            normalizedKey;
-                        text.setValue(normalizedKey);
                         await this.plugin.configManager.updateConfig();
                     }),
             );

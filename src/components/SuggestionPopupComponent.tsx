@@ -59,6 +59,7 @@ const SuggestionPopupComponent = ({
 }: SuggestionPopupProps) => {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const popupRef = useRef<HTMLDivElement>(null);
+    const [hideTimeout, setHideTimeout] = useState<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         setSelectedIndex(0);
@@ -84,6 +85,7 @@ const SuggestionPopupComponent = ({
             // Handle fast replace for non-alphanumeric keys
             if (
                 settings.enableFastReplace &&
+                replacements.length > 0 &&
                 replacements[0].fastReplace &&
                 ![
                     "Escape",
@@ -147,8 +149,41 @@ const SuggestionPopupComponent = ({
         };
     }, [visible, replacements.length, selectedIndex, onSelect, onHide]);
 
-    if (!visible || !match || replacements.length === 0) {
+    useEffect(() => {
+        if (visible && !hideTimeout && (!match || replacements.length === 0)) {
+            const timeout = setTimeout(onHide, 2000);
+            setHideTimeout(timeout);
+        } else if (hideTimeout) {
+            clearTimeout(hideTimeout);
+            setHideTimeout(null);
+        }
+    }, [visible, replacements.length]);
+
+    if (!visible) {
         return <div style={{ display: "none" }} />;
+    }
+    if (!match || replacements.length === 0) {
+        return (
+            <div
+                ref={popupRef}
+                style={{
+                    position: "absolute",
+                    left: `${x + 5}px`,
+                    top: `${y}px`,
+                    background: "var(--background-primary)",
+                    border: "1px solid var(--background-modifier-border)",
+                    boxShadow: "0 2px 10px rgba(0,0,0,0.2)",
+                    zIndex: 50,
+                    display: "block",
+                    whiteSpace: "nowrap",
+                    padding: "2px",
+                }}
+            >
+                <span style={{ color: "var(--text-muted)" }}>
+                    (No Suggestions)
+                </span>
+            </div>
+        );
     }
 
     return (

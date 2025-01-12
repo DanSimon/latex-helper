@@ -64,11 +64,13 @@ export default class WordPopupPlugin extends Plugin {
 
         this.addSettingTab(new WordPopupSettingTab(this.app, this));
 
-        this.configManager.onChange.subscribe(() => {
-            this.registerHotkey();
+        this.addCommand({
+            id: "trigger-latex-suggestions",
+            name: "Trigger LaTeX Suggestions",
+            editorCallback: (editor: Editor, view: MarkdownView) => {
+                this.showSuggestions(editor, view, true);
+            },
         });
-
-        this.registerHotkey();
 
         debug("Plugin Loaded");
     }
@@ -77,63 +79,13 @@ export default class WordPopupPlugin extends Plugin {
         this.suggestionPopup.destroy();
     }
 
-    private parseHotkey(hotkeyStr: string): {
-        modifiers: Modifier[];
-        key: string;
-    } {
-        const parts = hotkeyStr.split("+"); //.map((p) => p.trim());
-        const key = parts[parts.length - 1].toLowerCase();
-
-        const modifiers: Modifier[] = parts.slice(0, -1).map((mod) => {
-            const normalized = mod.toLowerCase();
-            switch (normalized) {
-                case "ctrl":
-                case "control":
-                    return Platform.isMacOS ? "Mod" : "Ctrl";
-                case "cmd":
-                case "command":
-                case "meta":
-                    return Platform.isMacOS ? "Mod" : "Meta";
-                case "alt":
-                case "option":
-                    return "Alt";
-                case "shift":
-                    return "Shift";
-                default:
-                    return "Mod"; // fallback to Mod if unknown
-            }
-        });
-
-        return { modifiers, key };
-    }
-
-    private registerHotkey() {
-        const { modifiers, key } = this.parseHotkey(
-            this.configManager.config.settings.triggerKey,
-        );
-
-        this.addCommand({
-            id: "trigger-latex-suggestions",
-            name: "Trigger LaTeX Suggestions",
-            hotkeys: [
-                {
-                    modifiers: modifiers,
-                    key: key,
-                },
-            ],
-            editorCallback: (editor: Editor, view: MarkdownView) => {
-                this.showSuggestions(editor, view, true);
-            },
-        });
-    }
-
     async showSuggestions(
         editor: Editor,
         view: MarkdownView,
         isManual: boolean,
     ) {
         const wordUnderCursor = this.getWordUnderCursor(editor);
-        if (!wordUnderCursor) {
+        if (!isManual && !wordUnderCursor) {
             this.suggestionPopup.hide();
             return;
         }
@@ -160,12 +112,18 @@ export default class WordPopupPlugin extends Plugin {
             }
         };
 
-        const suggestions = this.configManager.matcher.getSuggestions(
-            wordUnderCursor,
-            fillerColor,
-            9,
-            this.configManager.config.settings,
-        );
+        const suggestions = (() => {
+            if (wordUnderCursor) {
+                return this.configManager.matcher.getSuggestions(
+                    wordUnderCursor,
+                    fillerColor,
+                    9,
+                    this.configManager.config.settings,
+                );
+            } else {
+                return [];
+            }
+        })();
 
         if (
             this.configManager.config.settings.instantFastReplace &&
@@ -174,7 +132,7 @@ export default class WordPopupPlugin extends Plugin {
         ) {
             const s = suggestions[0];
             const finalReplacement =
-                wordUnderCursor.mode == TextMode.Normal
+                wordUnderCursor?.mode == TextMode.Normal
                     ? `$${s.replacement}$`
                     : s.replacement;
             executeReplacement(s.matchedString.length, finalReplacement);
@@ -182,9 +140,9 @@ export default class WordPopupPlugin extends Plugin {
         }
 
         if (
-            (isManual ||
-                this.configManager.config.settings.autoShowSuggestions) &&
-            suggestions.length > 0
+            isManual ||
+            (this.configManager.config.settings.autoShowSuggestions &&
+                suggestions.length > 0)
         ) {
             // https://forum.obsidian.md/t/is-there-a-way-to-get-the-pixel-position-from-the-cursor-position-in-the-editor/69506
             //@ts-ignore
