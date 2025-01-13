@@ -42,16 +42,16 @@ This plugin is not yet a published community plugin, however there are two ways 
 
 ### Install with BRAT
 
-[BRAT](https://github.com/TfTHacker/obsidian42-brat) is an Obsidian plugin for beta testing plugins.  It is available as a community plugin.
+[BRAT](https://github.com/TfTHacker/obsidian42-brat) is an Obsidian plugin for beta testing plugins. It is available as a community plugin.
 
 To install this plugin with BRAT:
 
-1. Make sure you have BRAT installed and enabled.  You should see a page for BRAT in the community plugins section of your Obsidian settings.
+1. Make sure you have BRAT installed and enabled. You should see a page for BRAT in the community plugins section of your Obsidian settings.
 2. Go to the BRAT settings and click "Add Beta plugin"
 3. Paste this plugin's github url into the box: `https://github.com/DanSimon/latex-helper`
 4. Click "Add Plugin"
 
-The plugin should now be installed and enabled.  You should see a new settings page for Latex Helper in community plugins.
+The plugin should now be installed and enabled. You should see a new settings page for Latex Helper in community plugins.
 
 Currently I am not publishing beta releases, so this will just install the latest release.
 
@@ -105,7 +105,7 @@ The reference data comes from the [Better MathJax Plugin](https://github.com/gre
 
 By default, LaTeX Helper will automatically show the autocomplete suggestions
 when it detects a matching completion for the word or symbol you're currently
-typing.  However you can instead configure autocomplete to only appear when you
+typing. However you can instead configure autocomplete to only appear when you
 hit the configured hotkey.
 
 Obsidian discourages plugins setting default hotkeys, so you'll have to set this up manually.
