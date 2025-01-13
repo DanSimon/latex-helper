@@ -39,16 +39,9 @@ const SymbolSection = React.memo(
         view,
         configManager,
     }: SymbolSectionProps) => {
-        //console.log(`render ${letter}: ${rendered}`);
         return (
-            <div id={`section-${letter}`} style={{ marginBottom: "2rem" }}>
-                <h2
-                    style={{
-                        fontSize: "1.5rem",
-                        fontWeight: "bold",
-                        marginBottom: "1rem",
-                    }}
-                >
+            <div id={`section-${letter}`} className="symbol-reference__section">
+                <h2 className="symbol-reference__section-title">
                     {letter.toUpperCase()}
                 </h2>
                 <div>
@@ -82,25 +75,12 @@ const SymbolCard = ({ symbol, view, configManager }: SymbolCardProps) => {
         ...symbol.suggestionConfig,
         ...configManager.config.symbolOverrides[symbol.name],
     };
+
     return (
-        <div
-            key={symbol.name}
-            style={{
-                position: "relative",
-                padding: "1rem",
-                border: "1px solid var(--background-modifier-border)",
-                borderRadius: "4px",
-                marginBottom: "1rem",
-            }}
-        >
-            <div style={{ marginBottom: "0.5rem" }}>
+        <div className="symbol-reference__card">
+            <div className="symbol-reference__card-header">
                 <span
-                    style={{
-                        marginLeft: "0.5rem",
-                        fontSize: "1.175rem",
-                        color: "var(--text-muted)",
-                        fontFamily: "monospace",
-                    }}
+                    className="symbol-reference__symbol"
                     dangerouslySetInnerHTML={{
                         __html: LatexUtils.fillLatexHtmlBraces(
                             symbol.name,
@@ -109,12 +89,7 @@ const SymbolCard = ({ symbol, view, configManager }: SymbolCardProps) => {
                     }}
                 />
                 <span
-                    style={{
-                        fontSize: "1.1rem",
-                        marginLeft: "1.0rem",
-                        padding: "4px",
-                    }}
-                    className="rendered-math"
+                    className="symbol-reference__preview rendered-math"
                     ref={(el) => {
                         if (el) {
                             el.empty();
@@ -138,37 +113,22 @@ const SymbolCard = ({ symbol, view, configManager }: SymbolCardProps) => {
                     configManager={configManager}
                 />
             </div>
-            <p
-                style={{
-                    fontSize: "0.875rem",
-                    color: "var(--text-normal)",
-                }}
-            >
+            <p className="symbol-reference__description">
                 {symbol.description}
             </p>
             {symbol.examples.length > 0 && (
-                <div>
+                <div className="symbol-reference__examples">
                     <h3>Examples</h3>
                     {symbol.examples.map((example) => (
                         <div
-                            style={{
-                                marginLeft: "1.0rem",
-                                borderLeft:
-                                    "solid 1px var(--background-modifier-border)",
-                            }}
+                            className="symbol-reference__example"
                             key={example}
                         >
-                            <pre
-                                style={{
-                                    marginTop: "1.0rem",
-                                    marginBottom: "0.3rem",
-                                }}
-                            >
+                            <pre className="symbol-reference__example-code">
                                 {example}
                             </pre>
                             <span
-                                style={{ marginLeft: "0.5rem" }}
-                                className="rendered-math"
+                                className="symbol-reference__example-preview rendered-math"
                                 ref={(el) => {
                                     if (el) {
                                         el.empty();
@@ -192,37 +152,16 @@ const SymbolCard = ({ symbol, view, configManager }: SymbolCardProps) => {
 
 const TableOfContents = ({ sections }: { sections: string[] }) => {
     return (
-        <div
-            style={{
-                position: "sticky",
-                top: 0,
-                borderRight: "1px solid var(--background-modifier-border)",
-                backgroundColor: "var(--background-primary)",
-                overflowY: "auto",
-            }}
-        >
-            <div>
-                {sections.map((section) => (
-                    <a
-                        key={section}
-                        href={`#section-${section}`}
-                        style={{
-                            display: "block",
-                            padding: "0.25rem",
-                            color: "var(--text-normal)",
-                            textDecoration: "none",
-                        }}
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.color = "var(--text-accent)";
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.color = "var(--text-normal)";
-                        }}
-                    >
-                        {section === "#" ? "#" : section.toUpperCase()}
-                    </a>
-                ))}
-            </div>
+        <div className="symbol-reference__toc">
+            {sections.map((section) => (
+                <a
+                    key={section}
+                    href={`#section-${section}`}
+                    className="symbol-reference__toc-link"
+                >
+                    {section === "#" ? "#" : section.toUpperCase()}
+                </a>
+            ))}
         </div>
     );
 };
@@ -235,50 +174,20 @@ const Header = ({
     onSearchChange: (value: string) => void;
 }) => {
     return (
-        <div
-            style={{
-                borderBottom: "1px solid var(--background-modifier-border)",
-                padding: "1rem",
-                backgroundColor: "var(--background-primary)",
-                display: "flex",
-                alignItems: "center",
-                overflowX: "clip",
-                gap: "1rem",
-            }}
-        >
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.5rem",
-                }}
-            >
-                <span style={{ fontSize: "1.2rem" }}>📚</span>
-                <h1
-                    style={{
-                        margin: 0,
-                        fontSize: "1.2rem",
-                        fontWeight: 600,
-                        color: "var(--text-normal)",
-                    }}
-                >
+        <div className="symbol-reference__header">
+            <div className="symbol-reference__title-container">
+                <span className="symbol-reference__icon">📚</span>
+                <h1 className="symbol-reference__title">
                     MathJax Symbol Reference
                 </h1>
             </div>
-            <div style={{ flexGrow: 1 }}>
+            <div className="symbol-reference__search">
                 <input
                     type="text"
                     placeholder="Search symbols..."
                     value={searchTerm}
                     onChange={(e) => onSearchChange(e.target.value)}
-                    style={{
-                        width: "100%",
-                        padding: "0.5rem",
-                        border: "1px solid var(--background-modifier-border)",
-                        borderRadius: "4px",
-                        backgroundColor: "var(--background-primary)",
-                        color: "var(--text-normal)",
-                    }}
+                    className="symbol-reference__search-input"
                 />
             </div>
         </div>
@@ -293,7 +202,7 @@ const SymbolReferenceView = ({
     view: ItemView;
 }) => {
     const [searchTerm, setSearchTerm] = useState("");
-    const [allSymbols, _] = useState<{ [key: string]: MathJaxSymbol[] }>(
+    const [allSymbols] = useState<{ [key: string]: MathJaxSymbol[] }>(
         groupSymbols(LATEX_SYMBOLS),
     );
     const [unrenderedSections, setUnrenderedSections] = useState(
@@ -306,19 +215,14 @@ const SymbolReferenceView = ({
         }),
     );
 
-    const searchResults = (() => {
-        if (searchTerm) {
-            return fuzzySearch.current.search(searchTerm);
-        } else {
-            return [];
-        }
-    })();
+    const searchResults = searchTerm
+        ? fuzzySearch.current.search(searchTerm)
+        : [];
     const sections = Object.keys(allSymbols).sort();
+
     const popSection = () => {
         if (unrenderedSections.length > 0) {
-            setUnrenderedSections((u) => {
-                return u.filter((v) => v != u[0]);
-            });
+            setUnrenderedSections((u) => u.filter((v) => v != u[0]));
         }
     };
 
@@ -329,22 +233,7 @@ const SymbolReferenceView = ({
     }, [unrenderedSections]);
 
     return (
-        <div
-            style={{
-                display: "flex",
-                flexDirection: "column",
-                height: "100%",
-            }}
-        >
-            <style>
-                {`
-          .rendered-math p {
-            display: inline;
-            margin: 0;
-            padding: 0;
-          }
-        `}
-            </style>
+        <div className="symbol-reference">
             <Header
                 searchTerm={searchTerm}
                 onSearchChange={(t) => {
@@ -352,50 +241,23 @@ const SymbolReferenceView = ({
                     setUnrenderedSections(sections);
                 }}
             />
-            <div
-                style={{
-                    display: "flex",
-                    flexGrow: 1,
-                    height: 0, // Required for proper flexbox scroll
-                }}
-            >
-                {searchTerm == "" && (
-                    <TableOfContents
-                        sections={Object.keys(allSymbols).sort()}
-                    />
-                )}
-                <div
-                    style={{
-                        flex: 1,
-                        padding: "0.5rem",
-                        overflowY: "auto",
-                        overflowX: "clip",
-                        height: "100%",
-                    }}
-                >
-                    <div
-                        style={{
-                            marginTop: "0.5rem",
-                            display: searchTerm != "" ? "block" : "none",
-                        }}
-                    >
-                        <SymbolSection
-                            rendered={true}
-                            key="search-results"
-                            letter={searchTerm}
-                            symbols={searchResults}
-                            view={view}
-                            configManager={configManager}
-                        />
-                    </div>
-
-                    <div
-                        style={{
-                            marginTop: "0.5rem",
-                            display: searchTerm == "" ? "block" : "none",
-                        }}
-                    >
-                        {sections.map((section) => (
+            <div className="symbol-reference__content">
+                {searchTerm == "" && <TableOfContents sections={sections} />}
+                <div className="symbol-reference__main">
+                    {searchTerm && (
+                        <div className="symbol-reference__search-results">
+                            <SymbolSection
+                                rendered={true}
+                                key="search-results"
+                                letter={searchTerm}
+                                symbols={searchResults}
+                                view={view}
+                                configManager={configManager}
+                            />
+                        </div>
+                    )}
+                    {!searchTerm &&
+                        sections.map((section) => (
                             <SymbolSection
                                 rendered={!unrenderedSections.contains(section)}
                                 key={section}
@@ -405,7 +267,6 @@ const SymbolReferenceView = ({
                                 configManager={configManager}
                             />
                         ))}
-                    </div>
                 </div>
             </div>
         </div>

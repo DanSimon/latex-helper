@@ -5,43 +5,10 @@ import ConfigViewComponent from "./ConfigViewComponent";
 import SymbolReferenceView from "./SymbolReferenceView";
 import { ConfigManager } from "../config";
 
-interface UnifiedLatexViewProps {
+interface RibbonViewProps {
     view: ItemView;
     configManager: ConfigManager;
 }
-
-const styles = {
-    container: {
-        display: "flex",
-        flexDirection: "column" as const,
-        height: "100%",
-    },
-    tabHeader: {
-        display: "flex",
-        borderBottom: "1px solid var(--background-modifier-border)",
-        backgroundColor: "var(--background-primary)",
-        padding: "0 1rem",
-    },
-    tabButton: {
-        padding: "0.5rem 1rem",
-        backgroundColor: "transparent",
-        border: "none",
-        borderBottom: "2px solid transparent",
-        color: "var(--text-muted)",
-        cursor: "pointer",
-        transition: "all 0.2s ease",
-        fontSize: "14px",
-        fontWeight: "500",
-    },
-    activeTab: {
-        borderBottom: "2px solid var(--text-accent)",
-        color: "var(--text-normal)",
-    },
-    content: {
-        flex: 1,
-        overflow: "hidden",
-    },
-} as const;
 
 interface TabButtonProps {
     active: boolean;
@@ -52,27 +19,13 @@ interface TabButtonProps {
 const TabButton = ({ active, onClick, children }: TabButtonProps) => (
     <button
         onClick={onClick}
-        style={{
-            ...styles.tabButton,
-            ...(active ? styles.activeTab : {}),
-        }}
-        onMouseEnter={(e) => {
-            if (!active) {
-                e.currentTarget.style.borderBottom =
-                    "2px solid var(--background-modifier-border)";
-            }
-        }}
-        onMouseLeave={(e) => {
-            if (!active) {
-                e.currentTarget.style.borderBottom = "2px solid transparent";
-            }
-        }}
+        className={`ribbon-view__tab ${active ? "ribbon-view__tab--active" : ""}`}
     >
         {children}
     </button>
 );
 
-const UnifiedLatexView: React.FC<UnifiedLatexViewProps> = ({
+const RibbonViewComponent: React.FC<RibbonViewProps> = ({
     view,
     configManager,
 }) => {
@@ -81,8 +34,8 @@ const UnifiedLatexView: React.FC<UnifiedLatexViewProps> = ({
     );
 
     return (
-        <div style={styles.container}>
-            <div style={styles.tabHeader}>
+        <div className="ribbon-view">
+            <div className="ribbon-view__header">
                 <TabButton
                     active={activeTab === "shortcuts"}
                     onClick={() => setActiveTab("shortcuts")}
@@ -97,7 +50,7 @@ const UnifiedLatexView: React.FC<UnifiedLatexViewProps> = ({
                 </TabButton>
             </div>
 
-            <div style={styles.content}>
+            <div className="ribbon-view__content">
                 {activeTab === "shortcuts" ? (
                     <ConfigViewComponent
                         shortcuts={configManager.config.shortcuts}
@@ -115,4 +68,4 @@ const UnifiedLatexView: React.FC<UnifiedLatexViewProps> = ({
     );
 };
 
-export default UnifiedLatexView;
+export default RibbonViewComponent;
