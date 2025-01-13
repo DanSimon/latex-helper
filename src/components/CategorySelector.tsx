@@ -1,42 +1,6 @@
 import * as React from "react";
 import { useState, useEffect, useRef } from "react";
 
-const styles = {
-    wrapper: {
-        position: "relative",
-        width: "100%",
-    },
-    input: {
-        width: "100%",
-        padding: "8px",
-        border: "1px solid var(--background-modifier-border)",
-        borderRadius: "4px",
-        backgroundColor: "var(--background-primary)",
-        color: "var(--text-normal)",
-    },
-    dropdown: {
-        position: "absolute",
-        width: "100%",
-        marginTop: "4px",
-        border: "1px solid var(--background-modifier-border)",
-        borderRadius: "4px",
-        backgroundColor: "var(--background-primary)",
-        boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-        maxHeight: "200px",
-        overflowY: "auto",
-        zIndex: 50,
-    },
-    option: {
-        padding: "8px",
-        cursor: "pointer",
-    },
-    newOption: {
-        padding: "8px",
-        cursor: "pointer",
-        color: "var(--text-accent)",
-    },
-};
-
 interface CategorySelectorProps {
     allCategories: string[];
     selectedCategory: string;
@@ -59,8 +23,8 @@ const CategorySelector = ({
         const handleClickOutside = (event: MouseEvent) => {
             if (
                 wrapperRef.current &&
-                event.targetNode !== null &&
-                !wrapperRef.current.contains(event.targetNode)
+                event.target instanceof Node &&
+                !wrapperRef.current.contains(event.target)
             ) {
                 setIsOpen(false);
             }
@@ -94,92 +58,44 @@ const CategorySelector = ({
     };
 
     return (
-        <div
-            style={{
-                position: "relative",
-                width: "100%",
-                maxWidth: "10.0rem",
-            }}
-            ref={wrapperRef}
-        >
+        <div className="category-selector" ref={wrapperRef}>
             <input
                 type="text"
                 ref={inputRef}
                 value={inputValue}
                 onChange={handleInputChange}
                 onFocus={() => setIsOpen(true)}
-                onBlur={(
-                    event: React.FocusEvent<HTMLInputElement, HTMLElement>,
-                ) => {
+                onBlur={(event: React.FocusEvent<HTMLInputElement>) => {
                     if (
                         dropdownRef.current &&
                         !dropdownRef.current.contains(event.relatedTarget)
                     ) {
-                        console.log(event.relatedTarget);
                         setIsOpen(false);
                     }
                 }}
                 placeholder="Select or type a category"
-                style={styles.input}
+                className="category-selector__input"
             />
             {inputValue && !allCategories.includes(inputValue) && (
-                <span style={{ color: "var(--text-accent)", display: "flex" }}>
+                <span className="category-selector__new-indicator">
                     New Category
                 </span>
             )}
             {isOpen && (
-                <div
-                    ref={dropdownRef}
-                    style={{
-                        position: "absolute",
-                        width: "100%",
-                        marginTop: "4px",
-                        border: "1px solid var(--background-modifier-border)",
-                        borderRadius: "4px",
-                        backgroundColor: "var(--background-primary)",
-                        boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-                        maxHeight: "200px",
-                        overflowY: "auto",
-                        zIndex: 50,
-                    }}
-                >
+                <div ref={dropdownRef} className="category-selector__dropdown">
                     {allCategories.map((category, index) => (
                         <div
-                            tabIndex={-1}
                             key={index}
-                            style={styles.option}
-                            onMouseEnter={(
-                                e: React.MouseEvent<HTMLDivElement>,
-                            ) =>
-                                (e.currentTarget.style.backgroundColor =
-                                    "var(--background-secondary)")
-                            }
-                            onMouseLeave={(
-                                e: React.MouseEvent<HTMLDivElement>,
-                            ) =>
-                                (e.currentTarget.style.backgroundColor =
-                                    "var(--background-primary)")
-                            }
+                            className="category-selector__option"
                             onClick={() => handleSelect(category)}
+                            tabIndex={-1}
                         >
                             {category}
                         </div>
                     ))}
                     {inputValue && !filteredCategories.includes(inputValue) && (
                         <div
-                            style={styles.newOption}
-                            onMouseEnter={(
-                                e: React.MouseEvent<HTMLDivElement>,
-                            ) =>
-                                (e.currentTarget.style.backgroundColor =
-                                    "var(--background-secondary)")
-                            }
-                            onMouseLeave={(
-                                e: React.MouseEvent<HTMLDivElement>,
-                            ) =>
-                                (e.currentTarget.style.backgroundColor =
-                                    "var(--background-primary)")
-                            }
+                            className="category-selector__option category-selector__option--new"
                             onClick={() => handleSelect(inputValue)}
                         >
                             Create new category: {inputValue}

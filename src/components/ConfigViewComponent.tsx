@@ -5,101 +5,6 @@ import { ConfigManager, Shortcut } from "../config";
 import { fillLatexBraces } from "../latex_utils";
 import MatchFormComponent from "./MatchFormComponent";
 
-const styles = {
-    container: {
-        display: "flex",
-        flexDirection: "column" as const,
-        height: "100%",
-        width: "100%",
-        overflow: "hidden",
-    },
-    header: {
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "1rem",
-        borderBottom: "1px solid var(--background-modifier-border)",
-    },
-    title: {
-        margin: 0,
-        fontSize: "1.5rem",
-    },
-    buttonGroup: {
-        display: "flex",
-        gap: "0.5rem",
-    },
-    button: {
-        padding: "0.5rem 1rem",
-        border: "1px solid var(--background-modifier-border)",
-        borderRadius: "4px",
-        backgroundColor: "var(--background-primary)",
-        cursor: "pointer",
-    },
-    searchContainer: {
-        padding: "1rem",
-        borderBottom: "1px solid var(--background-modifier-border)",
-    },
-    searchInput: {
-        width: "100%",
-        padding: "0.5rem",
-        border: "1px solid var(--background-modifier-border)",
-        borderRadius: "4px",
-        backgroundColor: "var(--background-primary)",
-    },
-    shortcutsContainer: {
-        flex: 1,
-        overflow: "auto",
-        padding: "1rem",
-    },
-    categorySection: {
-        marginBottom: "2rem",
-    },
-    categoryTitle: {
-        margin: "0 0 1rem 0",
-        fontSize: "1.2rem",
-    },
-    table: {
-        width: "100%",
-        borderCollapse: "collapse" as const,
-    },
-    th: {
-        textAlign: "left" as const,
-        padding: "0.5rem",
-        borderBottom: "1px solid var(--background-modifier-border)",
-    },
-    td: {
-        padding: "0.5rem",
-        verticalAlign: "middle" as const,
-    },
-    trFirst: {
-        borderTop: "1px solid var(--background-modifier-border)",
-    },
-    editButton: {
-        visibility: "hidden",
-        border: "none",
-        background: "none",
-        cursor: "pointer",
-        padding: "2px 6px",
-        marginLeft: "8px",
-        color: "var(--text-muted)",
-    },
-    fastReplaceIcon: {
-        color: "#22c55e",
-        marginRight: "2px",
-        fontSize: "0.8em",
-    },
-    regexIcon: {
-        color: "#22c55e",
-        marginRight: "2px",
-        fontSize: "0.8em",
-    },
-    normalModeIcon: {
-        color: "#225ec5",
-        marginRight: "2px",
-        fontSize: "0.8em",
-    },
-};
-
 function ShortcutRow({
     shortcut,
     replacementIndex,
@@ -111,23 +16,18 @@ function ShortcutRow({
     view: ItemView;
     onEdit: () => void;
 }) {
-    const [isHovered, setIsHovered] = useState(false);
     const fillerColor = getComputedStyle(view.containerEl)
         .getPropertyValue("--text-accent")
         .trim();
 
     return (
-        <tr
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            style={replacementIndex == 0 ? styles.trFirst : undefined}
-        >
-            <td style={styles.td}>
+        <tr>
+            <td>
                 {replacementIndex == 0 && (
-                    <div>
+                    <div className="config-view__shortcut">
                         {shortcut.fastReplace && (
                             <span
-                                style={styles.fastReplaceIcon}
+                                className="config-view__icon config-view__icon--fast-replace"
                                 title="Fast Replace Enabled"
                             >
                                 ⚡
@@ -135,7 +35,7 @@ function ShortcutRow({
                         )}
                         {shortcut.type === "regex" && (
                             <span
-                                style={styles.regexIcon}
+                                className="config-view__icon config-view__icon--regex"
                                 title="Regex Shortcut"
                             >
                                 R
@@ -143,19 +43,18 @@ function ShortcutRow({
                         )}
                         {shortcut.normalMode && (
                             <span
-                                style={styles.normalModeIcon}
+                                className="config-view__icon config-view__icon--normal-mode"
                                 title="Normal Mode"
                             >
                                 N
                             </span>
                         )}
-                        <code>{shortcut.pattern}</code>
+                        <code className="config-view__shortcut-code">
+                            {shortcut.pattern}
+                        </code>
                         <button
                             onClick={onEdit}
-                            style={{
-                                ...styles.editButton,
-                                visibility: isHovered ? "visible" : "hidden",
-                            }}
+                            className="config-view__edit-button"
                             title="Edit shortcut"
                         >
                             ✏️
@@ -163,27 +62,30 @@ function ShortcutRow({
                     </div>
                 )}
             </td>
-            <td style={styles.td}>
-                <div
-                    key={replacementIndex}
-                    className="rendered-math"
-                    ref={(el) => {
-                        if (el) {
-                            el.empty();
-                            MarkdownRenderer.render(
-                                view.app,
-                                `$${fillLatexBraces(shortcut.replacements[replacementIndex], fillerColor)}$`,
-                                el,
-                                "",
-                                view,
-                            );
-                        }
-                    }}
-                />
+            <td>
+                <div className="config-view__preview">
+                    <div
+                        className="rendered-math"
+                        ref={(el) => {
+                            if (el) {
+                                el.empty();
+                                MarkdownRenderer.render(
+                                    view.app,
+                                    `$${fillLatexBraces(shortcut.replacements[replacementIndex], fillerColor)}$`,
+                                    el,
+                                    "",
+                                    view,
+                                );
+                            }
+                        }}
+                    />
+                </div>
             </td>
-            <td style={styles.td}>
-                <div key={replacementIndex}>
-                    <code>{shortcut.replacements[replacementIndex]}</code>
+            <td>
+                <div>
+                    <code className="config-view__shortcut-code">
+                        {shortcut.replacements[replacementIndex]}
+                    </code>
                 </div>
             </td>
         </tr>
@@ -202,14 +104,14 @@ function CategorySection({
     showMatchForm: (shortcut: Shortcut) => void;
 }) {
     return (
-        <div style={styles.categorySection}>
-            <h3 style={styles.categoryTitle}>{category}</h3>
-            <table style={styles.table}>
+        <div className="config-view__category">
+            <h3 className="config-view__category-title">{category}</h3>
+            <table className="config-view__table">
                 <thead>
                     <tr>
-                        <th style={styles.th}>Shortcut</th>
-                        <th style={styles.th}>Preview</th>
-                        <th style={styles.th}>LaTeX</th>
+                        <th>Shortcut</th>
+                        <th>Preview</th>
+                        <th>LaTeX</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -276,7 +178,6 @@ const ConfigViewComponent = ({
             {},
         );
 
-        // Sort categories but keep Uncategorized at the end
         const sortedCategories: Record<string, Shortcut[]> = {};
         Object.keys(grouped)
             .sort((a, b) => {
@@ -294,15 +195,7 @@ const ConfigViewComponent = ({
     })();
 
     return (
-        <div style={styles.container}>
-            <style>{`
-        .rendered-math p {
-          display: inline;
-          margin: 0;
-          padding: 0;
-        }
-      `}</style>
-
+        <div className="config-view">
             <MatchFormComponent
                 configManager={configManager}
                 isVisible={matchFormVisible}
@@ -314,14 +207,13 @@ const ConfigViewComponent = ({
                 view={view}
             />
 
-            <div style={styles.header}>
-                <h2 style={styles.title}>LaTeX Shortcuts Reference</h2>
-                <div style={styles.buttonGroup}>
+            <div className="config-view__header">
+                <h2 className="config-view__title">
+                    LaTeX Shortcuts Reference
+                </h2>
+                <div className="config-view__button-group">
                     <button
-                        style={{
-                            ...styles.button,
-                            border: "1px solid var(--background-modifier-success)",
-                        }}
+                        className="config-view__button config-view__button--success"
                         onClick={() => showMatchForm(null)}
                     >
                         New Shortcut
@@ -329,17 +221,17 @@ const ConfigViewComponent = ({
                 </div>
             </div>
 
-            <div style={styles.searchContainer}>
+            <div className="config-view__search">
                 <input
                     type="text"
                     placeholder="Search shortcuts..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    style={styles.searchInput}
+                    className="config-view__search-input"
                 />
             </div>
 
-            <div style={styles.shortcutsContainer}>
+            <div className="config-view__content">
                 {Object.entries(filteredCategories).map(
                     ([category, categoryShortcuts]) => (
                         <CategorySection

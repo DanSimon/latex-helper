@@ -1,21 +1,14 @@
 import * as React from "react";
 
-// Component to display a colored letter within braces
-
 // Component to display LaTeX commands with filled braces
-const LaTeXDisplay = ({
-    command,
-    color = "blue",
-}: {
-    command: string;
-    color: string;
-}) => {
+const LaTeXDisplay = ({ command }: { command: string }) => {
     if (!command) return null;
+
     const FilledBrace = ({ letter }: { letter: string }) => (
         <span>
-            {"{"}
-            <span style={{ color }}>{letter}</span>
-            {"}"}
+            <span className="latex-display__brace">{"{"}</span>
+            <span className="latex-display__letter">{letter}</span>
+            <span className="latex-display__brace">{"}"}</span>
         </span>
     );
 
@@ -52,7 +45,7 @@ const LaTeXDisplay = ({
     }
 
     return (
-        <span style={{ fontFamily: "monospace" }}>
+        <span className="latex-display">
             {parts.map((part, index) =>
                 part.type === "text" ? (
                     <span key={index}>{part.content}</span>

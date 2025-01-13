@@ -1,0 +1,17 @@
+/* Import all component styles */
+@import "./components/CategorySelector.css";
+@import "./components/ConfigView.css";
+@import "./components/MatchForm.css";
+@import "./components/LatexDisplay.css";
+@import "./components/ReplacementsList.css";
+@import "./components/RibbonView.css";
+@import "./components/SuggestionPopup.css";
+@import "./components/SymbolConfigPanel.css";
+@import "./components/SymbolReference.css";
+
+/* Global styles */
+.rendered-math p {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}

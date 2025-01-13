@@ -1,0 +1,153 @@
+/* Main container */
+.symbol-reference {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Header section */
+.symbol-reference__header {
+    border-bottom: 1px solid var(--background-modifier-border);
+    padding: 1rem;
+    background-color: var(--background-primary);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    overflow-x: clip;
+}
+
+.symbol-reference__title-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.symbol-reference__icon {
+    font-size: 1.2rem;
+}
+
+.symbol-reference__title {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-normal);
+}
+
+.symbol-reference__search {
+    flex-grow: 1;
+}
+
+.symbol-reference__search-input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    background-color: var(--background-primary);
+    color: var(--text-normal);
+}
+
+/* Content layout */
+.symbol-reference__content {
+    display: flex;
+    flex-grow: 1;
+    height: 0;
+}
+
+/* Table of contents */
+.symbol-reference__toc {
+    position: sticky;
+    top: 0;
+    border-right: 1px solid var(--background-modifier-border);
+    background-color: var(--background-primary);
+    overflow-y: auto;
+    min-width: 50px;
+}
+
+.symbol-reference__toc-link {
+    display: block;
+    padding: 0.25rem 0.75rem;
+    color: var(--text-normal);
+    text-decoration: none;
+    transition: color 150ms ease-in-out;
+}
+
+.symbol-reference__toc-link:hover {
+    color: var(--text-accent);
+}
+
+/* Main content area */
+.symbol-reference__main {
+    flex: 1;
+    padding: 0.5rem;
+    overflow-y: auto;
+    overflow-x: clip;
+    height: 100%;
+}
+
+/* Symbol section */
+.symbol-reference__section {
+    margin-bottom: 2rem;
+}
+
+.symbol-reference__section-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+/* Symbol card */
+.symbol-reference__card {
+    position: relative;
+    padding: 1rem;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.symbol-reference__card-header {
+    margin-bottom: 0.5rem;
+}
+
+.symbol-reference__symbol {
+    margin-left: 0.5rem;
+    font-size: 1.175rem;
+    color: var(--text-muted);
+    font-family: monospace;
+}
+
+.symbol-reference__preview {
+    font-size: 1.1rem;
+    margin-left: 1rem;
+    padding: 4px;
+    display: inline-block;
+}
+
+.symbol-reference__description {
+    font-size: 0.875rem;
+    color: var(--text-normal);
+    margin-bottom: 1rem;
+}
+
+/* Examples section */
+.symbol-reference__examples {
+    margin-top: 1rem;
+}
+
+.symbol-reference__example {
+    margin-left: 1rem;
+    border-left: solid 1px var(--background-modifier-border);
+}
+
+.symbol-reference__example-code {
+    margin-top: 1rem;
+    margin-bottom: 0.3rem;
+}
+
+.symbol-reference__example-preview {
+    margin-left: 0.5rem;
+}
+
+/* Search results */
+.symbol-reference__search-results {
+    margin-top: 0.5rem;
+}

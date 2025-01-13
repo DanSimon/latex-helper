@@ -2,8 +2,8 @@ import * as React from "react";
 import { useState, useEffect, useRef } from "react";
 import { MarkdownRenderer, MarkdownView } from "obsidian";
 import { Suggestion } from "../suggestion_popup";
-import { fillLatexHtmlBraces } from "../latex_utils";
 import { UserSettings } from "../settings";
+import LatexDisplay from "./LatexDisplay";
 
 interface SuggestionPopupProps {
     x: number;
@@ -36,13 +36,7 @@ const RenderMath = React.memo(
             }
         });
 
-        return (
-            <span
-                ref={spanRef}
-                className="rendered-math"
-                style={{ display: "inline-block" }}
-            />
-        );
+        return <span ref={spanRef} className="rendered-math" />;
     },
 );
 
@@ -59,7 +53,6 @@ const SuggestionPopupComponent = ({
 }: SuggestionPopupProps) => {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const popupRef = useRef<HTMLDivElement>(null);
-    const [hideTimeout, setHideTimeout] = useState<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         setSelectedIndex(0);
@@ -82,10 +75,8 @@ const SuggestionPopupComponent = ({
                 return;
             }
 
-            // Handle fast replace for non-alphanumeric keys
             if (
                 settings.enableFastReplace &&
-                replacements.length > 0 &&
                 replacements[0].fastReplace &&
                 ![
                     "Escape",
@@ -149,95 +140,40 @@ const SuggestionPopupComponent = ({
         };
     }, [visible, replacements.length, selectedIndex, onSelect, onHide]);
 
-    useEffect(() => {
-        if (visible && !hideTimeout && (!match || replacements.length === 0)) {
-            const timeout = setTimeout(onHide, 2000);
-            setHideTimeout(timeout);
-        } else if (hideTimeout) {
-            clearTimeout(hideTimeout);
-            setHideTimeout(null);
-        }
-    }, [visible, replacements.length]);
-
-    if (!visible) {
-        return <div style={{ display: "none" }} />;
-    }
-    if (!match || replacements.length === 0) {
-        return (
-            <div
-                ref={popupRef}
-                style={{
-                    position: "absolute",
-                    left: `${x + 5}px`,
-                    top: `${y}px`,
-                    background: "var(--background-primary)",
-                    border: "1px solid var(--background-modifier-border)",
-                    boxShadow: "0 2px 10px rgba(0,0,0,0.2)",
-                    zIndex: 50,
-                    display: "block",
-                    whiteSpace: "nowrap",
-                    padding: "2px",
-                }}
-            >
-                <span style={{ color: "var(--text-muted)" }}>
-                    (No Suggestions)
-                </span>
-            </div>
-        );
+    if (!visible || !match || replacements.length === 0) {
+        return <div className="suggestion-popup--hidden" />;
     }
 
     return (
         <div
             ref={popupRef}
+            className="suggestion-popup"
             style={{
-                position: "absolute",
                 left: `${x + 5}px`,
                 top: `${y}px`,
-                background: "var(--background-primary)",
-                border: "1px solid var(--background-modifier-border)",
-                boxShadow: "0 2px 10px rgba(0,0,0,0.2)",
-                zIndex: 50,
-                display: "block",
-                whiteSpace: "nowrap",
-                padding: "2px",
             }}
         >
-            <style>
-                {`
-          .rendered-math p {
-            display: inline;
-            margin: 0;
-            padding: 0;
-          }
-        `}
-            </style>
             {replacements.map((option, index) => {
+                const itemClasses = [
+                    "suggestion-popup__item",
+                    selectedIndex === index
+                        ? "suggestion-popup__item--selected"
+                        : "",
+                ]
+                    .filter(Boolean)
+                    .join(" ");
+
                 return (
                     <p
                         key={`${option}-${index}`}
                         id={`suggestion-${index}`}
-                        style={{
-                            cursor: "pointer",
-                            padding: "4px",
-                            margin: "0px",
-                            display: "block",
-                            background:
-                                selectedIndex === index
-                                    ? "var(--background-secondary)"
-                                    : "var(--background-primary)",
-                        }}
+                        className={itemClasses}
                         onClick={() => onSelect(index)}
                     >
                         {settings.enableFastReplace &&
                         option.fastReplace &&
                         index == 0 ? (
-                            <span
-                                style={{
-                                    color: "#22c55e",
-                                    marginRight: "4px",
-                                    fontSize: "0.75rem",
-                                }}
-                            >
+                            <span className="suggestion-popup__fast-replace">
                                 ⚡
                             </span>
                         ) : (
@@ -248,13 +184,7 @@ const SuggestionPopupComponent = ({
                             option.fastReplace &&
                             index == 0
                         ) && index < 9 ? (
-                            <span
-                                style={{
-                                    color: "#666",
-                                    marginRight: "4px",
-                                    fontSize: "0.75rem",
-                                }}
-                            >
+                            <span className="suggestion-popup__index">
                                 {index + 1}.
                             </span>
                         ) : (
@@ -266,15 +196,8 @@ const SuggestionPopupComponent = ({
                                 view={view}
                             />
                         )}{" "}
-                        <span style={{ color: "var(--text-faint)" }}>
-                            <code
-                                dangerouslySetInnerHTML={{
-                                    __html: fillLatexHtmlBraces(
-                                        option.replacement,
-                                        "var(--text-accent)",
-                                    ),
-                                }}
-                            />
+                        <span className="suggestion-popup__code">
+                            <LatexDisplay command={option.replacement} />
                         </span>
                     </p>
                 );
