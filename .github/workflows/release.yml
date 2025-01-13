@@ -67,6 +67,7 @@ jobs:
                   files: |
                       main.js
                       manifest.json
+                      styles.css
                   prerelease: false
                   generate_release_notes: true
               env:

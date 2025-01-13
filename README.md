@@ -38,11 +38,34 @@ Some other features:
 
 ## Installation
 
-This plugin is not yet a published community plugin, nor are there any releases or compiled artifacts. To install you must:
+This plugin is not yet a published community plugin, however there are two ways to install:
 
-1. Manually clone this repo to `<your_vault>/.obsidian/plugins` folder
-2. Have `npm` installed
-3. Run `npm build`
+### Install with BRAT
+
+[BRAT](https://github.com/TfTHacker/obsidian42-brat) is an Obsidian plugin for beta testing plugins.  It is available as a community plugin.
+
+To install this plugin with BRAT:
+
+1. Make sure you have BRAT installed and enabled.  You should see a page for BRAT in the community plugins section of your Obsidian settings.
+2. Go to the BRAT settings and click "Add Beta plugin"
+3. Paste this plugin's github url into the box: `https://github.com/DanSimon/latex-helper`
+4. Click "Add Plugin"
+
+The plugin should now be installed and enabled.  You should see a new settings page for Latex Helper in community plugins.
+
+Currently I am not publishing beta releases, so this will just install the latest release.
+
+### Manually Install
+
+In a terminal:
+
+1. Ensure you have `git` and `npm` installed.
+2. Navigate to `<your_vault>/.obsidian/plugins` (If you have no other plugins installed this may not exist, you can create it yourself).
+3. Clone the repo `git clone https://github.com/DanSimon/latex-helper`
+4. Run `npm install`
+5. Run `npm run build`
+
+If successful, there should now be `main.js` and `styles.css` files in the project root directory.
 
 The next time you load your vault, the plugin should show up under community plugins.
 
@@ -78,6 +101,20 @@ The reference data comes from the [Better MathJax Plugin](https://github.com/gre
 
 ## Configuration
 
+### Autocomplete Hotkey
+
+By default, LaTeX Helper will automatically show the autocomplete suggestions
+when it detects a matching completion for the word or symbol you're currently
+typing.  However you can instead configure autocomplete to only appear when you
+hit the configured hotkey.
+
+Obsidian discourages plugins setting default hotkeys, so you'll have to set this up manually.
+
+1. Open Settings
+2. Under "Options", click on "Hotkeys"
+3. in the filter, type "latex", you should see a hotkey for "Latex Helper: Trigger LaTeX Suggestions" (if not then the plugin is not installed/enabled, do that first)
+4. Click the "+" button and hit the key combination you'd like to use (`ctrl+space` for example).
+
 ### Plugin Settings
 
 These are all available in the LaTeX Helper settings page once the plugin is installed and activated:
@@ -89,8 +126,6 @@ These are all available in the LaTeX Helper settings page once the plugin is ins
 - **Include Fuzzy Search Results**: Include fuzzy search suggestions when no exact matches are found.
 
 - **Auto-show Suggestions**: When enabled, suggestions appear automatically while typing. If disabled, suggestions will only appear when using the trigger key.
-
-- **Trigger Key**: Customize the keyboard shortcut to manually trigger suggestions (e.g., "Ctrl+Space", "Cmd+E").
 
 - **Enable Shortcuts in Normal Mode**: Allow shortcuts while typing in normal mode (outside of math blocks). Applied shortcuts will automatically be wrapped in '$' tags.
 

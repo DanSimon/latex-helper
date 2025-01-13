@@ -71,7 +71,6 @@ const MatchFormComponent = ({
             try {
                 const regex = new RegExp(pattern);
                 const matches = testInput.match(regex);
-                console.log("testing regex");
                 setMatches(matches);
                 setRegexError(null);
             } catch (error) {
