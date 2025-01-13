@@ -10,6 +10,10 @@
   padding: 2px;
 }
 
+.suggestion-popup--hidden {
+  display: none;
+}
+
 /* Suggestion items */
 .suggestion-popup__item {
   cursor: pointer;

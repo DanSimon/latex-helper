@@ -2,8 +2,8 @@ import * as React from "react";
 import { useState, useEffect, useRef } from "react";
 import { MarkdownRenderer, MarkdownView } from "obsidian";
 import { Suggestion } from "../suggestion_popup";
-import { fillLatexHtmlBraces } from "../latex_utils";
 import { UserSettings } from "../settings";
+import LatexDisplay from "./LatexDisplay";
 
 interface SuggestionPopupProps {
     x: number;
@@ -36,13 +36,7 @@ const RenderMath = React.memo(
             }
         });
 
-        return (
-            <span
-                ref={spanRef}
-                className="rendered-math"
-                style={{ display: "inline-block" }}
-            />
-        );
+        return <span ref={spanRef} className="rendered-math" />;
     },
 );
 
@@ -147,7 +141,7 @@ const SuggestionPopupComponent = ({
     }, [visible, replacements.length, selectedIndex, onSelect, onHide]);
 
     if (!visible || !match || replacements.length === 0) {
-        return <div style={{ display: "none" }} />;
+        return <div className="suggestion-popup--hidden" />;
     }
 
     return (
@@ -203,14 +197,7 @@ const SuggestionPopupComponent = ({
                             />
                         )}{" "}
                         <span className="suggestion-popup__code">
-                            <code
-                                dangerouslySetInnerHTML={{
-                                    __html: fillLatexHtmlBraces(
-                                        option.replacement,
-                                        "var(--text-accent)",
-                                    ),
-                                }}
-                            />
+                            <LatexDisplay command={option.replacement} />
                         </span>
                     </p>
                 );

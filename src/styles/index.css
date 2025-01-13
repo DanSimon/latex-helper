@@ -2,6 +2,7 @@
 @import "./components/CategorySelector.css";
 @import "./components/ConfigView.css";
 @import "./components/MatchForm.css";
+@import "./components/LatexDisplay.css";
 @import "./components/ReplacementsList.css";
 @import "./components/RibbonView.css";
 @import "./components/SuggestionPopup.css";
@@ -10,7 +11,7 @@
 
 /* Global styles */
 .rendered-math p {
-    display: inline;
+    display: inline-block;
     margin: 0;
     padding: 0;
 }

@@ -1,0 +1,11 @@
+.latex-display {
+    font-family: monospace;
+}
+
+.latex-display__brace {
+    color: var(--text-normal);
+}
+
+.latex-display__letter {
+    color: var(--text-accent);
+}

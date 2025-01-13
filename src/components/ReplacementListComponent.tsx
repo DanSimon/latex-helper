@@ -156,10 +156,7 @@ const ReplacementsList = React.memo(
                                             ></div>
                                         )}
                                         <div className="replacements-list__preview-text">
-                                            <LatexDisplay
-                                                command={preview}
-                                                color={fillerColor}
-                                            />
+                                            <LatexDisplay command={preview} />
                                         </div>
                                     </div>
                                 );

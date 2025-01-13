@@ -307,6 +307,17 @@
   border: none;
 }
 
+/* src/styles/components/LatexDisplay.css */
+.latex-display {
+  font-family: monospace;
+}
+.latex-display__brace {
+  color: var(--text-normal);
+}
+.latex-display__letter {
+  color: var(--text-accent);
+}
+
 /* src/styles/components/ReplacementsList.css */
 .replacements-list {
   margin-bottom: 1rem;
@@ -454,6 +465,9 @@
   display: block;
   white-space: nowrap;
   padding: 2px;
+}
+.suggestion-popup--hidden {
+  display: none;
 }
 .suggestion-popup__item {
   cursor: pointer;
@@ -670,7 +684,7 @@
 
 /* src/styles/index.css */
 .rendered-math p {
-  display: inline;
+  display: inline-block;
   margin: 0;
   padding: 0;
 }

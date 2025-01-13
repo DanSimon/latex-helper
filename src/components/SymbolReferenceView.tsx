@@ -6,6 +6,7 @@ import { LATEX_SYMBOLS, MathJaxSymbol } from "../mathjax_symbols";
 import * as LatexUtils from "../latex_utils";
 import { ConfigManager } from "../config";
 import SymbolConfigPanel from "./SymbolConfigPanel";
+import LaTeXDisplay from "./LatexDisplay";
 
 // Group symbols by their first character
 const groupSymbols = (symbols: MathJaxSymbol[]) => {
@@ -71,23 +72,10 @@ const SymbolCard = ({ symbol, view, configManager }: SymbolCardProps) => {
         .getPropertyValue("--text-accent")
         .trim();
 
-    const symbolConfig = {
-        ...symbol.suggestionConfig,
-        ...configManager.config.symbolOverrides[symbol.name],
-    };
-
     return (
         <div className="symbol-reference__card">
             <div className="symbol-reference__card-header">
-                <span
-                    className="symbol-reference__symbol"
-                    dangerouslySetInnerHTML={{
-                        __html: LatexUtils.fillLatexHtmlBraces(
-                            symbol.name,
-                            "var(--text-accent)",
-                        ),
-                    }}
-                />
+                <LaTeXDisplay command={symbol.name} />
                 <span
                     className="symbol-reference__preview rendered-math"
                     ref={(el) => {
