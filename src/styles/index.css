@@ -1,0 +1,13 @@
+/* Import all component styles */
+@import "./components/CategorySelector.css";
+@import "./components/MatchForm.css";
+@import "./components/ReplacementsList.css";
+@import "./components/SuggestionPopup.css";
+@import "./components/SymbolConfigPanel.css";
+
+/* Global styles */
+.rendered-math p {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}

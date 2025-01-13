@@ -1,47 +1,369 @@
-/* Base styles */
+/* src/styles/components/CategorySelector.css */
+.category-selector {
+  position: relative;
+  width: 100%;
+  max-width: 10rem;
+}
+.category-selector__input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 4px;
+  background-color: var(--background-primary);
+  color: var(--text-normal);
+}
+.category-selector__new-indicator {
+  color: var(--text-accent);
+  display: flex;
+}
+.category-selector__dropdown {
+  position: absolute;
+  width: 100%;
+  margin-top: 4px;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 4px;
+  background-color: var(--background-primary);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 50;
+}
+.category-selector__option {
+  padding: 8px;
+  cursor: pointer;
+  background-color: var(--background-primary);
+  transition: background-color 100ms ease-in-out;
+}
+.category-selector__option:hover {
+  background-color: var(--background-secondary);
+}
+.category-selector__option--new {
+  color: var(--text-accent);
+}
+.category-selector__input:focus {
+  outline: 2px solid var(--text-accent);
+  outline-offset: -1px;
+}
+.category-selector__option:focus {
+  outline: none;
+  background-color: var(--background-secondary);
+}
+
+/* src/styles/components/MatchForm.css */
+.match-form-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.match-form {
+  background-color: var(--background-primary);
+  border: 1px solid var(--background-modifier-border);
+  max-width: 800px;
+  width: 100%;
+  margin: 1rem;
+  padding: 0.75rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+.match-form__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+.match-form__group {
+  margin-bottom: 0.75rem;
+}
+.match-form__label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+.match-form__input {
+  width: 100%;
+  padding: 0.25rem;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 4px;
+  background-color: var(--background-primary);
+  color: var(--text-normal);
+}
+.match-form__checkbox-group {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.match-form__checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+.match-form__fast-replace-icon {
+  color: #22c55e;
+  margin-left: 4px;
+}
+.match-form__category-container {
+  display: flex;
+  margin-bottom: 0.5rem;
+  align-items: center;
+  gap: 0.25rem;
+}
+.match-form__test-section {
+  margin-bottom: 0.25rem;
+  padding: 0.25rem;
+  background-color: var(--background-secondary);
+  border-radius: 4px;
+}
+.match-form__test-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 4px;
+  background-color: var(--background-primary);
+  color: var(--text-normal);
+  margin-bottom: 1rem;
+}
+.match-form__match-results {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+.match-form__match-group {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background-color: var(--background-primary);
+  border-radius: 4px;
+  align-items: center;
+}
+.match-form__match-label {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  min-width: 80px;
+}
+.match-form__match-value {
+  color: var(--text-accent);
+  font-family: monospace;
+}
+.match-form__error {
+  color: var(--text-error);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+.match-form__button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+.match-form__button {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 150ms ease-in-out;
+}
+.match-form__button:hover {
+  opacity: 0.9;
+}
+.match-form__button--save {
+  background-color: var(--background-modifier-success);
+  color: var(--text-on-accent);
+  border: none;
+  margin-right: 0.5rem;
+}
+.match-form__button--cancel {
+  background-color: transparent;
+  border: 1px solid var(--background-modifier-border);
+}
+.match-form__button--delete {
+  background-color: var(--text-error);
+  color: var(--text-on-accent);
+  border: none;
+}
+
+/* src/styles/components/ReplacementsList.css */
+.replacements-list {
+  margin-bottom: 1rem;
+}
+.replacements-list__item {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.5rem;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+.replacements-list__item--dragging {
+  opacity: 0.5;
+}
+.replacements-list__item--drag-over {
+  border: 2px dashed var(--text-accent);
+}
+.replacements-list__drag-handle {
+  cursor: grab;
+  padding: 0 0.5rem;
+  color: var(--text-muted);
+  touch-action: none;
+  display: flex;
+  align-items: center;
+}
+.replacements-list__drag-handle:active {
+  cursor: grabbing;
+}
+.replacements-list__input-container {
+  flex: 1;
+}
+.replacements-list__input {
+  width: 100%;
+  max-width: 20rem;
+  padding: 0.5rem;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 4px;
+  background-color: var(--background-primary);
+  color: var(--text-normal);
+}
+.replacements-list__preview {
+  display: flex;
+  margin-right: 2rem;
+}
+.replacements-list__preview-text {
+  color: var(--text-muted);
+}
+.replacements-list__remove {
+  padding: 0.5rem;
+  color: var(--text-error);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 150ms ease-in-out;
+}
+.replacements-list__remove:hover {
+  opacity: 1;
+}
+.replacements-list__add {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: background-color 150ms ease-in-out;
+}
+.replacements-list__add:hover {
+  background-color: var(--background-modifier-hover);
+}
+
+/* src/styles/components/SuggestionPopup.css */
 .suggestion-popup {
   position: absolute;
   background: var(--background-primary);
   border: 1px solid var(--background-modifier-border);
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   z-index: 50;
   display: block;
   white-space: nowrap;
   padding: 2px;
 }
-
-/* Suggestion items */
 .suggestion-popup__item {
   cursor: pointer;
   padding: 4px;
   margin: 0;
   display: block;
 }
-
 .suggestion-popup__item--selected {
   background: var(--background-secondary);
 }
-
-/* Fast replace indicator */
 .suggestion-popup__fast-replace {
   color: #22c55e;
   margin-right: 4px;
   font-size: 0.75rem;
 }
-
-/* Index number */
 .suggestion-popup__index {
   color: #666;
   margin-right: 4px;
   font-size: 0.75rem;
 }
-
-/* Code display */
 .suggestion-popup__code {
   color: var(--text-faint);
 }
 
-/* Math rendering styles */
+/* src/styles/components/SymbolConfigPanel.css */
+.symbol-config {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+.symbol-config__toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background-color: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+.symbol-config__toggle-arrow {
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+.symbol-config__toggle-arrow--expanded {
+  transform: rotate(90deg);
+}
+.symbol-config__content {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background-color: var(--background-primary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 4px;
+  padding: 0.5rem;
+  min-width: 200px;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.symbol-config__option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.symbol-config__label {
+  font-size: 0.9rem;
+  color: var(--text-normal);
+  cursor: pointer;
+}
+.symbol-config__checkbox {
+  cursor: pointer;
+}
+.symbol-config__reset {
+  margin-top: 0.5rem;
+  padding: 0.25rem;
+  font-size: 0.8rem;
+  color: var(--text-error);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  align-self: flex-start;
+}
+.symbol-config__reset:hover {
+  text-decoration: underline;
+}
+
+/* src/styles/index.css */
 .rendered-math p {
   display: inline;
   margin: 0;
