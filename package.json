@@ -1,6 +1,6 @@
 {
     "name": "latex-helper",
-    "version": "0.4.0",
+    "version": "0.3.2",
     "description": "Obsidian plugin that provides LaTeX auto-complete, shortcuts, and other features for writing LaTeX.",
     "main": "main.js",
     "scripts": {

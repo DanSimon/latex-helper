@@ -1,9 +1,9 @@
 {
-	"id": "latex-helper",
-	"name": "Latex Helper",
-	"version": "0.4.0",
-	"minAppVersion": "0.15.0",
-	"description": "Shows a popup when specific words are typed",
-	"author": "Dan Simon",
-	"isDesktopOnly": false
+    "id": "latex-helper",
+    "name": "Latex Helper",
+    "version": "0.3.2",
+    "minAppVersion": "0.15.0",
+    "description": "Shows a popup when specific words are typed",
+    "author": "Dan Simon",
+    "isDesktopOnly": false
 }
