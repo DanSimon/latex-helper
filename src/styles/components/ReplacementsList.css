@@ -17,7 +17,7 @@
 }
 
 .replacements-list__item--drag-over {
-    border: 2px dashed var(--text-accent);
+    border-top: 2px dashed var(--text-accent);
 }
 
 .replacements-list__drag-handle {
@@ -40,7 +40,7 @@
 .replacements-list__input {
     width: 100%;
     max-width: 20rem;
-    padding: 0.5rem;
+    padding: 0.25rem;
     border: 1px solid var(--background-modifier-border);
     border-radius: 4px;
     background-color: var(--background-primary);
@@ -49,11 +49,11 @@
 
 .replacements-list__preview {
     display: flex;
-    margin-right: 2rem;
 }
 
 .replacements-list__preview-text {
     color: var(--text-muted);
+    margin-left: 2rem;
 }
 
 .replacements-list__remove {

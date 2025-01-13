@@ -53,6 +53,7 @@ const SuggestionPopupComponent = ({
 }: SuggestionPopupProps) => {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const popupRef = useRef<HTMLDivElement>(null);
+    const [hideTimeout, setHideTimeout] = useState<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         setSelectedIndex(0);
@@ -140,8 +141,36 @@ const SuggestionPopupComponent = ({
         };
     }, [visible, replacements.length, selectedIndex, onSelect, onHide]);
 
-    if (!visible || !match || replacements.length === 0) {
+    useEffect(() => {
+        if (
+            visible &&
+            hideTimeout == null &&
+            (!match || replacements.length === 0)
+        ) {
+            const timeout = setTimeout(onHide, 2000);
+            setHideTimeout(timeout);
+        } else if (hideTimeout != null) {
+            clearTimeout(hideTimeout);
+            setHideTimeout(null);
+        }
+    }, [visible, replacements.length]);
+
+    if (!visible) {
         return <div className="suggestion-popup--hidden" />;
+    }
+    if (!match || replacements.length === 0) {
+        return (
+            <div
+                ref={popupRef}
+                className="suggestion-popup suggestion-popup--empty"
+                style={{
+                    left: `${x + 5}px`,
+                    top: `${y}px`,
+                }}
+            >
+                (No Suggestions)
+            </div>
+        );
     }
 
     return (

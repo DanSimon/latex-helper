@@ -1,6 +1,5 @@
 import { ItemView, MarkdownRenderer } from "obsidian";
 import * as React from "react";
-import { fillLatexBraces } from "../latex_utils";
 import LatexDisplay from "./LatexDisplay";
 
 interface ReplacementsListProps {
@@ -36,10 +35,6 @@ const ReplacementsList = React.memo(
         onFastReplaceChange,
         view,
     }: ReplacementsListProps) => {
-        const fillerColor = getComputedStyle(view.containerEl)
-            .getPropertyValue("--text-accent")
-            .trim();
-
         const addReplacement = () => {
             const newReplacements = [...replacements, ""];
             onReplacementsChange(newReplacements);
@@ -136,25 +131,27 @@ const ReplacementsList = React.memo(
                                         return replacement;
                                     }
                                 })();
+                                if (!preview) {
+                                    return <div />;
+                                }
                                 return (
                                     <div className="replacements-list__preview">
-                                        {preview && (
-                                            <div
-                                                className="rendered-math"
-                                                ref={(el) => {
-                                                    if (el) {
-                                                        el.empty();
-                                                        MarkdownRenderer.render(
-                                                            view.app,
-                                                            `$${preview}$`,
-                                                            el,
-                                                            "",
-                                                            view,
-                                                        );
-                                                    }
-                                                }}
-                                            ></div>
-                                        )}
+                                        Preview:
+                                        <div
+                                            className="rendered-math"
+                                            ref={(el) => {
+                                                if (el) {
+                                                    el.empty();
+                                                    MarkdownRenderer.render(
+                                                        view.app,
+                                                        `$${preview}$`,
+                                                        el,
+                                                        "",
+                                                        view,
+                                                    );
+                                                }
+                                            }}
+                                        ></div>
                                         <div className="replacements-list__preview-text">
                                             <LatexDisplay command={preview} />
                                         </div>

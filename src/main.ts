@@ -1,4 +1,4 @@
-import { Editor, MarkdownView, Modifier, Platform, Plugin } from "obsidian";
+import { Editor, MarkdownView, Plugin } from "obsidian";
 
 import { ConfigManager } from "./config";
 import { CursorWord, SuggestionPopup, TextMode } from "./suggestion_popup";
@@ -189,10 +189,9 @@ export default class WordPopupPlugin extends Plugin {
             }
         }
         if (i <= 0) {
-            //return { mode: mode, word: lineStr };
             i = 0;
         }
-        const res = lineStr.substr(i, cursorPos - i);
+        const res = lineStr.slice(i, cursorPos);
         return { mode: mode, word: res };
     }
 }
